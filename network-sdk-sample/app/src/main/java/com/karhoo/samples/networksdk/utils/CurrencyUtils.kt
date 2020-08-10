@@ -11,7 +11,7 @@ object CurrencyUtils {
 
         val (costHi, costLow) = getDisplayPrice(cost, low)
 
-        return String.format("%s%s.%s", currency.symbol, costHi, costLow)
+        return "${currency.symbol}$costHi.$costLow"
     }
 
     fun intToRangedPrice(currency: Currency?, lowPrice: Int?, highPrice: Int?): String {
@@ -22,13 +22,7 @@ object CurrencyUtils {
         val (costHiPrice, costHighFraction) = getDisplayPrice(highCost, low!!)
         val (costLowPrice, costLowFraction) = getDisplayPrice(lowCost, low)
 
-        return String.format("%s%s.%s - %s.%s",
-                             currency.symbol,
-                             costLowPrice,
-                             costLowFraction,
-                             costHiPrice,
-                             costHighFraction
-                            )
+        return "${currency.symbol}$costLowPrice.$costLowFraction - $costHiPrice.$costHighFraction"
     }
 
     fun intToPriceNoSymbol(currency: Currency, price: Int): String {
@@ -39,7 +33,7 @@ object CurrencyUtils {
         val costHi = if (costHiEndIndex == 0) "0" else cost.substring(0, costHiEndIndex)
         val costLow = cost.substring(costHiEndIndex)
 
-        return String.format("%s.%s", costHi, costLow)
+        return "$costHi.$costLow"
     }
 
     private fun getDisplayPrice(cost: String, low: Int): Pair<String, String> {
