@@ -34,7 +34,7 @@ import com.karhoo.sdk.api.model.QuoteV2
 import com.karhoo.sdk.api.model.TripInfo
 import com.karhoo.sdk.api.network.request.*
 import com.karhoo.sdk.api.network.response.Resource
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingQuoteStateViewModel
+import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import kotlinx.android.synthetic.main.fragment_trip_booking.*
 import java.util.*
 

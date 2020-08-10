@@ -47,12 +47,12 @@ class TripPlanningFragment : BaseFragment() {
 
         pickup_button.setOnClickListener {
             val placeSearch = setSearchQuery(origin_text.text.toString())
-            requestAddresses(placeSearch, TripPlanningContract.AddressType.ORIGIN)
+            requestAddresses(placeSearch, BookingPlanningContract.AddressType.ORIGIN)
         }
 
         dropoff_button.setOnClickListener {
             val placeSearch = setSearchQuery(destination_text.text.toString())
-            requestAddresses(placeSearch, TripPlanningContract.AddressType.DESTINATION)
+            requestAddresses(placeSearch, BookingPlanningContract.AddressType.DESTINATION)
         }
 
     }
@@ -65,11 +65,11 @@ class TripPlanningFragment : BaseFragment() {
         loadingProgressBar?.hide()
     }
 
-    private fun bindToAddressBarOutputs(): Observer<TripPlanningContract.AddressBarActions> {
+    private fun bindToAddressBarOutputs(): Observer<BookingPlanningContract.AddressBarActions> {
         return Observer { actions ->
             when (actions) {
-                is TripPlanningContract.AddressBarActions.UpdateAddressLabel -> {
-                    if (actions.addressType == TripPlanningContract.AddressType.ORIGIN) {
+                is BookingPlanningContract.AddressBarActions.UpdateAddressLabel -> {
+                    if (actions.addressType == BookingPlanningContract.AddressType.ORIGIN) {
                         selected_pickup.text = actions.locationInfo?.displayAddress
                     } else {
                         selected_dropoff.text = actions.locationInfo?.displayAddress
@@ -97,7 +97,7 @@ class TripPlanningFragment : BaseFragment() {
         )
     }
 
-    private fun requestAddresses(placeSearch: PlaceSearch, type: TripPlanningContract.AddressType) {
+    private fun requestAddresses(placeSearch: PlaceSearch, type: BookingPlanningContract.AddressType) {
         if (placeSearch.query.length > 3) {
             showLoading()
             KarhooApi.addressService.placeSearch(placeSearch).execute { result ->
@@ -110,7 +110,7 @@ class TripPlanningFragment : BaseFragment() {
         }
     }
 
-    private fun requestLocationInfo(place: Place, type: TripPlanningContract.AddressType) {
+    private fun requestLocationInfo(place: Place, type: BookingPlanningContract.AddressType) {
         val locationInfoRequest = setLocationInfoRequestQuery(place.placeId)
         showLoading()
         KarhooApi.addressService.locationInfo(locationInfoRequest).execute { result ->
@@ -122,10 +122,10 @@ class TripPlanningFragment : BaseFragment() {
         }
     }
 
-    private fun updatePlace(data: LocationInfo, type: TripPlanningContract.AddressType) {
-        if (type == TripPlanningContract.AddressType.ORIGIN) {
+    private fun updatePlace(data: LocationInfo, type: BookingPlanningContract.AddressType) {
+        if (type == BookingPlanningContract.AddressType.ORIGIN) {
             bookingPlanningStateViewModel.process(
-                TripPlanningContract.AddressBarEvent.PickUpAddressEvent(
+                BookingPlanningContract.AddressBarEvent.PickUpAddressEvent(
                     data
                 )
             )
@@ -133,7 +133,7 @@ class TripPlanningFragment : BaseFragment() {
             selected_pickup.text = data.displayAddress
         } else {
             bookingPlanningStateViewModel.process(
-                TripPlanningContract.AddressBarEvent.DestinationAddressEvent(
+                BookingPlanningContract.AddressBarEvent.DestinationAddressEvent(
                     data
                 )
             )
@@ -145,7 +145,7 @@ class TripPlanningFragment : BaseFragment() {
     private fun updatePlaces(
         placeSearch: PlaceSearch,
         data: Places,
-        type: TripPlanningContract.AddressType
+        type: BookingPlanningContract.AddressType
     ) {
         val builderSingle: AlertDialog.Builder = AlertDialog.Builder(context!!)
         builderSingle.setIcon(android.R.drawable.ic_menu_compass)

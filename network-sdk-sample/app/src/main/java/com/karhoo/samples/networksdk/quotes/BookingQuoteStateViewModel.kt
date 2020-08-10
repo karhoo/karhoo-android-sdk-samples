@@ -1,8 +1,7 @@
-package com.karhoo.uisdk.screen.booking.booking.supplier
+package com.karhoo.samples.networksdk.quotes
 
 import android.app.Application
 import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
-import com.karhoo.samples.networksdk.quotes.QuoteListStatus
 import com.karhoo.sdk.api.model.QuoteV2
 
 class BookingQuoteStateViewModel(application: Application) :

@@ -2,7 +2,7 @@ package com.karhoo.samples.networksdk.planning
 
 import com.karhoo.sdk.api.model.LocationInfo
 
-interface TripPlanningContract {
+interface BookingPlanningContract {
     sealed class AddressBarEvent {
 
         data class PickUpAddressEvent(val address: LocationInfo?) : AddressBarEvent()

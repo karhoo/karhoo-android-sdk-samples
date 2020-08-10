@@ -1,4 +1,4 @@
-package com.karhoo.uisdk.screen.booking.booking.supplier
+package com.karhoo.samples.networksdk.quotes
 
 import com.karhoo.sdk.api.model.QuoteV2
 

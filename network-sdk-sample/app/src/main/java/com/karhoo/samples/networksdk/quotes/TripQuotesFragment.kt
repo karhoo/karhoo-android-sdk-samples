@@ -17,8 +17,6 @@ import com.karhoo.sdk.api.model.QuotesSearch
 import com.karhoo.sdk.api.network.observable.Observable
 import com.karhoo.sdk.api.network.observable.Observer
 import com.karhoo.sdk.api.network.response.Resource
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingQuoteStateViewModel
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingSupplierViewContract
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
 import kotlinx.android.synthetic.main.fragment_trip_quotes.*
 

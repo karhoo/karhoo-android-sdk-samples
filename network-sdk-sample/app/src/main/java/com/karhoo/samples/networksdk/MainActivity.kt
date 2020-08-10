@@ -21,7 +21,7 @@ import com.karhoo.samples.networksdk.planning.BookingPlanningStateViewModel
 import com.karhoo.samples.networksdk.planning.TripPlanningFragment
 import com.karhoo.samples.networksdk.quotes.TripQuotesFragment
 import com.karhoo.samples.networksdk.tracking.TripTrackingFragment
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingQuoteStateViewModel
+import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
