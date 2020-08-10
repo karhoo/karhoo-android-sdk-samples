@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="secondary">@color/dark_blue</color>
+    <color name="dark_blue">#181447</color>
+    <color name="primary_green">#00CC66</color>
+    <color name="dark_grey">#666666</color>
+    <color name="tracking_background">#2980b9</color>
+    <color name="tracking_card">#C8E6FF</color>
+    <color name="tracking_button">#0F4E77</color>
+    <color name="booking_background">#079992</color>
+    <color name="booking_card">#BEFFFA</color>
+    <color name="booking_button">#02635E</color>
+    <color name="planning_background">#0984e3</color>
+    <color name="planning_card">#BED2FF</color>
+    <color name="planning_button">#024A81</color>
+    <color name="quotes_background">#3c6382</color>
+    <color name="quotes_card">#B4F0FF</color>
+    <color name="quotes_button">#0a3d62</color>
+    <color name="configuration_background">#7D68E4</color>
+    <color name="configuration_card">#DCD2FF</color>
+    <color name="configuration_button">#4834d4</color>
+</resources>
