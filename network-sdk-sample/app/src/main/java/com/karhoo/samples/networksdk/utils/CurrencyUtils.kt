@@ -1,6 +1,6 @@
 package com.karhoo.samples.networksdk.utils
 
-import java.util.*
+import java.util.Currency
 
 object CurrencyUtils {
 
@@ -22,14 +22,13 @@ object CurrencyUtils {
         val (costHiPrice, costHighFraction) = getDisplayPrice(highCost, low!!)
         val (costLowPrice, costLowFraction) = getDisplayPrice(lowCost, low)
 
-        return String.format(
-            "%s%s.%s - %s.%s",
-            currency.symbol,
-            costLowPrice,
-            costLowFraction,
-            costHiPrice,
-            costHighFraction
-        )
+        return String.format("%s%s.%s - %s.%s",
+                             currency.symbol,
+                             costLowPrice,
+                             costLowFraction,
+                             costHiPrice,
+                             costHighFraction
+                            )
     }
 
     fun intToPriceNoSymbol(currency: Currency, price: Int): String {

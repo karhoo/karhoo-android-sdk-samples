@@ -5,8 +5,8 @@ import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
 import com.karhoo.sdk.api.model.QuoteV2
 
 class BookingQuoteStateViewModel(application: Application) :
-    BaseStateViewModel<QuoteListStatus, BookingSupplierViewContract.BookingSupplierAction,
-            BookingSupplierViewContract.BookingSupplierEvent>(application) {
+        BaseStateViewModel<QuoteListStatus, BookingSupplierViewContract.BookingSupplierAction,
+                BookingSupplierViewContract.BookingSupplierEvent>(application) {
 
     init {
         viewState = QuoteListStatus(null)
@@ -33,7 +33,6 @@ class BookingQuoteStateViewModel(application: Application) :
 
     private fun showBookingRequest(selectedQuote: QuoteV2) {
         viewState = QuoteListStatus(selectedQuote)
-        viewAction =
-            BookingSupplierViewContract.BookingSupplierAction.ShowBookingRequest(selectedQuote)
+        viewAction = BookingSupplierViewContract.BookingSupplierAction.ShowBookingRequest(selectedQuote)
     }
 }

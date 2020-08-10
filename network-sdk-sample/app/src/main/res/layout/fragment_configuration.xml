@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/welcome_message"
@@ -90,7 +90,6 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/card_spacing"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/karhoo_user_card">
@@ -102,7 +101,7 @@
             android:padding="16dp">
 
             <Button
-                android:id="@+id/guest_checkou_button"
+                android:id="@+id/guest_checkout_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/configuration_button"

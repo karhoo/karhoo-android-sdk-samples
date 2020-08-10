@@ -12,16 +12,19 @@ import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.model.UserInfo
 import com.karhoo.sdk.api.network.request.UserLogin
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_configuration.*
+import kotlinx.android.synthetic.main.fragment_configuration.guest_checkout_button
+import kotlinx.android.synthetic.main.fragment_configuration.loadingProgressBar
+import kotlinx.android.synthetic.main.fragment_configuration.password
+import kotlinx.android.synthetic.main.fragment_configuration.sign_in_button
+import kotlinx.android.synthetic.main.fragment_configuration.username
+import kotlinx.android.synthetic.main.fragment_configuration.welcome_message
 
 class ConfigurationFragment : BaseFragment() {
     private lateinit var configurationStateViewModel: ConfigurationStateViewModel
     var userInfo: UserInfo? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_configuration, container, false)
     }
@@ -39,7 +42,7 @@ class ConfigurationFragment : BaseFragment() {
             }
         }
 
-        guest_checkou_button.setOnClickListener {
+        guest_checkout_button.setOnClickListener {
             Toast.makeText(context, "Not implemented", Toast.LENGTH_SHORT).show()
         }
     }
@@ -83,11 +86,9 @@ class ConfigurationFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(
-            configurationStateViewModel: ConfigurationStateViewModel
-        ) =
-            ConfigurationFragment().apply {
-                this.configurationStateViewModel = configurationStateViewModel
-            }
+        fun newInstance(configurationStateViewModel: ConfigurationStateViewModel) =
+                ConfigurationFragment().apply {
+                    this.configurationStateViewModel = configurationStateViewModel
+                }
     }
 }

@@ -7,20 +7,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-open class BaseStateViewModel<STATE, ACTION, EVENT>(application: Application) :
-    AndroidViewModel(application),
-    ViewModelContract<EVENT> {
+open class BaseStateViewModel<STATE, ACTION, EVENT>(application: Application) : AndroidViewModel(application),
+                                                                                ViewModelContract<EVENT> {
 
     val _viewStates: MutableLiveData<STATE> = MutableLiveData()
     fun viewStates(): LiveData<STATE> = _viewStates
     val currentState: STATE
         get() = _viewState
-            ?: throw UninitializedPropertyAccessException("\"viewState\" was queried before being initialized")
+                ?: throw UninitializedPropertyAccessException("\"viewState\" was queried before being initialized")
 
     private var _viewState: STATE? = null
     protected var viewState: STATE
         get() = _viewState
-            ?: throw UninitializedPropertyAccessException("\"viewState\" was queried before being initialized")
+                ?: throw UninitializedPropertyAccessException("\"viewState\" was queried before being initialized")
         set(value) {
             Log.d("TAG", "setting viewState : $value")
             _viewState = value
@@ -33,7 +32,7 @@ open class BaseStateViewModel<STATE, ACTION, EVENT>(application: Application) :
     private var _viewAction: ACTION? = null
     protected var viewAction: ACTION
         get() = _viewAction
-            ?: throw UninitializedPropertyAccessException("\"viewAction\" was queried before being initialized")
+                ?: throw UninitializedPropertyAccessException("\"viewAction\" was queried before being initialized")
         set(value) {
             Log.d("TAG", "setting viewEffect : $value")
             _viewAction = value

@@ -22,6 +22,7 @@ import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.base.BaseFragment
 import com.karhoo.samples.networksdk.planning.BookingPlanningStateViewModel
 import com.karhoo.samples.networksdk.planning.BookingStatus
+import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import com.karhoo.samples.networksdk.quotes.QuoteListStatus
 import com.karhoo.samples.networksdk.utils.CurrencyUtils
 import com.karhoo.samples.networksdk.utils.orZero
@@ -32,11 +33,23 @@ import com.karhoo.sdk.api.datastore.user.UserManager
 import com.karhoo.sdk.api.model.PaymentsNonce
 import com.karhoo.sdk.api.model.QuoteV2
 import com.karhoo.sdk.api.model.TripInfo
-import com.karhoo.sdk.api.network.request.*
+import com.karhoo.sdk.api.network.request.AddPaymentRequest
+import com.karhoo.sdk.api.network.request.NonceRequest
+import com.karhoo.sdk.api.network.request.PassengerDetails
+import com.karhoo.sdk.api.network.request.Passengers
+import com.karhoo.sdk.api.network.request.Payer
+import com.karhoo.sdk.api.network.request.SDKInitRequest
+import com.karhoo.sdk.api.network.request.TripBooking
 import com.karhoo.sdk.api.network.response.Resource
-import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
-import kotlinx.android.synthetic.main.fragment_trip_booking.*
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_trip_booking.book_button
+import kotlinx.android.synthetic.main.fragment_trip_booking.fleet_name
+import kotlinx.android.synthetic.main.fragment_trip_booking.loadingProgressBar
+import kotlinx.android.synthetic.main.fragment_trip_booking.payment_details
+import kotlinx.android.synthetic.main.fragment_trip_booking.price
+import kotlinx.android.synthetic.main.fragment_trip_booking.quote_id
+import kotlinx.android.synthetic.main.fragment_trip_booking.selected_dropoff
+import kotlinx.android.synthetic.main.fragment_trip_booking.selected_pickup
+import java.util.Currency
 
 class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedListener {
 
@@ -46,10 +59,8 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
     private var quote: QuoteV2? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trip_booking, container, false)
     }
@@ -81,8 +92,8 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
                     val highPrice = selectedQuote.price.highPrice
                     val lowPrice = selectedQuote.price.lowPrice
                     val currency =
-                        selectedQuote.price.currencyCode.run { Currency.getInstance(selectedQuote.price.currencyCode) }
-                            ?: Currency.getInstance("GBP")
+                            selectedQuote.price.currencyCode.run { Currency.getInstance(selectedQuote.price.currencyCode) }
+                                    ?: Currency.getInstance("GBP")
                     price?.text = CurrencyUtils.intToRangedPrice(currency, lowPrice, highPrice)
                     quote_id?.text = selectedQuote.id
                     fleet_name?.text = selectedQuote.fleet.name
@@ -111,10 +122,8 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
     private fun sdkInit() {
         toastErrorMessage("Initialise Payment SDK (client-token)")
         showLoading()
-        val sdkInitRequest = SDKInitRequest(
-            organisationId = KarhooApi.userStore.currentUser.organisations.first().id,
-            currency = quote?.price?.currencyCode.orEmpty()
-        )
+        val sdkInitRequest = SDKInitRequest(organisationId = KarhooApi.userStore.currentUser.organisations.first().id,
+                                            currency = quote?.price?.currencyCode.orEmpty())
         KarhooApi.paymentsService.initialisePaymentSDK(sdkInitRequest).execute { result ->
             hideLoading()
             when (result) {
@@ -130,23 +139,19 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         this.braintreeSDKToken = braintreeSDKToken
         val user = KarhooApi.userStore.currentUser
         val nonceRequest = NonceRequest(
-            payer = Payer(
-                id = user.userId,
-                email = user.email,
-                firstName = user.firstName,
-                lastName = user.lastName
-            ),
-            organisationId = user.organisations.first().id
-        )
+                payer = Payer(id = user.userId,
+                              email = user.email,
+                              firstName = user.firstName,
+                              lastName = user.lastName),
+                organisationId = user.organisations.first().id
+                                       )
         showLoading()
         KarhooApi.paymentsService.getNonce(nonceRequest).execute { result ->
             hideLoading()
             when (result) {
-                is Resource.Success -> threeDSecureNonce(
-                    braintreeSDKToken,
-                    result.data,
-                    quotePriceToAmount(quote)
-                )
+                is Resource.Success -> threeDSecureNonce(braintreeSDKToken,
+                                                         result.data,
+                                                         quotePriceToAmount(quote))
                 is Resource.Failure -> showPaymentDialog(braintreeSDKToken)
             }
         }
@@ -154,41 +159,35 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
 
     fun threeDSecureNonce(braintreeSDKToken: String, paymentsNonce: PaymentsNonce, amount: String) {
         showLoading()
-        bindCardDetails(
-            SavedPaymentInfo(
-                lastFour = paymentsNonce.lastFour,
-                cardType = paymentsNonce.cardType
-            )
-        )
+        bindCardDetails(SavedPaymentInfo(lastFour = paymentsNonce.lastFour,
+                                         cardType = paymentsNonce.cardType))
 
         val braintreeFragment = BraintreeFragment
-            .newInstance(context as AppCompatActivity, braintreeSDKToken)
+                .newInstance(context as AppCompatActivity, braintreeSDKToken)
 
         braintreeFragment.addListener(object : PaymentMethodNonceCreatedListener {
             override fun onPaymentMethodNonceCreated(paymentMethodNonce: PaymentMethodNonce?) {
                 hideLoading()
                 toastErrorMessage("[Braintree] Received Payment Method Nonce from Braintree")
-                passBackThreeDSecuredNonce(
-                    paymentMethodNonce,
-                    getPassengerDetails(),
-                    ""
-                )
+                passBackThreeDSecuredNonce(paymentMethodNonce,
+                                           getPassengerDetails(),
+                                           "")
             }
         })
 
         braintreeFragment.addListener(
-            object : BraintreeErrorListener {
-                override fun onError(error: Exception?) {
-                    hideLoading()
-                    toastErrorMessage("[Braintree] Received Error from Braintree")
-                    showPaymentDialog(braintreeSDKToken)
-                }
-            })
+                object : BraintreeErrorListener {
+                    override fun onError(error: Exception?) {
+                        hideLoading()
+                        toastErrorMessage("[Braintree] Received Error from Braintree")
+                        showPaymentDialog(braintreeSDKToken)
+                    }
+                })
 
         val threeDSecureRequest = ThreeDSecureRequest()
-            .nonce(paymentsNonce.nonce)
-            .amount(amount)
-            .versionRequested(ThreeDSecureRequest.VERSION_2)
+                .nonce(paymentsNonce.nonce)
+                .amount(amount)
+                .versionRequested(ThreeDSecureRequest.VERSION_2)
 
         ThreeDSecure.performVerification(braintreeFragment, threeDSecureRequest)
         { request, lookup ->
@@ -203,15 +202,13 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
 
         val user = KarhooApi.userStore.currentUser
         val addPaymentRequest = AddPaymentRequest(
-            payer = Payer(
-                id = user.userId,
-                email = user.email,
-                firstName = user.firstName,
-                lastName = user.lastName
-            ),
-            organisationId = user.organisations.first().id,
-            nonce = braintreeSDKNonce
-        )
+                payer = Payer(id = user.userId,
+                              email = user.email,
+                              firstName = user.firstName,
+                              lastName = user.lastName),
+                organisationId = user.organisations.first().id,
+                nonce = braintreeSDKNonce
+                                                 )
 
         KarhooApi.paymentsService.addPaymentMethod(addPaymentRequest).execute { result ->
             hideLoading()
@@ -227,42 +224,37 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
     }
 
     fun passBackThreeDSecuredNonce(
-        threeDSNonce: PaymentMethodNonce?, passengerDetails:
-        PassengerDetails?, comments: String
-    ) {
+            threeDSNonce: PaymentMethodNonce?, passengerDetails:
+            PassengerDetails?, comments: String) {
 
         toastErrorMessage("All good, lets book the trip")
         showLoading()
         val nonce = threeDSNonce?.nonce.orEmpty()
 
         passengerDetails?.let {
-            KarhooApi.tripService.book(
-                TripBooking(
-                    nonce = nonce,
-                    quoteId = quote?.id.orEmpty(),
-                    passengers = Passengers(
-                        additionalPassengers = 0,
-                        passengerDetails = listOf(passengerDetails)
-                    ),
-                    flightNumber = null,
-                    comments = comments
-                )
-            )
-                .execute { result ->
-                    hideLoading()
-                    when (result) {
-                        is Resource.Success -> onTripBookSuccess(result.data)
-                        is Resource.Failure -> onTripBookFailure(result.error)
+            KarhooApi.tripService.book(TripBooking(nonce = nonce,
+                                                   quoteId = quote?.id.orEmpty(),
+                                                   passengers = Passengers(
+                                                           additionalPassengers = 0,
+                                                           passengerDetails = listOf(passengerDetails)
+                                                                          ),
+                                                   flightNumber = null,
+                                                   comments = comments))
+                    .execute { result ->
+                        hideLoading()
+                        when (result) {
+                            is Resource.Success -> onTripBookSuccess(result.data)
+                            is Resource.Failure -> onTripBookFailure(result.error)
+                        }
                     }
-                }
         }
     }
 
     private fun onTripBookSuccess(tripInfo: TripInfo) {
         bookingRequestStateViewModel.process(
-            BookingRequestViewContract.BookingRequestEvent
-                .BookingSuccess(tripInfo)
-        )
+                BookingRequestViewContract.BookingRequestEvent
+                        .BookingSuccess(tripInfo)
+                                            )
     }
 
     fun onTripBookFailure(error: KarhooError) {
@@ -278,38 +270,33 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
 
     private fun getPassengerDetails(): PassengerDetails {
         val user = KarhooApi.userStore.currentUser
-        return PassengerDetails(
-            firstName = user.firstName,
-            lastName = user.lastName,
-            phoneNumber = user.phoneNumber,
-            email = user.email,
-            locale = user.locale
-        )
+        return PassengerDetails(firstName = user.firstName,
+                                lastName = user.lastName,
+                                phoneNumber = user.phoneNumber,
+                                email = user.email,
+                                locale = user.locale)
     }
-
 
     fun showPaymentDialog(braintreeSDKToken: String) {
         AlertDialog.Builder(context, R.style.DialogTheme)
-            .setTitle(R.string.payment_issue)
-            .setMessage(R.string.payment_issue_message)
-            .setPositiveButton(R.string.add_card) { dialog, _ ->
-                showPaymentUI(braintreeSDKToken)
-                dialog.dismiss()
-            }
-            .setNegativeButton(R.string.cancel) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+                .setTitle(R.string.payment_issue)
+                .setMessage(R.string.payment_issue_message)
+                .setPositiveButton(R.string.add_card) { dialog, _ ->
+                    showPaymentUI(braintreeSDKToken)
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
     }
 
     fun showPaymentUI(braintreeSDKToken: String) {
         toastErrorMessage("[Braintree] Show Braintree Dialog")
         val dropInRequest = DropInRequest().clientToken(braintreeSDKToken)
         this.braintreeSDKToken = braintreeSDKToken
-        (context as Activity).startActivityForResult(
-            dropInRequest.getIntent(context),
-            REQ_CODE_BRAINTREE
-        )
+        (context as Activity).startActivityForResult(dropInRequest.getIntent(context),
+                                                     REQ_CODE_BRAINTREE)
     }
 
     private fun quotePriceToAmount(quote: QuoteV2?): String {
@@ -324,7 +311,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
                 REQ_CODE_BRAINTREE -> {
                     toastErrorMessage("Received confirmation from Braintree")
                     val braintreeResult =
-                        data.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
+                            data.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
                     passBackBraintreeSDKNonce(braintreeSDKToken)
                     //passBackThreeDSecuredNonce(braintreeResult?.paymentMethodNonce, getPassengerDetails(), "")
                 }
@@ -343,12 +330,10 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         const val REQ_CODE_BRAINTREE = 301
 
         @JvmStatic
-        fun newInstance(
-            owner: LifecycleOwner,
-            bookingPlanningStateViewModel: BookingPlanningStateViewModel,
-            bookingQuoteStateViewModel: BookingQuoteStateViewModel,
-            bookingRequestStateViewModel: BookingRequestStateViewModel
-        ) = TripBookingFragment().apply {
+        fun newInstance(owner: LifecycleOwner,
+                        bookingPlanningStateViewModel: BookingPlanningStateViewModel,
+                        bookingQuoteStateViewModel: BookingQuoteStateViewModel,
+                        bookingRequestStateViewModel: BookingRequestStateViewModel) = TripBookingFragment().apply {
             this.bookingPlanningStateViewModel = bookingPlanningStateViewModel
             this.bookingQuoteStateViewModel = bookingQuoteStateViewModel
             this.bookingRequestStateViewModel = bookingRequestStateViewModel

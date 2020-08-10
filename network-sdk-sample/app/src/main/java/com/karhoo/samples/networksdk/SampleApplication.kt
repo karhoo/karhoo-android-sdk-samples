@@ -6,8 +6,7 @@ import com.karhoo.samples.networksdk.config.SampleConfigModule
 import com.karhoo.sdk.api.KarhooApi
 
 class SampleApplication : Application() {
-    val module: ConfigContract.Module =
-        SampleConfigModule(this)
+    val module: ConfigContract.Module = SampleConfigModule(this)
 
     override fun onCreate() {
         super.onCreate()

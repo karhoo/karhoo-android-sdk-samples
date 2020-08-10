@@ -9,9 +9,7 @@ import com.karhoo.sdk.api.model.AuthenticationMethod
 class SampleConfigModule(private val context: Context) : ConfigContract.Module {
 
     override fun karhooUserConfiguration(): KarhooSDKConfiguration {
-        return KarhooConfig(
-            context
-        )
+        return KarhooConfig(context)
     }
 
     class KarhooConfig(private val context: Context) : KarhooSDKConfiguration {
@@ -24,11 +22,9 @@ class SampleConfigModule(private val context: Context) : ConfigContract.Module {
             val STAGING_AUTH_HOST = "https://sso.stg.karhoo.net"
             val STAGING_GUEST_HOST = "https://public-api.stg.karhoo.net"
             val STAGING_HOST = "https://rest.stg.karhoo.net"
-            return KarhooEnvironment.Custom(
-                host = STAGING_HOST,
-                authHost = STAGING_AUTH_HOST,
-                guestHost = STAGING_GUEST_HOST
-            )
+            return KarhooEnvironment.Custom(host = STAGING_HOST,
+                                            authHost = STAGING_AUTH_HOST,
+                                            guestHost = STAGING_GUEST_HOST)
         }
 
         override fun analyticsProvider(): AnalyticProvider? {

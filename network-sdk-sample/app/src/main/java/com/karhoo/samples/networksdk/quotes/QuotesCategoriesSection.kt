@@ -9,14 +9,13 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
 
-
 class QuotesCategoriesSection :
-    Section(
-        SectionParameters.builder()
-            .itemResourceId(R.layout.item_quote)
-            .headerResourceId(R.layout.item_quote_category)
-            .build()
-    ) {
+        Section(
+                SectionParameters.builder()
+                        .itemResourceId(R.layout.item_quote)
+                        .headerResourceId(R.layout.item_quote_category)
+                        .build()
+               ) {
 
     var itemList = listOf<QuoteV2>()
     var header = "Quotes"
@@ -31,19 +30,14 @@ class QuotesCategoriesSection :
         return FleetViewHolder(view)
     }
 
-    override fun onBindItemViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int
-    ) {
+    override fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemHolder = holder as FleetViewHolder
 
         // bind your view here
         itemHolder.fleetName.text = itemList[position].fleet.name
         itemHolder.fleetName.setOnClickListener { v ->
-            clickListener!!.onItemRootViewClicked(
-                this,
-                position
-            )
+            clickListener!!.onItemRootViewClicked(this,
+                                                  position)
         }
     }
 
@@ -57,7 +51,7 @@ class QuotesCategoriesSection :
     }
 
     internal inner class FleetViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+            RecyclerView.ViewHolder(itemView) {
         val fleetName: TextView
 
         init {

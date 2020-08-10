@@ -19,24 +19,35 @@ import com.karhoo.sdk.api.model.DriverTrackingInfo
 import com.karhoo.sdk.api.model.TripInfo
 import com.karhoo.sdk.api.network.observable.Observable
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_trip_tracking.*
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_trip_tracking.driver_eta
+import kotlinx.android.synthetic.main.fragment_trip_tracking.fleet_name
+import kotlinx.android.synthetic.main.fragment_trip_tracking.latitude
+import kotlinx.android.synthetic.main.fragment_trip_tracking.loadingProgressBar
+import kotlinx.android.synthetic.main.fragment_trip_tracking.longitude
+import kotlinx.android.synthetic.main.fragment_trip_tracking.price
+import kotlinx.android.synthetic.main.fragment_trip_tracking.quote_id
+import kotlinx.android.synthetic.main.fragment_trip_tracking.registration_number
+import kotlinx.android.synthetic.main.fragment_trip_tracking.selected_dropoff
+import kotlinx.android.synthetic.main.fragment_trip_tracking.selected_pickup
+import kotlinx.android.synthetic.main.fragment_trip_tracking.status
+import kotlinx.android.synthetic.main.fragment_trip_tracking.stop_button
+import kotlinx.android.synthetic.main.fragment_trip_tracking.track
+import kotlinx.android.synthetic.main.fragment_trip_tracking.vehicle
+import java.util.Currency
 
 class TripTrackingFragment : BaseFragment() {
 
     private var tripDetailsObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>>? =
-        null
+            null
     private var tripDetailsObservable: Observable<TripInfo>? = null
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
 
     private var driverPositionObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>>? =
-        null
+            null
     private var driverTrackingInfoObservable: Observable<DriverTrackingInfo>? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trip_tracking, container, false)
     }
@@ -103,7 +114,7 @@ class TripTrackingFragment : BaseFragment() {
         selectedQuote?.let {
             val highPrice = selectedQuote.total
             val currency =
-                Currency.getInstance(selectedQuote.currency)
+                    Currency.getInstance(selectedQuote.currency)
             price?.text = CurrencyUtils.intToPrice(currency, highPrice)
         }
     }
@@ -130,7 +141,7 @@ class TripTrackingFragment : BaseFragment() {
     private fun observeTripInfo(tripId: String) {
         showLoading()
         tripDetailsObserver = object :
-            com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>> {
+                com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>> {
             override fun onValueChanged(value: Resource<TripInfo>) {
                 when (value) {
                     is Resource.Success -> bindViewTripInfo(value.data)
@@ -148,15 +159,14 @@ class TripTrackingFragment : BaseFragment() {
     private fun observeDriverPosition(tripIdentifier: String) {
         showLoading()
         driverPositionObserver = object :
-            com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>> {
+                com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>> {
             override fun onValueChanged(value: Resource<DriverTrackingInfo>) {
                 when (value) {
                     is Resource.Success -> bindDriverPosition(value.data)
                 }
             }
         }
-        driverTrackingInfoObservable =
-            KarhooApi.driverTrackingService.trackDriver(tripIdentifier).observable()
+        driverTrackingInfoObservable = KarhooApi.driverTrackingService.trackDriver(tripIdentifier).observable()
         driverPositionObserver?.let {
             driverTrackingInfoObservable?.subscribe(it, TRIP_INFO_UPDATE_PERIOD)
         }
@@ -182,10 +192,8 @@ class TripTrackingFragment : BaseFragment() {
         const val TRIP_INFO_UPDATE_PERIOD = 30000L
 
         @JvmStatic
-        fun newInstance(
-            owner: FragmentActivity,
-            bookingRequestStateViewModel: BookingRequestStateViewModel
-        ) = TripTrackingFragment().apply {
+        fun newInstance(owner: FragmentActivity,
+                        bookingRequestStateViewModel: BookingRequestStateViewModel) = TripTrackingFragment().apply {
             this.bookingRequestStateViewModel = bookingRequestStateViewModel
             bookingRequestStateViewModel.viewStates().observe(owner, createTripObservable())
             bookingRequestStateViewModel.viewActions().observe(owner, bindToBookingRequestOutputs())

@@ -5,8 +5,8 @@ import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
 import com.karhoo.sdk.api.KarhooError
 
 class ConfigurationStateViewModel(application: Application) :
-    BaseStateViewModel<ConfigurationStatus,
-            ConfigurationViewContract.ConfigurationAction, ConfigurationViewContract.ConfigurationEvent>
+        BaseStateViewModel<ConfigurationStatus,
+                ConfigurationViewContract.ConfigurationAction, ConfigurationViewContract.ConfigurationEvent>
         (application) {
     init {
         viewState = ConfigurationStatus(false)

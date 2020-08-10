@@ -19,69 +19,52 @@ import com.karhoo.samples.networksdk.configuration.ConfigurationStateViewModel
 import com.karhoo.samples.networksdk.configuration.ConfigurationViewContract
 import com.karhoo.samples.networksdk.planning.BookingPlanningStateViewModel
 import com.karhoo.samples.networksdk.planning.TripPlanningFragment
+import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import com.karhoo.samples.networksdk.quotes.TripQuotesFragment
 import com.karhoo.samples.networksdk.tracking.TripTrackingFragment
-import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.pager
+import kotlinx.android.synthetic.main.activity_main.tab_layout
 
 class MainActivity : AppCompatActivity() {
 
     private val NUM_PAGES = 5
     private lateinit var viewPager: ViewPager2
     lateinit var pages: List<BaseFragment>
-    val headers = listOf(
-        R.string.sign_in_header,
-        R.string.plan_trip_header,
-        R.string.quotes_header,
-        R.string.book_trip_header,
-        R.string.track_trip_header
-    )
+    val headers = listOf(R.string.sign_in_header,
+                         R.string.plan_trip_header,
+                         R.string.quotes_header,
+                         R.string.book_trip_header,
+                         R.string.track_trip_header
+                        )
     private val bookingPlanningStateViewModel: BookingPlanningStateViewModel by lazy {
-        ViewModelProvider(
-            this
-        ).get(BookingPlanningStateViewModel::class.java)
+        ViewModelProvider(this).get(BookingPlanningStateViewModel::class.java)
     }
     private val bookingQuoteStateViewModel: BookingQuoteStateViewModel by lazy {
-        ViewModelProvider(
-            this
-        ).get(BookingQuoteStateViewModel::class.java)
+        ViewModelProvider(this).get(BookingQuoteStateViewModel::class.java)
     }
 
     private val bookingRequestStateViewModel: BookingRequestStateViewModel by lazy {
-        ViewModelProvider(
-            this
-        ).get(BookingRequestStateViewModel::class.java)
+        ViewModelProvider(this).get(BookingRequestStateViewModel::class.java)
     }
 
     private val configurationStateViewModel: ConfigurationStateViewModel by lazy {
-        ViewModelProvider(
-            this
-        ).get(ConfigurationStateViewModel::class.java)
+        ViewModelProvider(this).get(ConfigurationStateViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        pages = listOf(
-            ConfigurationFragment.newInstance(configurationStateViewModel),
-            TripPlanningFragment.newInstance(this, bookingPlanningStateViewModel),
-            TripQuotesFragment.newInstance(
-                this,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel
-            ),
-            TripBookingFragment.newInstance(
-                this,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel,
-                bookingRequestStateViewModel
-            ),
-            TripTrackingFragment.newInstance(
-                this,
-                bookingRequestStateViewModel
-            )
-        )
+        pages = listOf(ConfigurationFragment.newInstance(configurationStateViewModel),
+                       TripPlanningFragment.newInstance(this, bookingPlanningStateViewModel),
+                       TripQuotesFragment.newInstance(this,
+                                                      bookingPlanningStateViewModel,
+                                                      bookingQuoteStateViewModel),
+                       TripBookingFragment.newInstance(this,
+                                                       bookingPlanningStateViewModel,
+                                                       bookingQuoteStateViewModel,
+                                                       bookingRequestStateViewModel),
+                       TripTrackingFragment.newInstance(this, bookingRequestStateViewModel))
 
         val pagerAdapter = ScreenSlidePagerAdapter(this).apply {
             data = pages
@@ -138,39 +121,31 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQ_CODE_BRAINTREE) {
             (pages[3] as TripBookingFragment).onBraintreeActivityResult(
-                requestCode,
-                resultCode,
-                data
-            )
+                    requestCode,
+                    resultCode,
+                    data
+                                                                       )
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         var data = listOf(
-            ConfigurationFragment.newInstance(configurationStateViewModel),
-            TripPlanningFragment.newInstance(fa, bookingPlanningStateViewModel),
-            TripQuotesFragment.newInstance(
-                fa,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel
-            ),
-            TripBookingFragment.newInstance(
-                fa,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel,
-                bookingRequestStateViewModel
-            ),
-            TripTrackingFragment.newInstance(
-                fa,
-                bookingRequestStateViewModel
-            )
-        )
+                ConfigurationFragment.newInstance(configurationStateViewModel),
+                TripPlanningFragment.newInstance(fa, bookingPlanningStateViewModel),
+                TripQuotesFragment.newInstance(fa,
+                                               bookingPlanningStateViewModel,
+                                               bookingQuoteStateViewModel),
+                TripBookingFragment.newInstance(fa,
+                                                bookingPlanningStateViewModel,
+                                                bookingQuoteStateViewModel,
+                                                bookingRequestStateViewModel),
+                TripTrackingFragment.newInstance(fa,
+                                                 bookingRequestStateViewModel))
 
         override fun getItemCount(): Int = NUM_PAGES
 
         override fun createFragment(position: Int): Fragment = data[position]
 
     }
-
 }

@@ -13,10 +13,8 @@ interface BookingPlanningContract {
 
     sealed class AddressBarActions {
 
-        data class UpdateAddressLabel(
-            val locationInfo: LocationInfo?,
-            val addressType: AddressType
-        ) : AddressBarActions()
+        data class UpdateAddressLabel(val locationInfo: LocationInfo?,
+                                      val addressType: AddressType) : AddressBarActions()
 
     }
 

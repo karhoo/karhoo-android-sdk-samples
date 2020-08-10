@@ -18,8 +18,14 @@ import com.karhoo.sdk.api.model.Position
 import com.karhoo.sdk.api.network.request.LocationInfoRequest
 import com.karhoo.sdk.api.network.request.PlaceSearch
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_trip_planning.*
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_trip_planning.destination_text
+import kotlinx.android.synthetic.main.fragment_trip_planning.dropoff_button
+import kotlinx.android.synthetic.main.fragment_trip_planning.loadingProgressBar
+import kotlinx.android.synthetic.main.fragment_trip_planning.origin_text
+import kotlinx.android.synthetic.main.fragment_trip_planning.pickup_button
+import kotlinx.android.synthetic.main.fragment_trip_planning.selected_dropoff
+import kotlinx.android.synthetic.main.fragment_trip_planning.selected_pickup
+import java.util.UUID
 
 class TripPlanningFragment : BaseFragment() {
 
@@ -35,10 +41,8 @@ class TripPlanningFragment : BaseFragment() {
         return sessionToken
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_trip_planning, container, false)
     }
 
@@ -80,24 +84,21 @@ class TripPlanningFragment : BaseFragment() {
     }
 
     private fun setSearchQuery(searchQuery: String): PlaceSearch {
-        return PlaceSearch(
-            position = Position(
-                latitude = 0.0,
-                longitude = 0.0
-            ),
-            query = searchQuery,
-            sessionToken = getSessionToken()
-        )
+        return PlaceSearch(position = Position(latitude = 0.0,
+                                               longitude = 0.0),
+                           query = searchQuery,
+                           sessionToken = getSessionToken())
     }
 
     private fun setLocationInfoRequestQuery(placeId: String): LocationInfoRequest {
-        return LocationInfoRequest(
-            placeId = placeId,
-            sessionToken = getSessionToken()
-        )
+        return LocationInfoRequest(placeId = placeId,
+                                   sessionToken = getSessionToken())
     }
 
-    private fun requestAddresses(placeSearch: PlaceSearch, type: BookingPlanningContract.AddressType) {
+    private fun requestAddresses(
+            placeSearch: PlaceSearch,
+            type: BookingPlanningContract.AddressType
+                                ) {
         if (placeSearch.query.length > 3) {
             showLoading()
             KarhooApi.addressService.placeSearch(placeSearch).execute { result ->
@@ -124,35 +125,25 @@ class TripPlanningFragment : BaseFragment() {
 
     private fun updatePlace(data: LocationInfo, type: BookingPlanningContract.AddressType) {
         if (type == BookingPlanningContract.AddressType.ORIGIN) {
-            bookingPlanningStateViewModel.process(
-                BookingPlanningContract.AddressBarEvent.PickUpAddressEvent(
-                    data
-                )
-            )
+            bookingPlanningStateViewModel.process(BookingPlanningContract.AddressBarEvent.PickUpAddressEvent(data))
             pickUpLocationInfo = data
             selected_pickup.text = data.displayAddress
         } else {
-            bookingPlanningStateViewModel.process(
-                BookingPlanningContract.AddressBarEvent.DestinationAddressEvent(
-                    data
-                )
-            )
+            bookingPlanningStateViewModel.process(BookingPlanningContract.AddressBarEvent.DestinationAddressEvent(data))
             dropOffLocationInfo = data
             selected_dropoff.text = data.displayAddress
         }
     }
 
-    private fun updatePlaces(
-        placeSearch: PlaceSearch,
-        data: Places,
-        type: BookingPlanningContract.AddressType
-    ) {
+    private fun updatePlaces(placeSearch: PlaceSearch,
+                             data: Places,
+                             type: BookingPlanningContract.AddressType) {
         val builderSingle: AlertDialog.Builder = AlertDialog.Builder(context!!)
         builderSingle.setIcon(android.R.drawable.ic_menu_compass)
         builderSingle.setTitle("Select One Place: " + placeSearch.query)
 
         val arrayAdapter =
-            ArrayAdapter<String>(context!!, android.R.layout.select_dialog_item)
+                ArrayAdapter<String>(context!!, android.R.layout.select_dialog_item)
         for (place: Place in data.locations) {
             arrayAdapter.add(place.displayAddress)
         }
@@ -166,13 +157,10 @@ class TripPlanningFragment : BaseFragment() {
         builderSingle.show()
     }
 
-
     companion object {
         @JvmStatic
-        fun newInstance(
-            owner: LifecycleOwner,
-            bookingPlanningStateViewModel: BookingPlanningStateViewModel
-        ): TripPlanningFragment = TripPlanningFragment().apply {
+        fun newInstance(owner: LifecycleOwner,
+                        bookingPlanningStateViewModel: BookingPlanningStateViewModel): TripPlanningFragment = TripPlanningFragment().apply {
             this.bookingPlanningStateViewModel = bookingPlanningStateViewModel
             bookingPlanningStateViewModel.viewActions().observe(owner, bindToAddressBarOutputs())
         }
