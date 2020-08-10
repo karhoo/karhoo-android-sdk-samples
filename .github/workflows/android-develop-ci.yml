@@ -17,6 +17,7 @@ jobs:
       with:
         java-version: 1.8
     - name: Lint
+      working-directory: network-sdk-sample
       run: bash ./gradlew lint
 
   tests:
@@ -30,4 +31,5 @@ jobs:
       with:
         java-version: 1.8
     - name: Unit tests
+      working-directory: network-sdk-sample
       run: bash ./gradlew test --stacktrace
