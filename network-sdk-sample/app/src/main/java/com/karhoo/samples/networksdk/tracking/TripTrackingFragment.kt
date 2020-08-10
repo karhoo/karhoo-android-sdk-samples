@@ -52,6 +52,14 @@ class TripTrackingFragment : BaseFragment() {
         }
     }
 
+    private fun showLoading() {
+        loadingProgressBar?.show()
+    }
+
+    private fun hideLoading() {
+        loadingProgressBar?.hide()
+    }
+
     private fun trackTrip() {
         unsubscribeObservers()
         bookingRequestStateViewModel.currentState.tripInfo?.let { trip ->
@@ -120,6 +128,7 @@ class TripTrackingFragment : BaseFragment() {
     }
 
     private fun observeTripInfo(tripId: String) {
+        showLoading()
         tripDetailsObserver = object :
             com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>> {
             override fun onValueChanged(value: Resource<TripInfo>) {
@@ -137,6 +146,7 @@ class TripTrackingFragment : BaseFragment() {
     }
 
     private fun observeDriverPosition(tripIdentifier: String) {
+        showLoading()
         driverPositionObserver = object :
             com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>> {
             override fun onValueChanged(value: Resource<DriverTrackingInfo>) {
@@ -159,6 +169,7 @@ class TripTrackingFragment : BaseFragment() {
     }
 
     private fun unsubscribeObservers() {
+        hideLoading()
         driverPositionObserver?.let {
             driverTrackingInfoObservable?.unsubscribe(it)
         }

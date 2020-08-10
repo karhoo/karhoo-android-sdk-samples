@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.base.BaseFragment
 import com.karhoo.sdk.api.KarhooApi
@@ -49,7 +48,9 @@ class ConfigurationFragment : BaseFragment() {
         val username = username.text.toString()
         val password = password.text.toString()
         val loginRequest = UserLogin(email = username, password = password)
+        showLoading()
         KarhooApi.userService.loginUser(loginRequest).execute {
+            hideLoading()
             when (it) {
                 is Resource.Success -> {
                     userInfo = it.data
@@ -70,6 +71,14 @@ class ConfigurationFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun showLoading() {
+        loadingProgressBar?.show()
+    }
+
+    private fun hideLoading() {
+        loadingProgressBar?.hide()
     }
 
     companion object {

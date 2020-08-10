@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karhoo.samples.networksdk.R
@@ -57,6 +56,14 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
         }
     }
 
+    private fun showLoading() {
+        loadingProgressBar?.show()
+    }
+
+    private fun hideLoading() {
+        loadingProgressBar?.hide()
+    }
+
     private fun createPlanningObservable() =
         androidx.lifecycle.Observer<BookingStatus> { bookingStatus ->
             cancelVehicleCallback()
@@ -65,6 +72,7 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
 
     private fun requestVehicleAvailability(bookingStatus: BookingStatus?) {
         stop_button?.visibility = View.INVISIBLE
+        showLoading()
         bookingStatus?.pickup?.let { bookingStatusPickup ->
             bookingStatus.destination?.let { bookingStatusDestination ->
                 vehiclesObserver = quotesCallback()
@@ -83,6 +91,8 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
     }
 
     private fun cancelVehicleCallback() {
+        hideLoading()
+        stop_button?.visibility = View.INVISIBLE
         vehiclesObserver?.let { vehiclesObservable?.apply { unsubscribe(it) } }
     }
 
@@ -124,19 +134,6 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
                 section.itemList[itemAdapterPosition]
             )
         )
-        Toast.makeText(context, section.itemList[itemAdapterPosition].fleet.name, Toast.LENGTH_LONG)
-            .show()
-    }
-
-    private fun updateVehicles2(data: QuoteListV2) {
-        stop_button.visibility = View.VISIBLE
-        availableVehicles = data.categories
-
-        val all = mutableListOf<QuoteV2>()
-        for ((_, quotes) in data.categories) {
-            all.addAll(quotes)
-        }
-        quotes_list.adapter = QuotesAdapter(all)
     }
 
     companion object {

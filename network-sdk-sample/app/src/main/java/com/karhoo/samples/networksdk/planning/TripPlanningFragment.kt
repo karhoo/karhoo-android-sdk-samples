@@ -57,6 +57,14 @@ class TripPlanningFragment : BaseFragment() {
 
     }
 
+    private fun showLoading() {
+        loadingProgressBar?.show()
+    }
+
+    private fun hideLoading() {
+        loadingProgressBar?.hide()
+    }
+
     private fun bindToAddressBarOutputs(): Observer<TripPlanningContract.AddressBarActions> {
         return Observer { actions ->
             when (actions) {
@@ -91,7 +99,9 @@ class TripPlanningFragment : BaseFragment() {
 
     private fun requestAddresses(placeSearch: PlaceSearch, type: TripPlanningContract.AddressType) {
         if (placeSearch.query.length > 3) {
+            showLoading()
             KarhooApi.addressService.placeSearch(placeSearch).execute { result ->
+                hideLoading()
                 when (result) {
                     is Resource.Success -> updatePlaces(placeSearch, result.data, type)
                     is Resource.Failure -> toastErrorMessage(result.error)
@@ -102,7 +112,9 @@ class TripPlanningFragment : BaseFragment() {
 
     private fun requestLocationInfo(place: Place, type: TripPlanningContract.AddressType) {
         val locationInfoRequest = setLocationInfoRequestQuery(place.placeId)
+        showLoading()
         KarhooApi.addressService.locationInfo(locationInfoRequest).execute { result ->
+            hideLoading()
             when (result) {
                 is Resource.Success -> updatePlace(result.data, type)
                 is Resource.Failure -> toastErrorMessage(result.error)
