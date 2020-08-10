@@ -107,7 +107,7 @@ class TripTrackingFragment : BaseFragment() {
 
         quote_id?.text = trip.displayTripId
         fleet_name?.text = trip.fleetInfo?.name
-        vehicle?.text = trip.vehicle?.driver?.firstName + " " + trip.vehicle?.driver?.lastName
+        vehicle?.text = "${trip.vehicle?.driver?.firstName} ${trip.vehicle?.driver?.lastName}"
         status?.text = trip.tripState.toString()
         registration_number?.text = trip.vehicle?.vehicleLicencePlate
         val selectedQuote = trip.quote
