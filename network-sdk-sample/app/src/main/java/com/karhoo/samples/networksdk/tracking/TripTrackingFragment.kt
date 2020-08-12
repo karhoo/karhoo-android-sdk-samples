@@ -37,18 +37,15 @@ import java.util.Currency
 
 class TripTrackingFragment : BaseFragment() {
 
-    private var tripDetailsObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>>? =
-            null
+    private var tripDetailsObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>>? = null
     private var tripDetailsObservable: Observable<TripInfo>? = null
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
 
-    private var driverPositionObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>>? =
-            null
+    private var driverPositionObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>>? = null
     private var driverTrackingInfoObservable: Observable<DriverTrackingInfo>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trip_tracking, container, false)
     }
 
