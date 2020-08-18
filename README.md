@@ -1,7 +1,6 @@
-# Karhoo Android SDKs Samples
-Android Samples for Karhoo SDKs
+# Android Samples for Karhoo SDKs 
 
-Samples demonstrating how to use
+The samples demonstrating how to use
 [Karhoo SDKs for Android](https://developer.karhoo.com/docs/build-apps-using-sdks).
 
 This repo contains the following sample:
@@ -10,8 +9,8 @@ This repo contains the following sample:
 
 ## Pre-requisites
 
-A valid Karhoo Sandbox account
-All require up-to-date versions of the Android build tools and the Android support repository.
+A valid Karhoo Sandbox account. 
+All require up-to-date versions of the Android build tools.
 
 ## Getting Started
 These samples use the Gradle build system.
