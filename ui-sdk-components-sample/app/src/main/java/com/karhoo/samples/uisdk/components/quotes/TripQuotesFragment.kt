@@ -45,23 +45,9 @@ class TripQuotesFragment : BaseFragment(),ErrorView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        get_quotes_button.setOnClickListener {
-            cancelVehicleCallback()
-        }
-        stop_button.setOnClickListener {
-            cancelVehicleCallback()
-        }
 
         supplier_list_widget.bindViewToData(requireActivity(), bookingStatusStateViewModel,
             categoriesViewModel, liveFleetsViewModel, bookingSupplierViewModel)
-    }
-
-    private fun showLoading() {
-        loadingProgressBar?.show()
-    }
-
-    private fun hideLoading() {
-        loadingProgressBar?.hide()
     }
 
     private fun initAvailability() {
@@ -92,8 +78,6 @@ class TripQuotesFragment : BaseFragment(),ErrorView {
         }
 
     private fun cancelVehicleCallback() {
-        hideLoading()
-        stop_button?.visibility = View.INVISIBLE
         vehiclesObserver?.let { vehiclesObservable?.apply { unsubscribe(it) } }
     }
 
