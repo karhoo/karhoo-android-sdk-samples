@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.karhoo.samples.networksdk", appContext.packageName)
+        assertEquals("com.karhoo.samples.uisdk.components", appContext.packageName)
     }
 }
