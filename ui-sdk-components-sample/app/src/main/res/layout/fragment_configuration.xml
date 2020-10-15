@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/violet"
     android:padding="@dimen/card_spacing"
-    tools:context=".MainActivity">
+    tools:context="com.karhoo.samples.uisdk.components.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/karhoo_user_layout"

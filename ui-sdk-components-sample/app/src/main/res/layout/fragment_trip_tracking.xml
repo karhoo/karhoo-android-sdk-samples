@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/medium_blue"
     android:padding="@dimen/padding_default"
-    tools:context=".booking.TripBookingFragment">
+    tools:context="com.karhoo.samples.uisdk.components.booking.TripBookingFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/address_layout"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.karhoo.samples.networksdk">
+    package="com.karhoo.samples.uisdk.components">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".SampleApplication">
+        android:name="com.karhoo.samples.uisdk.components.SampleApplication">
         <activity
             android:name="com.braintreepayments.api.BraintreeBrowserSwitchActivity"
             android:label="@string/title_activity_threedsecure"
@@ -24,7 +24,7 @@
                 <data android:scheme="${applicationId}.braintree" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.karhoo.samples.uisdk.components.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

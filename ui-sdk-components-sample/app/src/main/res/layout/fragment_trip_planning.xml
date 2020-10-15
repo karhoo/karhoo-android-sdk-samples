@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bright_blue"
     android:padding="@dimen/padding_default"
-    tools:context=".MainActivity">
+    tools:context="com.karhoo.samples.uisdk.components.MainActivity">
 
     <com.karhoo.uisdk.screen.booking.address.addressbar.AddressBarView
         android:id="@+id/address_bar_widget"
