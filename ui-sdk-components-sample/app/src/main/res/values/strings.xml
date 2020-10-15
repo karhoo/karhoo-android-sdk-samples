@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">UI SDK Components Sample</string>
+    <string name="not_signed_in">Not signed in</string>
+    <string name="sign_in">Sign In</string>
+    <string name="book_trip">Book a trip</string>
+    <string name="welcome_message">Welcome %s!</string>
+    <string name="booking_inject_data">Booking (Inject data)</string>
+    <string name="sign_in_header">Sign in</string>
+    <string name="plan_trip_header">Plan a Trip</string>
+    <string name="quotes_header">Request quotes</string>
+    <string name="retrieve_quotes">Retrieve quotes</string>
+    <string name="book_trip_header">Book a Trip</string>
+    <string name="track_trip_header">Track the trip</string>
+    <string name="pick_up_label">Pick up</string>
+    <string name="origin_hint">Paddington</string>
+    <string name="guest_checkout">Guest Checkout</string>
+    <string name="drop_off_label">Drop off</string>
+    <string name="destination_hint">Oxford</string>
+    <string name="submit">Submit</string>
+    <string name="selected_pickup">Selected pickup</string>
+    <string name="selected_drop_off">Selected Drop off</string>
+    <string name="stop">Stop</string>
+    <string name="book">Book</string>
+
+    <string name="payment_issue">Payment Issue</string>
+    <string name="payment_issue_message">There has been an issue with your card</string>
+    <string name="add_card">ADD CARD</string>
+    <string name="cancel">CANCEL</string>
+    <string name="track">Track</string>
+    <string name="title_activity_threedsecure">3D Secure</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="vehicle">Vehicle</string>
+    <string name="fleet">Fleet</string>
+    <string name="address">Address</string>
+    <string name="payment">Payment Details</string>
+
+</resources>
