@@ -24,7 +24,7 @@ import com.karhoo.uisdk.screen.booking.domain.supplier.LiveFleetsViewModel
 import com.karhoo.uisdk.screen.booking.supplier.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.fragment_trip_quotes.*
 
-class TripQuotesFragment : BaseFragment(),ErrorView {
+class TripQuotesFragment : BaseFragment() {
 
     private lateinit var bookingSupplierViewModel: BookingSupplierViewModel
     private lateinit var bookingStatusStateViewModel: BookingStatusStateViewModel
@@ -46,20 +46,11 @@ class TripQuotesFragment : BaseFragment(),ErrorView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        supplier_list_widget.bindViewToData(requireActivity(), bookingStatusStateViewModel,
-            categoriesViewModel, liveFleetsViewModel, bookingSupplierViewModel)
-    }
-
-    private fun initAvailability() {
-        availabilityProvider?.cleanup()
-        availabilityProvider = KarhooAvailability(
-            KarhooApi.quotesService,
-            KarhooUISDK.analytics, categoriesViewModel, liveFleetsViewModel,
-            bookingStatusStateViewModel, this).apply {
-            setErrorView(this@TripQuotesFragment)
-            setAllCategory(getString(com.karhoo.uisdk.R.string.all_category))
-            supplier_list_widget.bindAvailability(this)
-        }
+        supplier_list_widget.bindViewToData(
+            requireActivity(),
+            bookingStatusStateViewModel,
+            bookingSupplierViewModel
+        )
     }
 
     override fun onStop() {
@@ -69,7 +60,7 @@ class TripQuotesFragment : BaseFragment(),ErrorView {
 
     override fun onResume() {
         super.onResume()
-        initAvailability()
+        supplier_list_widget.initAvailability(requireActivity())
     }
 
     private fun createPlanningObservable() =
@@ -96,25 +87,5 @@ class TripQuotesFragment : BaseFragment(),ErrorView {
             this.liveFleetsViewModel = liveFleetsViewModel
             bookingStatusStateViewModel.viewStates().observe(owner, createPlanningObservable())
         }
-    }
-
-    override fun dismissSnackbar() {
-        supplier_list_widget.setSupplierListVisibility()
-    }
-
-    override fun showErrorDialog(stringId: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showSnackbar(snackbarConfig: SnackbarConfig) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showTopBarNotification(stringId: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun showTopBarNotification(value: String) {
-        TODO("Not yet implemented")
     }
 }
