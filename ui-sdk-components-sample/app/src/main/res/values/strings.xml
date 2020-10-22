@@ -2,6 +2,7 @@
     <string name="app_name">UI SDK Components Sample</string>
     <string name="not_signed_in">Not signed in</string>
     <string name="sign_in">Sign In</string>
+    <string name="logout">Log out</string>
     <string name="book_trip">Book a trip</string>
     <string name="welcome_message">Welcome %s!</string>
     <string name="booking_inject_data">Booking (Inject data)</string>
