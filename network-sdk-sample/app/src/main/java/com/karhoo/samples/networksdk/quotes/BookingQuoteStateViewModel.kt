@@ -2,7 +2,7 @@ package com.karhoo.samples.networksdk.quotes
 
 import android.app.Application
 import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
-import com.karhoo.sdk.api.model.QuoteV2
+import com.karhoo.sdk.api.model.Quote
 
 class BookingQuoteStateViewModel(application: Application) :
         BaseStateViewModel<QuoteListStatus, BookingSupplierViewContract.BookingSupplierAction,
@@ -31,7 +31,7 @@ class BookingQuoteStateViewModel(application: Application) :
         viewAction = BookingSupplierViewContract.BookingSupplierAction.HideError
     }
 
-    private fun showBookingRequest(selectedQuote: QuoteV2) {
+    private fun showBookingRequest(selectedQuote: Quote) {
         viewState = QuoteListStatus(selectedQuote)
         viewAction = BookingSupplierViewContract.BookingSupplierAction.ShowBookingRequest(selectedQuote)
     }
