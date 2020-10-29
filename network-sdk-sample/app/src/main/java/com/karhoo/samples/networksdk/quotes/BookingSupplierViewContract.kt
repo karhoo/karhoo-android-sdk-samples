@@ -1,10 +1,10 @@
 package com.karhoo.samples.networksdk.quotes
 
-import com.karhoo.sdk.api.model.QuoteV2
+import com.karhoo.sdk.api.model.Quote
 
 interface BookingSupplierViewContract {
     sealed class BookingSupplierEvent {
-        data class SupplierItemClicked(val quote: QuoteV2) : BookingSupplierEvent()
+        data class SupplierItemClicked(val quote: Quote) : BookingSupplierEvent()
         object Availability : BookingSupplierEvent()
         object Error : BookingSupplierEvent()
     }
@@ -12,6 +12,6 @@ interface BookingSupplierViewContract {
     sealed class BookingSupplierAction {
         object HideError : BookingSupplierAction()
         object ShowError : BookingSupplierAction()
-        data class ShowBookingRequest(val quote: QuoteV2) : BookingSupplierAction()
+        data class ShowBookingRequest(val quote: Quote) : BookingSupplierAction()
     }
 }
