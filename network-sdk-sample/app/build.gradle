@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.karhoo.samples.networksdk"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    api 'com.karhoo:nsdk-canary:1.0.20'
+    api 'com.karhoo:nsdk-canary:1.0.35.28092020-1'
     api 'com.braintreepayments.api:drop-in:4.4.0'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
