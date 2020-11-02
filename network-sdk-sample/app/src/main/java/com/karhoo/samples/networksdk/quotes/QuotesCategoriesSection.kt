@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.karhoo.samples.networksdk.R
-import com.karhoo.sdk.api.model.QuoteV2
+import com.karhoo.sdk.api.model.Quote
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters
 import io.github.luizgrp.sectionedrecyclerviewadapter.utils.EmptyViewHolder
@@ -17,7 +17,7 @@ class QuotesCategoriesSection :
                         .build()
                ) {
 
-    var itemList = listOf<QuoteV2>()
+    var itemList = listOf<Quote>()
     var header = "Quotes"
     var clickListener: ClickListener? = null
 

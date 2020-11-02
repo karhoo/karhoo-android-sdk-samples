@@ -31,7 +31,7 @@ import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.datastore.user.SavedPaymentInfo
 import com.karhoo.sdk.api.datastore.user.UserManager
 import com.karhoo.sdk.api.model.PaymentsNonce
-import com.karhoo.sdk.api.model.QuoteV2
+import com.karhoo.sdk.api.model.Quote
 import com.karhoo.sdk.api.model.TripInfo
 import com.karhoo.sdk.api.network.request.AddPaymentRequest
 import com.karhoo.sdk.api.network.request.NonceRequest
@@ -57,7 +57,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
     private lateinit var bookingQuoteStateViewModel: BookingQuoteStateViewModel
     private lateinit var bookingPlanningStateViewModel: BookingPlanningStateViewModel
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
-    private var quote: QuoteV2? = null
+    private var quote: Quote? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -69,7 +69,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         book_button.setOnClickListener {
             bookTrip()
         }
-        bookingPlanningStateViewModel.currentState?.let {
+        bookingPlanningStateViewModel.currentState.let {
             bindAddresses(it)
         }
     }
@@ -298,7 +298,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
                                                      REQ_CODE_BRAINTREE)
     }
 
-    private fun quotePriceToAmount(quote: QuoteV2?): String {
+    private fun quotePriceToAmount(quote: Quote?): String {
         val currency = Currency.getInstance(quote?.price?.currencyCode?.trim())
         return CurrencyUtils.intToPriceNoSymbol(currency, quote?.price?.highPrice.orZero())
     }
