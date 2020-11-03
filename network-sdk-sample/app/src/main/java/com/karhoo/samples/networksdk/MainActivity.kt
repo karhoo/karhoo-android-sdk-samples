@@ -14,6 +14,7 @@ import com.karhoo.samples.networksdk.base.BaseFragment
 import com.karhoo.samples.networksdk.booking.BookingRequestStateViewModel
 import com.karhoo.samples.networksdk.booking.TripBookingFragment
 import com.karhoo.samples.networksdk.booking.TripBookingFragment.Companion.REQ_CODE_BRAINTREE
+import com.karhoo.samples.networksdk.booking.TripBookingFragment.Companion.REQ_CODE_BRAINTREE_GUEST
 import com.karhoo.samples.networksdk.configuration.ConfigurationFragment
 import com.karhoo.samples.networksdk.configuration.ConfigurationStateViewModel
 import com.karhoo.samples.networksdk.configuration.ConfigurationViewContract
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQ_CODE_BRAINTREE) {
+        if (requestCode == REQ_CODE_BRAINTREE || requestCode == REQ_CODE_BRAINTREE_GUEST) {
             (pages[3] as TripBookingFragment).onBraintreeActivityResult(
                     requestCode,
                     resultCode,

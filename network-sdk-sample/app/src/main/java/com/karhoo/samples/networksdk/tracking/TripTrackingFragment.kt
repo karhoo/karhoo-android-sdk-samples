@@ -37,15 +37,20 @@ import java.util.Currency
 
 class TripTrackingFragment : BaseFragment() {
 
-    private var tripDetailsObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>>? = null
+    private var tripDetailsObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<TripInfo>>? =
+            null
     private var tripDetailsObservable: Observable<TripInfo>? = null
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
 
-    private var driverPositionObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>>? = null
+    private var driverPositionObserver: com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>>? =
+            null
     private var driverTrackingInfoObservable: Observable<DriverTrackingInfo>? = null
+    private var isGuest: Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         return inflater.inflate(R.layout.fragment_trip_tracking, container, false)
     }
 
@@ -89,10 +94,14 @@ class TripTrackingFragment : BaseFragment() {
     private fun createTripObservable(): Observer<BookingRequestStatus> {
         return Observer {
             it.tripInfo?.let { trip ->
+                isGuest = it.isGuest
                 bindViewTripInfo(trip)
                 unsubscribeObservers()
-                observeTripInfo(tripId = trip.tripId)
-                observeDriverPosition(tripIdentifier = trip.tripId)
+                val tripId = if (isGuest) trip.followCode else trip.tripId
+                tripId?.let { id ->
+                    observeTripInfo(tripId = id)
+                    observeDriverPosition(tripIdentifier = id)
+                }
             }
         }
     }
@@ -154,18 +163,21 @@ class TripTrackingFragment : BaseFragment() {
     }
 
     private fun observeDriverPosition(tripIdentifier: String) {
-        showLoading()
-        driverPositionObserver = object :
-                com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>> {
-            override fun onValueChanged(value: Resource<DriverTrackingInfo>) {
-                when (value) {
-                    is Resource.Success -> bindDriverPosition(value.data)
+        if (!isGuest) {
+            showLoading()
+            driverPositionObserver = object :
+                    com.karhoo.sdk.api.network.observable.Observer<Resource<DriverTrackingInfo>> {
+                override fun onValueChanged(value: Resource<DriverTrackingInfo>) {
+                    when (value) {
+                        is Resource.Success -> bindDriverPosition(value.data)
+                    }
                 }
             }
-        }
-        driverTrackingInfoObservable = KarhooApi.driverTrackingService.trackDriver(tripIdentifier).observable()
-        driverPositionObserver?.let {
-            driverTrackingInfoObservable?.subscribe(it, TRIP_INFO_UPDATE_PERIOD)
+            driverTrackingInfoObservable =
+                    KarhooApi.driverTrackingService.trackDriver(tripIdentifier).observable()
+            driverPositionObserver?.let {
+                driverTrackingInfoObservable?.subscribe(it, TRIP_INFO_UPDATE_PERIOD)
+            }
         }
     }
 
@@ -189,8 +201,10 @@ class TripTrackingFragment : BaseFragment() {
         const val TRIP_INFO_UPDATE_PERIOD = 30000L
 
         @JvmStatic
-        fun newInstance(owner: FragmentActivity,
-                        bookingRequestStateViewModel: BookingRequestStateViewModel) = TripTrackingFragment().apply {
+        fun newInstance(
+                owner: FragmentActivity,
+                bookingRequestStateViewModel: BookingRequestStateViewModel
+                       ) = TripTrackingFragment().apply {
             this.bookingRequestStateViewModel = bookingRequestStateViewModel
             bookingRequestStateViewModel.viewStates().observe(owner, createTripObservable())
             bookingRequestStateViewModel.viewActions().observe(owner, bindToBookingRequestOutputs())

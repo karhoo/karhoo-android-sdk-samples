@@ -41,8 +41,10 @@ class TripPlanningFragment : BaseFragment() {
         return sessionToken
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         return inflater.inflate(R.layout.fragment_trip_planning, container, false)
     }
 
@@ -84,15 +86,21 @@ class TripPlanningFragment : BaseFragment() {
     }
 
     private fun setSearchQuery(searchQuery: String): PlaceSearch {
-        return PlaceSearch(position = Position(latitude = 0.0,
-                                               longitude = 0.0),
-                           query = searchQuery,
-                           sessionToken = getSessionToken())
+        return PlaceSearch(
+                position = Position(
+                        latitude = 0.0,
+                        longitude = 0.0
+                                   ),
+                query = searchQuery,
+                sessionToken = getSessionToken()
+                          )
     }
 
     private fun setLocationInfoRequestQuery(placeId: String): LocationInfoRequest {
-        return LocationInfoRequest(placeId = placeId,
-                                   sessionToken = getSessionToken())
+        return LocationInfoRequest(
+                placeId = placeId,
+                sessionToken = getSessionToken()
+                                  )
     }
 
     private fun requestAddresses(
@@ -125,19 +133,29 @@ class TripPlanningFragment : BaseFragment() {
 
     private fun updatePlace(data: LocationInfo, type: BookingPlanningContract.AddressType) {
         if (type == BookingPlanningContract.AddressType.ORIGIN) {
-            bookingPlanningStateViewModel.process(BookingPlanningContract.AddressBarEvent.PickUpAddressEvent(data))
+            bookingPlanningStateViewModel.process(
+                    BookingPlanningContract.AddressBarEvent.PickUpAddressEvent(
+                            data
+                                                                              )
+                                                 )
             pickUpLocationInfo = data
             selected_pickup.text = data.displayAddress
         } else {
-            bookingPlanningStateViewModel.process(BookingPlanningContract.AddressBarEvent.DestinationAddressEvent(data))
+            bookingPlanningStateViewModel.process(
+                    BookingPlanningContract.AddressBarEvent.DestinationAddressEvent(
+                            data
+                                                                                   )
+                                                 )
             dropOffLocationInfo = data
             selected_dropoff.text = data.displayAddress
         }
     }
 
-    private fun updatePlaces(placeSearch: PlaceSearch,
-                             data: Places,
-                             type: BookingPlanningContract.AddressType) {
+    private fun updatePlaces(
+            placeSearch: PlaceSearch,
+            data: Places,
+            type: BookingPlanningContract.AddressType
+                            ) {
         val builderSingle: AlertDialog.Builder = AlertDialog.Builder(context!!)
         builderSingle.setIcon(android.R.drawable.ic_menu_compass)
         builderSingle.setTitle("Select One Place: " + placeSearch.query)
@@ -159,8 +177,10 @@ class TripPlanningFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(owner: LifecycleOwner,
-                        bookingPlanningStateViewModel: BookingPlanningStateViewModel): TripPlanningFragment = TripPlanningFragment().apply {
+        fun newInstance(
+                owner: LifecycleOwner,
+                bookingPlanningStateViewModel: BookingPlanningStateViewModel
+                       ): TripPlanningFragment = TripPlanningFragment().apply {
             this.bookingPlanningStateViewModel = bookingPlanningStateViewModel
             bookingPlanningStateViewModel.viewActions().observe(owner, bindToAddressBarOutputs())
         }
