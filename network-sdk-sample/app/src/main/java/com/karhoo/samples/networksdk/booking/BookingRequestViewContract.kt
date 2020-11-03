@@ -6,7 +6,9 @@ import com.karhoo.sdk.api.model.TripInfo
 interface BookingRequestViewContract {
 
     sealed class BookingRequestEvent {
-        data class BookingSuccess(val tripInfo: TripInfo) : BookingRequestEvent()
+        data class BookingSuccess(val tripInfo: TripInfo, val isGuest: Boolean) :
+                BookingRequestEvent()
+
         data class BookingError(@StringRes val stringId: Int) : BookingRequestEvent()
     }
 

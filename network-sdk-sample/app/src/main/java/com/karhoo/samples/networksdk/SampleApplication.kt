@@ -1,15 +1,14 @@
 package com.karhoo.samples.networksdk
 
 import android.app.Application
-import com.karhoo.samples.networksdk.config.ConfigContract
-import com.karhoo.samples.networksdk.config.SandboxConfigModule
 import com.karhoo.sdk.api.KarhooApi
+import com.karhoo.sdk.api.KarhooSDKConfiguration
 
 class SampleApplication : Application() {
-    val module: ConfigContract.Module = SandboxConfigModule(this)
+    lateinit var karhooConfig: KarhooSDKConfiguration
 
-    override fun onCreate() {
-        super.onCreate()
-        KarhooApi.setConfiguration(configuration = module.karhooUserConfiguration())
+    fun setConfiguration(config: KarhooSDKConfiguration) {
+        karhooConfig = config
+        KarhooApi.setConfiguration(configuration = config)
     }
 }

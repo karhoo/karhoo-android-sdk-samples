@@ -5,7 +5,9 @@ import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
 import com.karhoo.sdk.api.model.LocationInfo
 
 class BookingPlanningStateViewModel(application: Application) : BaseStateViewModel<BookingStatus,
-        BookingPlanningContract.AddressBarActions, BookingPlanningContract.AddressBarEvent>(application) {
+        BookingPlanningContract.AddressBarActions, BookingPlanningContract.AddressBarEvent>(
+        application
+                                                                                           ) {
 
     init {
         viewState = BookingStatus(null, null)
@@ -15,7 +17,9 @@ class BookingPlanningStateViewModel(application: Application) : BaseStateViewMod
         super.process(viewEvent)
         when (viewEvent) {
             is BookingPlanningContract.AddressBarEvent.PickUpAddressEvent -> updatePickup(viewEvent.address)
-            is BookingPlanningContract.AddressBarEvent.DestinationAddressEvent -> updateDestination(viewEvent.address)
+            is BookingPlanningContract.AddressBarEvent.DestinationAddressEvent -> updateDestination(
+                    viewEvent.address
+                                                                                                   )
         }
     }
 

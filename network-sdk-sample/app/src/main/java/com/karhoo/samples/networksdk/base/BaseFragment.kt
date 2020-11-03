@@ -6,20 +6,38 @@ import com.karhoo.sdk.api.KarhooError
 
 open class BaseFragment : Fragment() {
     fun toastErrorMessage(error: KarhooError) {
-        Toast.makeText(activity,
-                       error.userFriendlyMessage,
-                       Toast.LENGTH_LONG).show()
+        if (isVisible) {
+            context.let {
+                Toast.makeText(
+                        requireContext(),
+                        error.userFriendlyMessage,
+                        Toast.LENGTH_LONG
+                              ).show()
+            }
+        }
     }
 
     fun toastErrorMessage(resId: Int) {
-        Toast.makeText(activity,
-                       resId,
-                       Toast.LENGTH_LONG).show()
+        if (isVisible) {
+            context.let {
+                Toast.makeText(
+                        requireContext(),
+                        resId,
+                        Toast.LENGTH_LONG
+                              ).show()
+            }
+        }
     }
 
     fun toastErrorMessage(message: String) {
-        Toast.makeText(activity,
-                       message,
-                       Toast.LENGTH_SHORT).show()
+        if (isVisible) {
+            context.let {
+                Toast.makeText(
+                        requireContext(),
+                        message,
+                        Toast.LENGTH_SHORT
+                              ).show()
+            }
+        }
     }
 }

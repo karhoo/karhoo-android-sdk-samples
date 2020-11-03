@@ -2,6 +2,7 @@
     <string name="app_name">Network SDK Sample</string>
     <string name="not_signed_in">Not signed in</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
     <string name="book_trip">Book a trip</string>
     <string name="welcome_message">Welcome %s!</string>
     <string name="booking_inject_data">Booking (Inject data)</string>
@@ -13,7 +14,7 @@
     <string name="track_trip_header">Track the trip</string>
     <string name="pick_up_label">Pick up</string>
     <string name="origin_hint">Paddington</string>
-    <string name="guest_checkout">Guest Checkout</string>
+    <string name="non_karhoo_user_signin">Go</string>
     <string name="drop_off_label">Drop off</string>
     <string name="destination_hint">Oxford</string>
     <string name="submit">Submit</string>
@@ -33,6 +34,11 @@
     <string name="vehicle">Vehicle</string>
     <string name="fleet">Fleet</string>
     <string name="address">Address</string>
+    <string name="passenger">Passenger Details</string>
     <string name="payment">Payment Details</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="email">email</string>
+    <string name="phone">Phone</string>
 
 </resources>

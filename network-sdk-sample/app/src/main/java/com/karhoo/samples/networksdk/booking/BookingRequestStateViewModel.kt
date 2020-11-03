@@ -5,11 +5,12 @@ import androidx.annotation.StringRes
 import com.karhoo.samples.networksdk.base.state.BaseStateViewModel
 import com.karhoo.sdk.api.model.TripInfo
 
-class BookingRequestStateViewModel(application: Application) : BaseStateViewModel<BookingRequestStatus,
-        BookingRequestViewContract.BookingRequestAction, BookingRequestViewContract.BookingRequestEvent>
-                                                               (application) {
+class BookingRequestStateViewModel(application: Application) :
+        BaseStateViewModel<BookingRequestStatus,
+                BookingRequestViewContract.BookingRequestAction,
+                BookingRequestViewContract.BookingRequestEvent>(application) {
     init {
-        viewState = BookingRequestStatus(null)
+        viewState = BookingRequestStatus(null, false)
     }
 
     // update the state by using a set of predefined contracts. Some of the event can trigger an
@@ -18,7 +19,7 @@ class BookingRequestStateViewModel(application: Application) : BaseStateViewMode
         super.process(viewEvent)
         when (viewEvent) {
             is BookingRequestViewContract.BookingRequestEvent.BookingSuccess ->
-                updateBookingRequestStatus(viewEvent.tripInfo)
+                updateBookingRequestStatus(viewEvent.tripInfo, viewEvent.isGuest)
             is BookingRequestViewContract.BookingRequestEvent.BookingError ->
                 handleBookingError(viewEvent.stringId)
         }
@@ -28,8 +29,8 @@ class BookingRequestStateViewModel(application: Application) : BaseStateViewMode
         viewAction = BookingRequestViewContract.BookingRequestAction.HandleBookingError(stringId)
     }
 
-    private fun updateBookingRequestStatus(tripInfo: TripInfo) {
+    private fun updateBookingRequestStatus(tripInfo: TripInfo, guest: Boolean) {
         viewAction = BookingRequestViewContract.BookingRequestAction.WaitForTripAllocation
-        viewState = BookingRequestStatus(tripInfo)
+        viewState = BookingRequestStatus(tripInfo, guest)
     }
 }

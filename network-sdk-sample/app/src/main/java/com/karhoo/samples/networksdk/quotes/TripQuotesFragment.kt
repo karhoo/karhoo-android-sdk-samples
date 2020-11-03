@@ -11,8 +11,8 @@ import com.karhoo.samples.networksdk.base.BaseFragment
 import com.karhoo.samples.networksdk.planning.BookingPlanningStateViewModel
 import com.karhoo.samples.networksdk.planning.BookingStatus
 import com.karhoo.sdk.api.KarhooApi
-import com.karhoo.sdk.api.model.QuoteListV2
-import com.karhoo.sdk.api.model.QuoteV2
+import com.karhoo.sdk.api.model.Quote
+import com.karhoo.sdk.api.model.QuoteList
 import com.karhoo.sdk.api.model.QuotesSearch
 import com.karhoo.sdk.api.network.observable.Observable
 import com.karhoo.sdk.api.network.observable.Observer
@@ -27,13 +27,15 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
 
     private lateinit var bookingQuoteStateViewModel: BookingQuoteStateViewModel
     private lateinit var bookingPlanningStateViewModel: BookingPlanningStateViewModel
-    private var vehiclesObserver: Observer<Resource<QuoteListV2>>? = null
-    private var vehiclesObservable: Observable<QuoteListV2>? = null
-    private var availableVehicles: Map<String, List<QuoteV2>> = mutableMapOf()
+    private var vehiclesObserver: Observer<Resource<QuoteList>>? = null
+    private var vehiclesObservable: Observable<QuoteList>? = null
+    private var availableVehicles: Map<String, List<Quote>> = mutableMapOf()
     private val sectionAdapter = SectionedRecyclerViewAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         return inflater.inflate(R.layout.fragment_trip_quotes, container, false)
     }
 
@@ -62,6 +64,11 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
         loadingProgressBar?.hide()
     }
 
+    override fun onPause() {
+        super.onPause()
+        cancelVehicleCallback()
+    }
+
     private fun createPlanningObservable() =
             androidx.lifecycle.Observer<BookingStatus> { bookingStatus ->
                 cancelVehicleCallback()
@@ -76,8 +83,12 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
                 vehiclesObserver = quotesCallback()
                 vehiclesObserver?.let { observer ->
                     vehiclesObservable = KarhooApi.quotesService
-                            .quotesV2(QuotesSearch(origin = bookingStatusPickup,
-                                                   destination = bookingStatusDestination))
+                            .quotes(
+                                    QuotesSearch(
+                                            origin = bookingStatusPickup,
+                                            destination = bookingStatusDestination
+                                                )
+                                   )
                             .observable().apply { subscribe(observer) }
                 }
             }
@@ -90,8 +101,8 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
         vehiclesObserver?.let { vehiclesObservable?.apply { unsubscribe(it) } }
     }
 
-    private fun quotesCallback() = object : Observer<Resource<QuoteListV2>> {
-        override fun onValueChanged(value: Resource<QuoteListV2>) {
+    private fun quotesCallback() = object : Observer<Resource<QuoteList>> {
+        override fun onValueChanged(value: Resource<QuoteList>) {
             when (value) {
                 is Resource.Success -> updateVehicles(value.data)
                 is Resource.Failure -> toastErrorMessage(value.error)
@@ -99,7 +110,7 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
         }
     }
 
-    private fun updateVehicles(data: QuoteListV2) {
+    private fun updateVehicles(data: QuoteList) {
         stop_button?.visibility = View.VISIBLE
         availableVehicles = data.categories
 
@@ -118,8 +129,10 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
         quotes_list?.adapter = sectionAdapter
     }
 
-    override fun onItemRootViewClicked(section: QuotesCategoriesSection,
-                                       itemAdapterPosition: Int) {
+    override fun onItemRootViewClicked(
+            section: QuotesCategoriesSection,
+            itemAdapterPosition: Int
+                                      ) {
         cancelVehicleCallback()
         bookingQuoteStateViewModel.process(
                 BookingSupplierViewContract.BookingSupplierEvent.SupplierItemClicked(
@@ -130,9 +143,11 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
 
     companion object {
         @JvmStatic
-        fun newInstance(owner: LifecycleOwner,
-                        bookingPlanningStateViewModel: BookingPlanningStateViewModel,
-                        bookingQuoteStateViewModel: BookingQuoteStateViewModel) = TripQuotesFragment().apply {
+        fun newInstance(
+                owner: LifecycleOwner,
+                bookingPlanningStateViewModel: BookingPlanningStateViewModel,
+                bookingQuoteStateViewModel: BookingQuoteStateViewModel
+                       ) = TripQuotesFragment().apply {
             this.bookingPlanningStateViewModel = bookingPlanningStateViewModel
             this.bookingQuoteStateViewModel = bookingQuoteStateViewModel
             bookingPlanningStateViewModel.viewStates().observe(owner, createPlanningObservable())

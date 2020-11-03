@@ -1,185 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/booking_background"
-    android:padding="@dimen/card_spacing"
-    tools:context=".booking.TripBookingFragment">
+    android:fillViewport="true">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/trip_card"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp"
+        android:background="@color/booking_background"
+        android:padding="@dimen/card_spacing"
+        tools:context=".booking.TripBookingFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/trip_card_container"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/trip_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@color/booking_card">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/address_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trip_card_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/booking_card"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/selected_pickup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address_title"
-                tools:text="Pick up" />
+                <TextView
+                    android:id="@+id/address_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/selected_dropoff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/selected_pickup"
-                tools:text="Drop Off" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/selected_pickup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address_title"
+                    tools:text="Pick up" />
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/selected_dropoff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/selected_pickup"
+                    tools:text="Drop Off" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/quote_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_spacing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trip_card">
+        </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/quote_card_container"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/quote_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/booking_card"
-            android:padding="16dp">
+            android:layout_marginTop="@dimen/card_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trip_card">
 
-            <TextView
-                android:id="@+id/fleet_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/quote_card_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/fleet"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/booking_card"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/fleet_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fleet_title"
-                tools:text="Fleet name" />
+                <TextView
+                    android:id="@+id/fleet_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fleet"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fleet_title"
-                tools:text="Price" />
+                <TextView
+                    android:id="@+id/fleet_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fleet_title"
+                    tools:text="Fleet name" />
 
-            <TextView
-                android:id="@+id/quote_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fleet_name"
-                tools:text="QuoteID" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fleet_title"
+                    tools:text="Price" />
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/quote_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fleet_name"
+                    tools:text="QuoteID" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/payment_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_spacing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quote_card">
+        </androidx.cardview.widget.CardView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/payment_card_container"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/passenger_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/booking_card"
-            android:padding="16dp">
+            android:layout_marginTop="@dimen/card_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/quote_card">
 
-            <TextView
-                android:id="@+id/payment_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/passenger_details_card_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/payment"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/booking_card"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/payment_details"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/passenger_details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/passenger"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/passenger_details_first_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/passenger_details_last_name"
+                    app:layout_constraintTop_toBottomOf="@id/passenger_details_title"
+                    android:hint="@string/first_name"
+                    tools:text="First Name" />
+
+                <EditText
+                    android:id="@+id/passenger_details_last_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/passenger_details_first_name"
+                    app:layout_constraintTop_toBottomOf="@id/passenger_details_title"
+                    android:hint="@string/last_name"
+                    tools:text="Last Name" />
+
+                <EditText
+                    android:id="@+id/passenger_details_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:inputType="textEmailAddress"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/passenger_details_phone"
+                    app:layout_constraintTop_toBottomOf="@id/passenger_details_first_name"
+                    android:hint="@string/email"
+                    tools:text="Email" />
+
+                <EditText
+                    android:id="@+id/passenger_details_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:inputType="phone"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/passenger_details_email"
+                    app:layout_constraintTop_toBottomOf="@id/passenger_details_last_name"
+                    android:hint="@string/phone"
+                    tools:text="Phone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/payment_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_spacing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passenger_details">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/payment_card_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/payment_title"
-                tools:text="Payment" />
+                android:background="@color/booking_card"
+                android:padding="16dp">
 
-            <Button
-                android:id="@+id/change_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@color/booking_button"
-                android:text="Change"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/payment_title" />
+                <TextView
+                    android:id="@+id/payment_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payment"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/payment_details"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/payment_title"
+                    tools:text="Payment" />
 
-    </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/change_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/booking_button"
+                    android:text="Change"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/payment_title" />
 
-    <Button
-        android:id="@+id/book_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/card_spacing"
-        android:background="@color/booking_button"
-        android:textColor="@color/colorWhite"
-        android:text="@string/book"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/payment_card" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/loadingProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_marginTop="@dimen/card_spacing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/payment_card"
-        app:layout_constraintRight_toRightOf="parent" />
+        </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/book_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_spacing"
+            android:background="@color/booking_button"
+            android:text="@string/book"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payment_card" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/loadingProgressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_spacing"
+            android:visibility="invisible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/payment_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
