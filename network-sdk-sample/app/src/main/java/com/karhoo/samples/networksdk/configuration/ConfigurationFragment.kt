@@ -99,10 +99,9 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         if (!userStore.isCurrentUserValid && loginType != AuthType.USERNAME_PASSWORD.value) {
             KarhooApi.userService.logout()
         }
-        module = StagingConfigModule(this.requireContext())
+        module = SandboxConfigModule(this.requireContext())
         val authMethod: AuthenticationMethod = when (loginType) {
             AuthType.USERNAME_PASSWORD.value -> {
-                module = SandboxConfigModule(this.requireContext())
                 AuthenticationMethod.KarhooUser()
             }
             AuthType.ADYEN_GUEST.value -> {
