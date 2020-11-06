@@ -374,9 +374,9 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         val dropInRequest = DropInRequest().clientToken(braintreeSDKToken)
         this.braintreeSDKToken = braintreeSDKToken
         (context as Activity).startActivityForResult(
-                dropInRequest.getIntent(context),
-                REQ_CODE_BRAINTREE
-                                                    )
+            dropInRequest.getIntent(context),
+            REQ_CODE_BRAINTREE
+        )
     }
 
     fun onBraintreeActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

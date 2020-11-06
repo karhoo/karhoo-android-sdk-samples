@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    api 'com.karhoo:nsdk-canary:1.0.35.30092020-3'
+    api 'com.karhoo:nsdk-canary:1.1.0.29102020-1'
     api 'com.braintreepayments.api:drop-in:4.4.0'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
