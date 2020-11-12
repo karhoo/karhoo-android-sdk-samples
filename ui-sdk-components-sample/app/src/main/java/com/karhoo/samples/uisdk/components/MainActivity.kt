@@ -17,11 +17,11 @@ import com.karhoo.samples.uisdk.components.configuration.ConfigurationViewContra
 import com.karhoo.samples.uisdk.components.planning.TripPlanningFragment
 import com.karhoo.samples.uisdk.components.quotes.TripQuotesFragment
 import com.karhoo.samples.uisdk.components.tracking.TripTrackingFragment
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingSupplierViewModel
+import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
-import com.karhoo.uisdk.screen.booking.domain.supplier.LiveFleetsViewModel
-import com.karhoo.uisdk.screen.booking.supplier.category.CategoriesViewModel
+import com.karhoo.uisdk.screen.booking.domain.quotes.LiveFleetsViewModel
+import com.karhoo.uisdk.screen.booking.quotes.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(BookingStatusStateViewModel::class.java)
     }
 
-    private val bookingSupplierViewModel: BookingSupplierViewModel by lazy {
-        ViewModelProvider(this).get(BookingSupplierViewModel::class.java)
+    private val bookingSupplierViewModel: BookingQuotesViewModel by lazy {
+        ViewModelProvider(this).get(BookingQuotesViewModel::class.java)
     }
 
     private val liveFleetsViewModel: LiveFleetsViewModel by lazy {
@@ -71,9 +71,7 @@ class MainActivity : AppCompatActivity() {
             TripQuotesFragment.newInstance(
                 this,
                 bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                categoriesViewModel,
-                liveFleetsViewModel
+                bookingSupplierViewModel
             ),
             TripBookingFragment.newInstance(
                 this,
@@ -146,9 +144,7 @@ class MainActivity : AppCompatActivity() {
             TripQuotesFragment.newInstance(
                 fragmentActivity,
                 bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                categoriesViewModel,
-                liveFleetsViewModel
+                bookingSupplierViewModel
             ),
             TripBookingFragment.newInstance(
                 fragmentActivity,

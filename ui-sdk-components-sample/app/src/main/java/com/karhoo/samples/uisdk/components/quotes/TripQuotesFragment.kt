@@ -7,31 +7,21 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import com.karhoo.samples.uisdk.components.R
 import com.karhoo.samples.uisdk.components.base.BaseFragment
-import com.karhoo.sdk.api.KarhooApi
 import com.karhoo.sdk.api.model.QuoteList
 import com.karhoo.sdk.api.network.observable.Observable
 import com.karhoo.sdk.api.network.observable.Observer
 import com.karhoo.sdk.api.network.response.Resource
-import com.karhoo.uisdk.KarhooUISDK
-import com.karhoo.uisdk.base.listener.ErrorView
-import com.karhoo.uisdk.base.snackbar.SnackbarConfig
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingSupplierViewModel
+import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
-import com.karhoo.uisdk.screen.booking.domain.supplier.AvailabilityProvider
-import com.karhoo.uisdk.screen.booking.domain.supplier.KarhooAvailability
-import com.karhoo.uisdk.screen.booking.domain.supplier.LiveFleetsViewModel
-import com.karhoo.uisdk.screen.booking.supplier.category.CategoriesViewModel
+import com.karhoo.uisdk.screen.booking.domain.quotes.LiveFleetsViewModel
+import com.karhoo.uisdk.screen.booking.quotes.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.fragment_trip_quotes.*
 
 class TripQuotesFragment : BaseFragment() {
 
-    private lateinit var bookingSupplierViewModel: BookingSupplierViewModel
+    private lateinit var bookingQuotesViewModel: BookingQuotesViewModel
     private lateinit var bookingStatusStateViewModel: BookingStatusStateViewModel
-    private lateinit var categoriesViewModel: CategoriesViewModel
-    private lateinit var liveFleetsViewModel: LiveFleetsViewModel
-
-    private var availabilityProvider: AvailabilityProvider? = null
 
     private var vehiclesObserver: Observer<Resource<QuoteList>>? = null
     private var vehiclesObservable: Observable<QuoteList>? = null
@@ -46,21 +36,20 @@ class TripQuotesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        supplier_list_widget.bindViewToData(
+        quotes_list_widget.bindViewToData(
             requireActivity(),
             bookingStatusStateViewModel,
-            bookingSupplierViewModel
+            bookingQuotesViewModel
         )
     }
 
     override fun onStop() {
-        availabilityProvider?.cleanup()
         super.onStop()
     }
 
     override fun onResume() {
         super.onResume()
-        supplier_list_widget.initAvailability(requireActivity())
+        quotes_list_widget.initAvailability(requireActivity())
     }
 
     private fun createPlanningObservable() =
@@ -77,14 +66,10 @@ class TripQuotesFragment : BaseFragment() {
         fun newInstance(
             owner: LifecycleOwner,
             bookingStatusStateViewModel: BookingStatusStateViewModel,
-            bookingSupplierViewModel: BookingSupplierViewModel,
-            categoriesViewModel: CategoriesViewModel,
-            liveFleetsViewModel: LiveFleetsViewModel
+            bookingQuotesViewModel: BookingQuotesViewModel
         ) = TripQuotesFragment().apply {
             this.bookingStatusStateViewModel = bookingStatusStateViewModel
-            this.bookingSupplierViewModel = bookingSupplierViewModel
-            this.categoriesViewModel = categoriesViewModel
-            this.liveFleetsViewModel = liveFleetsViewModel
+            this.bookingQuotesViewModel = bookingQuotesViewModel
             bookingStatusStateViewModel.viewStates().observe(owner, createPlanningObservable())
         }
     }
