@@ -1,5 +1,6 @@
 package com.karhoo.samples.uisdk.components
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,11 +31,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pages: List<BaseFragment>
     private val headers = listOf(
-        R.string.sign_in_header,
-        R.string.plan_trip_header,
-        R.string.quotes_header,
-        R.string.book_trip_header,
-        R.string.track_trip_header
+            R.string.sign_in_header,
+            R.string.plan_trip_header,
+            R.string.quotes_header,
+            R.string.book_trip_header,
+            R.string.track_trip_header
     )
 
     private val bookingRequestStateViewModel: BookingRequestStateViewModel by lazy {
@@ -61,27 +62,34 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(CategoriesViewModel::class.java)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        for(fragment in supportFragmentManager.fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         pages = listOf(
-            ConfigurationFragment.newInstance(configurationStateViewModel),
-            TripPlanningFragment.newInstance(this, bookingStatusStateViewModel),
-            TripQuotesFragment.newInstance(
-                this,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                categoriesViewModel,
-                liveFleetsViewModel
-            ),
-            TripBookingFragment.newInstance(
-                this,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                bookingRequestStateViewModel
-            ),
-            TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
+                ConfigurationFragment.newInstance(configurationStateViewModel),
+                TripPlanningFragment.newInstance(this, bookingStatusStateViewModel),
+                TripQuotesFragment.newInstance(
+                        this,
+                        bookingStatusStateViewModel,
+                        bookingSupplierViewModel,
+                        categoriesViewModel,
+                        liveFleetsViewModel
+                ),
+                TripBookingFragment.newInstance(
+                        this,
+                        bookingStatusStateViewModel,
+                        bookingSupplierViewModel,
+                        bookingRequestStateViewModel
+                ),
+                TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
         )
 
         val pagerAdapter = ScreenSlidePagerAdapter(this).apply {
@@ -138,28 +146,28 @@ class MainActivity : AppCompatActivity() {
 
     private inner class ScreenSlidePagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
         var data = listOf(
-            ConfigurationFragment.newInstance(configurationStateViewModel),
-            TripPlanningFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel
-            ),
-            TripQuotesFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                categoriesViewModel,
-                liveFleetsViewModel
-            ),
-            TripBookingFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                bookingRequestStateViewModel
-            ),
-            TripTrackingFragment.newInstance(
-                fragmentActivity,
-                bookingRequestStateViewModel
-            )
+                ConfigurationFragment.newInstance(configurationStateViewModel),
+                TripPlanningFragment.newInstance(
+                        fragmentActivity,
+                        bookingStatusStateViewModel
+                ),
+                TripQuotesFragment.newInstance(
+                        fragmentActivity,
+                        bookingStatusStateViewModel,
+                        bookingSupplierViewModel,
+                        categoriesViewModel,
+                        liveFleetsViewModel
+                ),
+                TripBookingFragment.newInstance(
+                        fragmentActivity,
+                        bookingStatusStateViewModel,
+                        bookingSupplierViewModel,
+                        bookingRequestStateViewModel
+                ),
+                TripTrackingFragment.newInstance(
+                        fragmentActivity,
+                        bookingRequestStateViewModel
+                )
         )
 
         override fun getItemCount(): Int = NUM_PAGES
