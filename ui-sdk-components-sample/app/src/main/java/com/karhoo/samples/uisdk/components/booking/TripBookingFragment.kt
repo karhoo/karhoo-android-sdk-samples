@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.karhoo.samples.uisdk.components.R
-import com.karhoo.samples.uisdk.components.WebViewActivity
-import com.karhoo.samples.uisdk.components.WebViewActivity.Companion.URL_KEY
 import com.karhoo.samples.uisdk.components.base.BaseFragment
 import com.karhoo.sdk.api.model.Quote
 import com.karhoo.uisdk.screen.booking.booking.bookingrequest.BookingRequestViewContract
@@ -18,8 +16,9 @@ import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.booking.quotes.QuoteListStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
+import com.karhoo.uisdk.screen.web.WebActivity
+import com.karhoo.uisdk.screen.web.WebActivity.Companion.EXTRA_URL
 import kotlinx.android.synthetic.main.fragment_trip_booking.*
-import kotlinx.android.synthetic.main.fragment_trip_planning.*
 
 class TripBookingFragment : BaseFragment() {
 
@@ -58,8 +57,8 @@ class TripBookingFragment : BaseFragment() {
     }
 
     private fun showWebView(url: String) {
-        val intent = Intent(context, WebViewActivity::class.java)
-        intent.putExtra(URL_KEY, url)
+        val intent = Intent(context, WebActivity::class.java)
+        intent.putExtra(EXTRA_URL, url)
         startActivity(intent)
     }
 
