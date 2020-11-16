@@ -64,8 +64,8 @@ class TripBookingFragment : BaseFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQ_CODE_BRAINTREE || requestCode == REQ_CODE_BRAINTREE_GUEST ||
-            requestCode == AdyenPaymentView.REQ_CODE_ADYEN
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_CODE_BRAINTREE || requestCode == REQ_CODE_BRAINTREE_GUEST || requestCode == AdyenPaymentView.REQ_CODE_ADYEN
         ) {
             booking_request_widget.onActivityResult(requestCode, resultCode, data)
         }
