@@ -10,16 +10,19 @@ import androidx.lifecycle.Observer
 import com.karhoo.samples.uisdk.components.R
 import com.karhoo.samples.uisdk.components.base.BaseFragment
 import com.karhoo.sdk.api.model.Quote
+import com.karhoo.uisdk.screen.booking.booking.bookingrequest.BookingRequestViewContract
 import com.karhoo.uisdk.screen.booking.booking.payment.adyen.AdyenPaymentView
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingSupplierViewModel
-import com.karhoo.uisdk.screen.booking.booking.supplier.QuoteListStatus
+import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
+import com.karhoo.uisdk.screen.booking.booking.quotes.QuoteListStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
+import com.karhoo.uisdk.screen.web.WebActivity
+import com.karhoo.uisdk.screen.web.WebActivity.Companion.EXTRA_URL
 import kotlinx.android.synthetic.main.fragment_trip_booking.*
 
 class TripBookingFragment : BaseFragment() {
 
-    private lateinit var bookingSupplierViewModel: BookingSupplierViewModel
+    private lateinit var bookingQuotesViewModel: BookingQuotesViewModel
     private lateinit var bookingStatusStateViewModel: BookingStatusStateViewModel
     private lateinit var bookingRequestStateViewModel: BookingRequestStateViewModel
     private var quote: Quote? = null
@@ -42,6 +45,21 @@ class TripBookingFragment : BaseFragment() {
             bindViewToBookingStatus(requireActivity(), bookingStatusStateViewModel)
             bindViewToBookingRequest(requireActivity(), bookingRequestStateViewModel)
         }
+    }
+
+    private fun bindToBookingRequestOutputs(): Observer<in BookingRequestViewContract.BookingRequestAction> {
+        return Observer { actions ->
+            when (actions) {
+                is BookingRequestViewContract.BookingRequestAction.ShowTermsAndConditions ->
+                    showWebView(actions.url)
+            }
+        }
+    }
+
+    private fun showWebView(url: String) {
+        val intent = Intent(context, WebActivity::class.java)
+        intent.putExtra(EXTRA_URL, url)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -72,13 +90,14 @@ class TripBookingFragment : BaseFragment() {
         fun newInstance(
             owner: LifecycleOwner,
             bookingStatusStateViewModel: BookingStatusStateViewModel,
-            bookingSupplierViewModel: BookingSupplierViewModel,
+            bookingQuotesViewModel: BookingQuotesViewModel,
             bookingRequestStateViewModel: BookingRequestStateViewModel
         ) = TripBookingFragment().apply {
             this.bookingStatusStateViewModel = bookingStatusStateViewModel
-            this.bookingSupplierViewModel = bookingSupplierViewModel
+            this.bookingQuotesViewModel = bookingQuotesViewModel
             this.bookingRequestStateViewModel = bookingRequestStateViewModel
-            bookingSupplierViewModel.viewStates().observe(owner, createQuoteObservable())
+            bookingQuotesViewModel.viewStates().observe(owner, createQuoteObservable())
+            bookingRequestStateViewModel.viewActions().observe(this, bindToBookingRequestOutputs())
         }
     }
 }

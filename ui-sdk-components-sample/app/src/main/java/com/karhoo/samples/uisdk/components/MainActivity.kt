@@ -18,11 +18,9 @@ import com.karhoo.samples.uisdk.components.configuration.ConfigurationViewContra
 import com.karhoo.samples.uisdk.components.planning.TripPlanningFragment
 import com.karhoo.samples.uisdk.components.quotes.TripQuotesFragment
 import com.karhoo.samples.uisdk.components.tracking.TripTrackingFragment
-import com.karhoo.uisdk.screen.booking.booking.supplier.BookingSupplierViewModel
+import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
-import com.karhoo.uisdk.screen.booking.domain.supplier.LiveFleetsViewModel
-import com.karhoo.uisdk.screen.booking.supplier.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,11 +29,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pages: List<BaseFragment>
     private val headers = listOf(
-            R.string.sign_in_header,
-            R.string.plan_trip_header,
-            R.string.quotes_header,
-            R.string.book_trip_header,
-            R.string.track_trip_header
+        R.string.sign_in_header,
+        R.string.plan_trip_header,
+        R.string.quotes_header,
+        R.string.book_trip_header,
+        R.string.track_trip_header
     )
 
     private val bookingRequestStateViewModel: BookingRequestStateViewModel by lazy {
@@ -50,16 +48,8 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(BookingStatusStateViewModel::class.java)
     }
 
-    private val bookingSupplierViewModel: BookingSupplierViewModel by lazy {
-        ViewModelProvider(this).get(BookingSupplierViewModel::class.java)
-    }
-
-    private val liveFleetsViewModel: LiveFleetsViewModel by lazy {
-        ViewModelProvider(this).get(LiveFleetsViewModel::class.java)
-    }
-
-    private val categoriesViewModel: CategoriesViewModel by lazy {
-        ViewModelProvider(this).get(CategoriesViewModel::class.java)
+    private val bookingSupplierViewModel: BookingQuotesViewModel by lazy {
+        ViewModelProvider(this).get(BookingQuotesViewModel::class.java)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -74,22 +64,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         pages = listOf(
-                ConfigurationFragment.newInstance(configurationStateViewModel),
-                TripPlanningFragment.newInstance(this, bookingStatusStateViewModel),
-                TripQuotesFragment.newInstance(
-                        this,
-                        bookingStatusStateViewModel,
-                        bookingSupplierViewModel,
-                        categoriesViewModel,
-                        liveFleetsViewModel
-                ),
-                TripBookingFragment.newInstance(
-                        this,
-                        bookingStatusStateViewModel,
-                        bookingSupplierViewModel,
-                        bookingRequestStateViewModel
-                ),
-                TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
+            ConfigurationFragment.newInstance(configurationStateViewModel),
+            TripPlanningFragment.newInstance(this, bookingStatusStateViewModel),
+            TripQuotesFragment.newInstance(
+                this,
+                bookingStatusStateViewModel,
+                bookingSupplierViewModel
+            ),
+            TripBookingFragment.newInstance(
+                this,
+                bookingStatusStateViewModel,
+                bookingSupplierViewModel,
+                bookingRequestStateViewModel
+            ),
+            TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
         )
 
         val pagerAdapter = ScreenSlidePagerAdapter(this).apply {
@@ -146,28 +134,26 @@ class MainActivity : AppCompatActivity() {
 
     private inner class ScreenSlidePagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
         var data = listOf(
-                ConfigurationFragment.newInstance(configurationStateViewModel),
-                TripPlanningFragment.newInstance(
-                        fragmentActivity,
-                        bookingStatusStateViewModel
-                ),
-                TripQuotesFragment.newInstance(
-                        fragmentActivity,
-                        bookingStatusStateViewModel,
-                        bookingSupplierViewModel,
-                        categoriesViewModel,
-                        liveFleetsViewModel
-                ),
-                TripBookingFragment.newInstance(
-                        fragmentActivity,
-                        bookingStatusStateViewModel,
-                        bookingSupplierViewModel,
-                        bookingRequestStateViewModel
-                ),
-                TripTrackingFragment.newInstance(
-                        fragmentActivity,
-                        bookingRequestStateViewModel
-                )
+            ConfigurationFragment.newInstance(configurationStateViewModel),
+            TripPlanningFragment.newInstance(
+                fragmentActivity,
+                bookingStatusStateViewModel
+            ),
+            TripQuotesFragment.newInstance(
+                fragmentActivity,
+                bookingStatusStateViewModel,
+                bookingSupplierViewModel
+            ),
+            TripBookingFragment.newInstance(
+                fragmentActivity,
+                bookingStatusStateViewModel,
+                bookingSupplierViewModel,
+                bookingRequestStateViewModel
+            ),
+            TripTrackingFragment.newInstance(
+                fragmentActivity,
+                bookingRequestStateViewModel
+            )
         )
 
         override fun getItemCount(): Int = NUM_PAGES
