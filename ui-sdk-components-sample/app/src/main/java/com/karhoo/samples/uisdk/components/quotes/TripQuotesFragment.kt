@@ -14,8 +14,6 @@ import com.karhoo.sdk.api.network.response.Resource
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
-import com.karhoo.uisdk.screen.booking.domain.quotes.LiveFleetsViewModel
-import com.karhoo.uisdk.screen.booking.quotes.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.fragment_trip_quotes.*
 
 class TripQuotesFragment : BaseFragment() {
@@ -36,20 +34,20 @@ class TripQuotesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        quotes_list_widget.bindViewToData(
-            requireActivity(),
-            bookingStatusStateViewModel,
-            bookingQuotesViewModel
-        )
-    }
-
-    override fun onStop() {
-        super.onStop()
+        bindViews()
     }
 
     override fun onResume() {
         super.onResume()
         quotes_list_widget.initAvailability(requireActivity())
+    }
+
+    private fun bindViews() {
+        quotes_list_widget.bindViewToData(
+            requireActivity(),
+            bookingStatusStateViewModel,
+            bookingQuotesViewModel
+        )
     }
 
     private fun createPlanningObservable() =

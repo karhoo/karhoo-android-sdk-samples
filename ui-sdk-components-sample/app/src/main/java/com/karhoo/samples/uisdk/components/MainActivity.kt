@@ -20,8 +20,6 @@ import com.karhoo.samples.uisdk.components.tracking.TripTrackingFragment
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
-import com.karhoo.uisdk.screen.booking.domain.quotes.LiveFleetsViewModel
-import com.karhoo.uisdk.screen.booking.quotes.category.CategoriesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -51,14 +49,6 @@ class MainActivity : AppCompatActivity() {
 
     private val bookingSupplierViewModel: BookingQuotesViewModel by lazy {
         ViewModelProvider(this).get(BookingQuotesViewModel::class.java)
-    }
-
-    private val liveFleetsViewModel: LiveFleetsViewModel by lazy {
-        ViewModelProvider(this).get(LiveFleetsViewModel::class.java)
-    }
-
-    private val categoriesViewModel: CategoriesViewModel by lazy {
-        ViewModelProvider(this).get(CategoriesViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

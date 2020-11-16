@@ -8,14 +8,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.karhoo.samples.uisdk.components.R
+import com.karhoo.samples.uisdk.components.WebViewActivity
+import com.karhoo.samples.uisdk.components.WebViewActivity.Companion.URL_KEY
 import com.karhoo.samples.uisdk.components.base.BaseFragment
 import com.karhoo.sdk.api.model.Quote
+import com.karhoo.uisdk.screen.booking.booking.bookingrequest.BookingRequestViewContract
 import com.karhoo.uisdk.screen.booking.booking.payment.adyen.AdyenPaymentView
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.booking.quotes.QuoteListStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
 import kotlinx.android.synthetic.main.fragment_trip_booking.*
+import kotlinx.android.synthetic.main.fragment_trip_planning.*
 
 class TripBookingFragment : BaseFragment() {
 
@@ -42,6 +46,21 @@ class TripBookingFragment : BaseFragment() {
             bindViewToBookingStatus(requireActivity(), bookingStatusStateViewModel)
             bindViewToBookingRequest(requireActivity(), bookingRequestStateViewModel)
         }
+    }
+
+    private fun bindToBookingRequestOutputs(): Observer<in BookingRequestViewContract.BookingRequestAction> {
+        return Observer { actions ->
+            when (actions) {
+                is BookingRequestViewContract.BookingRequestAction.ShowTermsAndConditions ->
+                    showWebView(actions.url)
+            }
+        }
+    }
+
+    private fun showWebView(url: String) {
+        val intent = Intent(context, WebViewActivity::class.java)
+        intent.putExtra(URL_KEY, url)
+        startActivity(intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -79,6 +98,7 @@ class TripBookingFragment : BaseFragment() {
             this.bookingQuotesViewModel = bookingQuotesViewModel
             this.bookingRequestStateViewModel = bookingRequestStateViewModel
             bookingQuotesViewModel.viewStates().observe(owner, createQuoteObservable())
+            bookingRequestStateViewModel.viewActions().observe(this, bindToBookingRequestOutputs())
         }
     }
 }
