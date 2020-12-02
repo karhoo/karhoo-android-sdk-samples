@@ -12,8 +12,7 @@ import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.SampleApplication
 import com.karhoo.samples.networksdk.base.BaseFragment
 import com.karhoo.samples.networksdk.config.ConfigContract
-import com.karhoo.samples.networksdk.config.SandboxConfigModule
-import com.karhoo.samples.networksdk.config.StagingConfigModule
+import com.karhoo.samples.networksdk.config.KarhooSandboxConfig
 import com.karhoo.sdk.api.KarhooApi
 import com.karhoo.sdk.api.KarhooApi.userStore
 import com.karhoo.sdk.api.KarhooError
@@ -38,9 +37,9 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     var userInfo: UserInfo? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-                             ): View? {
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_configuration, container, false)
     }
 
@@ -51,7 +50,6 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        module = SandboxConfigModule(this.requireContext())
         auth_type_spinner.setSelection(0)
         setConfig(AuthenticationMethod.KarhooUser())
 
@@ -72,7 +70,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
         auth_type_spinner.visibility = LinearLayout.VISIBLE
         val loginTypeAdapter = ArrayAdapter<String>(this.requireContext(), android.R.layout
-                .simple_spinner_dropdown_item, AuthType.values().map { it.value })
+            .simple_spinner_dropdown_item, AuthType.values().map { it.value })
         with(auth_type_spinner) {
             adapter = loginTypeAdapter
             onItemSelectedListener = this@ConfigurationFragment
@@ -99,35 +97,34 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         if (!userStore.isCurrentUserValid && loginType != AuthType.USERNAME_PASSWORD.value) {
             KarhooApi.userService.logout()
         }
-        module = SandboxConfigModule(this.requireContext())
         val authMethod: AuthenticationMethod = when (loginType) {
             AuthType.USERNAME_PASSWORD.value -> {
                 AuthenticationMethod.KarhooUser()
             }
             AuthType.ADYEN_GUEST.value -> {
                 AuthenticationMethod.Guest(
-                        identifier = BuildConfig.ADYEN_GUEST_CHECKOUT_IDENTIFIER,
-                        referer = BuildConfig.GUEST_CHECKOUT_REFERER,
-                        organisationId = BuildConfig.ADYEN_GUEST_CHECKOUT_ORGANISATION_ID
-                                          )
+                    identifier = BuildConfig.ADYEN_GUEST_CHECKOUT_IDENTIFIER,
+                    referer = BuildConfig.GUEST_CHECKOUT_REFERER,
+                    organisationId = BuildConfig.ADYEN_GUEST_CHECKOUT_ORGANISATION_ID
+                )
             }
             AuthType.BRAINTREE_GUEST.value -> {
                 AuthenticationMethod.Guest(
-                        identifier = BuildConfig.BRAINTREE_GUEST_CHECKOUT_IDENTIFIER,
-                        referer = BuildConfig.GUEST_CHECKOUT_REFERER,
-                        organisationId = BuildConfig.BRAINTREE_GUEST_CHECKOUT_ORGANISATION_ID
-                                          )
+                    identifier = BuildConfig.BRAINTREE_GUEST_CHECKOUT_IDENTIFIER,
+                    referer = BuildConfig.GUEST_CHECKOUT_REFERER,
+                    organisationId = BuildConfig.BRAINTREE_GUEST_CHECKOUT_ORGANISATION_ID
+                )
             }
             AuthType.ADYEN_TOKEN.value -> {
                 AuthenticationMethod.TokenExchange(
-                        clientId = BuildConfig.ADYEN_CLIENT_ID,
-                        scope = BuildConfig.ADYEN_CLIENT_SCOPE
-                                                  )
+                    clientId = BuildConfig.ADYEN_CLIENT_ID,
+                    scope = BuildConfig.ADYEN_CLIENT_SCOPE
+                )
             }
             AuthType.BRAINTREE_TOKEN.value -> AuthenticationMethod.TokenExchange(
-                    clientId = BuildConfig.BRAINTREE_CLIENT_ID,
-                    scope = BuildConfig.BRAINTREE_CLIENT_SCOPE
-                                                                                )
+                clientId = BuildConfig.BRAINTREE_CLIENT_ID,
+                scope = BuildConfig.BRAINTREE_CLIENT_SCOPE
+            )
             else -> return
         }
         setConfig(authMethod)
@@ -136,11 +133,8 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     }
 
     private fun setConfig(authMethod: AuthenticationMethod) {
-        (requireContext().applicationContext as SampleApplication).setConfiguration(
-                module.karhooUserConfiguration(
-                        authMethod
-                                              )
-                                                                                   )
+        (requireContext().applicationContext as SampleApplication)
+            .setConfiguration(KarhooSandboxConfig(this.requireContext(), authMethod))
 
     }
 
@@ -206,8 +200,8 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     companion object {
         @JvmStatic
         fun newInstance(configurationStateViewModel: ConfigurationStateViewModel) =
-                ConfigurationFragment().apply {
-                    this.configurationStateViewModel = configurationStateViewModel
-                }
+            ConfigurationFragment().apply {
+                this.configurationStateViewModel = configurationStateViewModel
+            }
     }
 }
