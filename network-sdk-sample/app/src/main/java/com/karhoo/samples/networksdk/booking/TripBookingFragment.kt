@@ -167,6 +167,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
             }
 
     private fun handleChangeCard(braintreeSDKToken: String) {
+        this.braintreeSDKToken = braintreeSDKToken
         val dropInRequest: DropInRequest = DropInRequest().clientToken(braintreeSDKToken)
         val requestCode = if (isGuest()) REQ_CODE_BRAINTREE_GUEST else REQ_CODE_BRAINTREE
         (context as Activity).startActivityForResult(dropInRequest.getIntent(context), requestCode)
@@ -183,7 +184,6 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
                                  )
             }
         } else {
-            this.braintreeSDKToken = braintreeSDKToken
             val user = KarhooApi.userStore.currentUser
             val nonceRequest = NonceRequest(
                     payer = getPayerDetails(user),
@@ -204,7 +204,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         }
     }
 
-    fun threeDSecureNonce(braintreeSDKToken: String, paymentsNonce: PaymentsNonce, amount: String) {
+    private fun threeDSecureNonce(braintreeSDKToken: String, paymentsNonce: PaymentsNonce, amount: String) {
         showLoading()
         bindCardDetails(
                 SavedPaymentInfo(
@@ -249,7 +249,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
         }
     }
 
-    fun passBackBraintreeSDKNonce(braintreeSDKNonce: String) {
+    private fun passBackBraintreeSDKNonce(braintreeSDKNonce: String) {
         showLoading()
         toastErrorMessage("Add Payment Method")
 
@@ -369,7 +369,7 @@ class TripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedList
                 .show()
     }
 
-    fun showPaymentUI(braintreeSDKToken: String) {
+    private fun showPaymentUI(braintreeSDKToken: String) {
         toastErrorMessage("[Braintree] Show Braintree Dialog")
         val dropInRequest = DropInRequest().clientToken(braintreeSDKToken)
         this.braintreeSDKToken = braintreeSDKToken
