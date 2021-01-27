@@ -30,11 +30,11 @@ import java.util.UUID
 class TripPlanningFragment : BaseFragment() {
 
     private var sessionToken: String = ""
-    var pickUpLocationInfo: LocationInfo? = null
-    var dropOffLocationInfo: LocationInfo? = null
+    private var pickUpLocationInfo: LocationInfo? = null
+    private var dropOffLocationInfo: LocationInfo? = null
     private lateinit var bookingPlanningStateViewModel: BookingPlanningStateViewModel
 
-    fun getSessionToken(): String {
+    private fun getSessionToken(): String {
         if (sessionToken.isEmpty()) {
             sessionToken = UUID.randomUUID().toString()
         }

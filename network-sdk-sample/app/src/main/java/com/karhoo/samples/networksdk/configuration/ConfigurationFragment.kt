@@ -13,7 +13,6 @@ import com.karhoo.samples.networksdk.BuildConfig
 import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.SampleApplication
 import com.karhoo.samples.networksdk.base.BaseFragment
-import com.karhoo.samples.networksdk.config.ConfigContract
 import com.karhoo.samples.networksdk.config.KarhooSandboxConfig
 import com.karhoo.sdk.api.KarhooApi
 import com.karhoo.sdk.api.KarhooApi.userStore
