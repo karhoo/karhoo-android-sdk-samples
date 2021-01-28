@@ -21,16 +21,7 @@ import com.karhoo.sdk.api.model.AuthenticationMethod
 import com.karhoo.sdk.api.model.UserInfo
 import com.karhoo.sdk.api.network.request.UserLogin
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_configuration.auth_type_spinner
-import kotlinx.android.synthetic.main.fragment_configuration.karhoo_user_card
-import kotlinx.android.synthetic.main.fragment_configuration.loadingProgressBar
-import kotlinx.android.synthetic.main.fragment_configuration.non_karhoo_user_card
-import kotlinx.android.synthetic.main.fragment_configuration.non_karhoo_user_signin_button
-import kotlinx.android.synthetic.main.fragment_configuration.password
-import kotlinx.android.synthetic.main.fragment_configuration.sign_in_button
-import kotlinx.android.synthetic.main.fragment_configuration.signout_button
-import kotlinx.android.synthetic.main.fragment_configuration.username
-import kotlinx.android.synthetic.main.fragment_configuration.welcome_message
+import kotlinx.android.synthetic.main.fragment_configuration.*
 
 class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
     private lateinit var configurationStateViewModel: ConfigurationStateViewModel
@@ -62,7 +53,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
             configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
         }
 
-        signout_button.setOnClickListener {
+        sign_out_button.setOnClickListener {
             auth_type_spinner.setSelection(0)
             setConfig(AuthenticationMethod.KarhooUser())
             logout()
@@ -141,11 +132,15 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     private fun setButtonVisibility() {
         if(userStore.isCurrentUserValid) {
             sign_in_button.visibility = GONE
-            signout_button.visibility = VISIBLE
+            non_karhoo_user_card.visibility = GONE
+            authentication_type_card.visibility = GONE
+            sign_out_button.visibility = VISIBLE
             username.setText(userInfo?.email)
         } else {
+            authentication_type_card.visibility = VISIBLE
             sign_in_button.visibility = VISIBLE
-            signout_button.visibility = GONE
+            non_karhoo_user_card.visibility = VISIBLE
+            sign_out_button.visibility = GONE
         }
     }
 

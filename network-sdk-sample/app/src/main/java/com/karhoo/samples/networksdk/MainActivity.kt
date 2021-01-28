@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel
             ),
-//            AdyenTripBookingFragment.newInstance(
-            BraintreeTripBookingFragment.newInstance(
+            AdyenTripBookingFragment.newInstance(
+//            BraintreeTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel,

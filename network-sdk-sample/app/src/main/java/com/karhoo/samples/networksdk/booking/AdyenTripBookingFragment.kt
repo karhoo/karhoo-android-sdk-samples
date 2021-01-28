@@ -1,5 +1,6 @@
 package com.karhoo.samples.networksdk.booking
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -35,6 +36,7 @@ import com.karhoo.samples.networksdk.quotes.QuoteListStatus
 import com.karhoo.samples.networksdk.utils.CurrencyUtils
 import com.karhoo.samples.networksdk.utils.orZero
 import com.karhoo.sdk.api.KarhooApi
+import com.karhoo.sdk.api.KarhooApi.userStore
 import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.KarhooSDKConfiguration
 import com.karhoo.sdk.api.datastore.user.SavedPaymentInfo
@@ -58,7 +60,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     private lateinit var config: KarhooSDKConfiguration
     private var paymentsNonce: PaymentsNonce? = null
     private var adyenKey: String = ""
-    private var quotePrice: QuotePrice? = null
+//    private var quotePrice: QuotePrice? = null
 
     private var tripId: String = ""
 
@@ -125,17 +127,16 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     }
 
     private fun changeCard() {
-//        sdkInitFor(::handleChangeCard)
-
         //TODO Get price
-        sdkInit(quotePrice)
+        sdkInit()
     }
 
     private fun bookTrip() {
-        sdkInitFor(::getNonce)
+//        sdkInitFor(::getNonce)
+        passBackThreeDSecureNonce()
     }
 
-    private fun sdkInitFor(func: (braintreeSDKToken: String) -> Unit) {
+    /*private fun sdkInitFor(func: (braintreeSDKToken: String) -> Unit) {
         toastErrorMessage("Initialise Payment SDK (client-token)")
         showLoading()
         val organisationId = getOrganisationId()
@@ -150,14 +151,14 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
                 is Resource.Failure -> toastErrorMessage(result.error)
             }
         }
-    }
+    }*/
 
-    private fun getOrganisationId() =
+    /*private fun getOrganisationId() =
         if (isGuest()) {
             (config.authenticationMethod() as AuthenticationMethod.Guest).organisationId
         } else {
-            KarhooApi.userStore.currentUser.organisations.first().id
-        }
+            userStore.currentUser.organisations.first().id
+        }*/
 
     private fun handleChangeCard(braintreeSDKToken: String) {
         this.braintreeSDKToken = braintreeSDKToken
@@ -169,7 +170,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     private fun getNonce(braintreeSDKToken: String) {
         toastErrorMessage("Get Nonce (get payment method)")
         if (isGuest()) {
-                threeDSecureNonce(braintreeSDKToken)
+            threeDSecureNonce(braintreeSDKToken)
         } else {
             val user = KarhooApi.userStore.currentUser
             val nonceRequest = NonceRequest(
@@ -187,7 +188,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         }
     }
 
-    private fun passBackThreeDSecureNonce(price: QuotePrice?) {
+    private fun passBackThreeDSecureNonce() {
 //        val amount = quotePriceToAmount(price)
         when {
             tripId.isNotBlank() -> {
@@ -214,28 +215,6 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
             getPassengerDetails(),
             ""
         )
-    }
-
-    private fun passBackBraintreeSDKNonce(braintreeSDKNonce: String) {
-        showLoading()
-        toastErrorMessage("Add Payment Method")
-
-        val user = KarhooApi.userStore.currentUser
-        val addPaymentRequest = AddPaymentRequest(
-            payer = getPayerDetails(user),
-            organisationId = user.organisations.first().id,
-            nonce = braintreeSDKNonce
-        )
-
-        KarhooApi.paymentsService.addPaymentMethod(addPaymentRequest).execute { result ->
-            hideLoading()
-            when (result) {
-                is Resource.Success -> bindCardDetails(KarhooApi.userStore.savedPaymentInfo)
-                is Resource.Failure -> toastErrorMessage(
-                    result.error
-                )
-            }
-        }
     }
 
     private fun getPayerDetails(user: UserInfo): Payer =
@@ -321,7 +300,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         )
     }
 
-    fun showPaymentDialog(braintreeSDKToken: String) {
+    private fun showPaymentDialog(braintreeSDKToken: String) {
         AlertDialog.Builder(context, R.style.DialogTheme)
             .setTitle(R.string.payment_issue)
             .setMessage(R.string.payment_issue_message)
@@ -335,8 +314,8 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
             .show()
     }
 
-    private fun sdkInit(price: QuotePrice?) {
-        this.quotePrice = quotePrice
+    private fun sdkInit() {
+//        this.quotePrice = quotePrice
         KarhooApi.paymentsService.getAdyenPublicKey().execute { result ->
             when (result) {
                 is Resource.Success -> {
@@ -354,16 +333,14 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         toastErrorMessage("[Adyen] Show Adyen Dialog")
         val payments = JSONObject(paymentData)
         val paymentMethods = PaymentMethodsApiResponse.SERIALIZER.deserialize(payments)
-        context?.let {
-            val dropInConfiguration: DropInConfiguration = getDropInConfig(it)
-            DropIn.startPayment(it, paymentMethods, dropInConfiguration)
-        }
+        val dropInConfiguration: DropInConfiguration = getDropInConfig(requireContext())
+        DropIn.startPayment(requireContext(), paymentMethods, dropInConfiguration)
     }
 
     private fun getPaymentMethods() {
         val amount = AdyenAmount(
-            quotePrice?.currencyCode ?: DEFAULT_CURRENCY,
-            quotePrice?.highPrice.orZero()
+            quote?.price?.currencyCode ?: DEFAULT_CURRENCY,
+            quote?.price?.highPrice.orZero()
         )
 
         let {
@@ -371,9 +348,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
             KarhooApi.paymentsService.getAdyenPaymentMethods(request).execute { result ->
                 when (result) {
                     is Resource.Success -> {
-                        result.data.let {
-                            showPaymentUI(it)
-                        }
+                        showPaymentUI(result.data)
                     }
                     is Resource.Failure -> Log.e("Error", "Adyen payment method retrieval failed")
                 }
@@ -383,8 +358,8 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
 
     private fun getDropInConfig(context: Context): DropInConfiguration {
         val amount = Amount()
-        amount.currency = quotePrice?.currencyCode ?: DEFAULT_CURRENCY
-        amount.value = quotePrice?.highPrice.orZero()
+        amount.currency = quote?.price?.currencyCode ?: DEFAULT_CURRENCY
+        amount.value = quote?.price?.highPrice.orZero()
 
         val environment = Environment.TEST
 
@@ -423,7 +398,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
             when (payload.optString(RESULT_CODE, "")) {
                 AUTHORISED -> {
                     this.tripId = payload.optString(AdyenDropInService.TRIP_ID, "")
-//                    updateCardDetails(paymentData = payload.optString(ADDITIONAL_DATA, null))
+                    updateCardDetails(paymentData = payload.optString(ADDITIONAL_DATA, null))
                 }
                 else -> Log.e("Error", "Adyen payment error")
             }
@@ -445,6 +420,18 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         )
     }
 
+    private fun updateCardDetails(paymentData: String?) {
+        paymentData?.let {
+            val additionalData = JSONObject(paymentData)
+            val newCardNumber = additionalData.optString(CARD_SUMMARY, "")
+            val type = additionalData.optString(PAYMENT_METHOD, "")
+            val savedPaymentInfo = CardType.fromString(type)?.let {
+                SavedPaymentInfo(newCardNumber, it)
+            } ?: SavedPaymentInfo(newCardNumber, CardType.NOT_SET)
+            userStore.savedPaymentInfo = savedPaymentInfo
+        }
+    }
+
     override fun onSavedPaymentInfoChanged(userPaymentInfo: SavedPaymentInfo?) {
         toastErrorMessage("Payment Info Changed")
         bindCardDetails(userPaymentInfo)
@@ -453,8 +440,9 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     companion object {
         const val ADDITIONAL_DATA = "additionalData"
         const val AUTHORISED = "Authorised"
+        const val CARD_SUMMARY = "cardSummary"
         const val DEFAULT_CURRENCY = "GBP"
-        const val MERCHANT_REFERENCE = "merchantReference"
+        const val PAYMENT_METHOD = "paymentMethod"
         const val RESULT_CODE = "resultCode"
         const val REQ_CODE_ADYEN = DropIn.DROP_IN_REQUEST_CODE
 
