@@ -36,7 +36,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     override fun onResume() {
         super.onResume()
-        setButtonVisibility()
+        setUpView()
         hideLoading()
     }
 
@@ -126,22 +126,34 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     private fun logout() {
         KarhooApi.userService.logout()
         userInfo = null
-        setButtonVisibility()
+        setUpView()
     }
 
-    private fun setButtonVisibility() {
-        if(userStore.isCurrentUserValid) {
-            sign_in_button.visibility = GONE
-            non_karhoo_user_card.visibility = GONE
-            authentication_type_card.visibility = GONE
-            sign_out_button.visibility = VISIBLE
-            username.setText(userInfo?.email)
+    private fun setUpView() {
+        if (userStore.isCurrentUserValid) {
+            setLoggedInView()
         } else {
-            authentication_type_card.visibility = VISIBLE
-            sign_in_button.visibility = VISIBLE
-            non_karhoo_user_card.visibility = VISIBLE
-            sign_out_button.visibility = GONE
+            setLoggedOutView()
         }
+    }
+
+    private fun setLoggedInView() {
+        val user = userStore.currentUser
+        username.setText(user.email)
+        val message = resources.getString(R.string.welcome_message)
+        welcome_message.text = String.format(message, user.firstName)
+        sign_in_button.visibility = GONE
+        non_karhoo_user_card.visibility = GONE
+        authentication_type_card.visibility = GONE
+        sign_out_button.visibility = VISIBLE
+    }
+
+    private fun setLoggedOutView() {
+        welcome_message.text = resources.getString(R.string.not_signed_in)
+        authentication_type_card.visibility = VISIBLE
+        sign_in_button.visibility = VISIBLE
+        non_karhoo_user_card.visibility = GONE
+        sign_out_button.visibility = GONE
     }
 
     private fun setConfig(authMethod: AuthenticationMethod) {
@@ -159,13 +171,13 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     }
 
     private fun showKarhooUser() {
-        karhoo_user_card.visibility = View.VISIBLE
-        non_karhoo_user_card.visibility = View.GONE
+        karhoo_user_card.visibility = VISIBLE
+        non_karhoo_user_card.visibility = GONE
     }
 
     private fun showNonKarhooUser() {
-        karhoo_user_card.visibility = View.GONE
-        non_karhoo_user_card.visibility = View.VISIBLE
+        karhoo_user_card.visibility = GONE
+        non_karhoo_user_card.visibility = VISIBLE
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -185,7 +197,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
                     val message = resources.getString(R.string.welcome_message)
                     welcome_message.text = String.format(message, userInfo?.firstName)
                     configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
-                    setButtonVisibility()
+                    setUpView()
                 }
                 is Resource.Failure -> {
                     if (it.error == KarhooError.UserAlreadyLoggedIn) {
