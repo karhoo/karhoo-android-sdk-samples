@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_configuration.*
 
 class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
     private lateinit var configurationStateViewModel: ConfigurationStateViewModel
-    var userInfo: UserInfo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,17 +36,17 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     override fun onResume() {
         super.onResume()
-        setUpView()
         hideLoading()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         auth_type_spinner.setSelection(0)
         setConfig(AuthenticationMethod.KarhooUser())
 
         sign_in_button.setOnClickListener {
-            onSignInButtonClick()
+            login()
         }
 
         non_karhoo_user_signin_button.setOnClickListener {
@@ -66,16 +65,6 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         with(auth_type_spinner) {
             adapter = loginTypeAdapter
             onItemSelectedListener = this@ConfigurationFragment
-        }
-    }
-
-    private fun onSignInButtonClick() {
-        userInfo?.run {
-            val message = resources.getString(R.string.welcome_message)
-            welcome_message.text = String.format(message, "")
-            configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
-        } ?: run {
-            login()
         }
     }
 
@@ -126,11 +115,10 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     private fun logout() {
         KarhooApi.userService.logout()
-        userInfo = null
-        setUpView()
+        updateView()
     }
 
-    private fun setUpView() {
+    private fun updateView() {
         if (userStore.isCurrentUserValid) {
             setLoggedInView()
         } else {
@@ -194,21 +182,34 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
             hideLoading()
             when (it) {
                 is Resource.Success -> {
-                    userInfo = it.data
-                    val message = resources.getString(R.string.welcome_message)
-                    welcome_message.text = String.format(message, userInfo?.firstName)
-                    configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
-                    setUpView()
-                    userStore.paymentProvider?.id?.let { id ->
-                        (activity as MainActivity).updatePagerBookingFragment(id)
-                    }
+                    updateView()
+                    getPaymentProvider()
                 }
                 is Resource.Failure -> {
                     if (it.error == KarhooError.UserAlreadyLoggedIn) {
-                        userInfo = UserInfo()
-                        val message = resources.getString(R.string.welcome_message)
-                        welcome_message.text = String.format(message, "")
+                        updateView()
+                        getPaymentProvider()
+                    } else {
+                        toastErrorMessage(it.error)
+                        ConfigurationViewContract.ConfigurationEvent.ConfigurationError(it.error)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getPaymentProvider() {
+        KarhooApi.paymentsService.getPaymentProvider().execute {
+            hideLoading()
+            when (it) {
+                is Resource.Success -> {
+                    configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+                    (activity as MainActivity).setPagerBookingFragment()
+                }
+                is Resource.Failure -> {
+                    if (it.error == KarhooError.UserAlreadyLoggedIn) {
                         configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+                        (activity as MainActivity).setPagerBookingFragment()
                     } else {
                         toastErrorMessage(it.error)
                         ConfigurationViewContract.ConfigurationEvent.ConfigurationError(it.error)

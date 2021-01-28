@@ -2,6 +2,7 @@ package com.karhoo.samples.networksdk
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -24,6 +25,7 @@ import com.karhoo.samples.networksdk.planning.TripPlanningFragment
 import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import com.karhoo.samples.networksdk.quotes.TripQuotesFragment
 import com.karhoo.samples.networksdk.tracking.TripTrackingFragment
+import com.karhoo.sdk.api.KarhooApi
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     lateinit var pages: MutableList<BaseFragment>
-    val headers = listOf(
+    private val headers = listOf(
         R.string.sign_in_header,
         R.string.plan_trip_header,
         R.string.quotes_header,
@@ -116,8 +118,22 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun updatePagerBookingFragment(id: String) {
-        pages[3] = if (id == "Adyen") {
+    fun setPagerBookingFragment() {
+        pages[3] = getBookingFragment()
+//        pager.adapter?.notifyDataSetChanged()
+//        pa
+        pager.adapter?.notifyItemChanged(3)
+
+//        val adap = pager.adapter
+//        adap.
+//        val isAdyen = pager.adapter?.notifyItemChanged(3)
+        Log.d("PD36", "isAdyen")
+    }
+
+    private fun getBookingFragment(): BaseFragment {
+        Log.d("PD36", "Provider id: ${KarhooApi.userStore.paymentProvider?.id}")
+        return if (KarhooApi.userStore.paymentProvider?.id == "Adyen") {
+            Log.d("PD36", "Create Adyen")
             AdyenTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
@@ -125,6 +141,7 @@ class MainActivity : AppCompatActivity() {
                 bookingRequestStateViewModel
             )
         } else {
+            Log.d("PD36", "Create Braintree")
             BraintreeTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
@@ -132,8 +149,6 @@ class MainActivity : AppCompatActivity() {
                 bookingRequestStateViewModel
             )
         }
-        pagerAdapter.data = pages
-        pagerAdapter.notifyDataSetChanged()
     }
 
     override fun onBackPressed() {
@@ -165,7 +180,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
-        var data = listOf(
+        var data = mutableListOf(
             ConfigurationFragment.newInstance(configurationStateViewModel),
             TripPlanningFragment.newInstance(fa, bookingPlanningStateViewModel),
             TripQuotesFragment.newInstance(
