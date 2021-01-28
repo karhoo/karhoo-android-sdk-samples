@@ -2,7 +2,6 @@ package com.karhoo.samples.networksdk
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -120,20 +119,11 @@ class MainActivity : AppCompatActivity() {
 
     fun setPagerBookingFragment() {
         pages[3] = getBookingFragment()
-//        pager.adapter?.notifyDataSetChanged()
-//        pa
         pager.adapter?.notifyItemChanged(3)
-
-//        val adap = pager.adapter
-//        adap.
-//        val isAdyen = pager.adapter?.notifyItemChanged(3)
-        Log.d("PD36", "isAdyen")
     }
 
     private fun getBookingFragment(): BaseFragment {
-        Log.d("PD36", "Provider id: ${KarhooApi.userStore.paymentProvider?.id}")
         return if (KarhooApi.userStore.paymentProvider?.id == "Adyen") {
-            Log.d("PD36", "Create Adyen")
             AdyenTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
@@ -141,7 +131,6 @@ class MainActivity : AppCompatActivity() {
                 bookingRequestStateViewModel
             )
         } else {
-            Log.d("PD36", "Create Braintree")
             BraintreeTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
