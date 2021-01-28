@@ -18,10 +18,7 @@ import com.karhoo.sdk.api.network.observable.Observable
 import com.karhoo.sdk.api.network.observable.Observer
 import com.karhoo.sdk.api.network.response.Resource
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-import kotlinx.android.synthetic.main.fragment_trip_quotes.get_quotes_button
-import kotlinx.android.synthetic.main.fragment_trip_quotes.loadingProgressBar
-import kotlinx.android.synthetic.main.fragment_trip_quotes.quotes_list
-import kotlinx.android.synthetic.main.fragment_trip_quotes.stop_button
+import kotlinx.android.synthetic.main.fragment_trip_quotes.*
 
 class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener {
 
@@ -41,6 +38,7 @@ class TripQuotesFragment : BaseFragment(), QuotesCategoriesSection.ClickListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         get_quotes_button.setOnClickListener {
             cancelVehicleCallback()
             requestVehicleAvailability(bookingPlanningStateViewModel.currentState)

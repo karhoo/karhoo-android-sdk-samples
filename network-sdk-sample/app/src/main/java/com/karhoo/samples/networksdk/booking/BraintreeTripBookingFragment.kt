@@ -94,6 +94,11 @@ class BraintreeTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentCh
         bindPassengerDetails()
     }
 
+    override fun onResume() {
+        super.onResume()
+        bindPassengerDetails()
+    }
+
     private fun showLoading() {
         loadingProgressBar?.show()
     }

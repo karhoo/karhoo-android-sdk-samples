@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.karhoo.samples.networksdk.BuildConfig
+import com.karhoo.samples.networksdk.MainActivity
 import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.SampleApplication
 import com.karhoo.samples.networksdk.base.BaseFragment
@@ -198,6 +199,9 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
                     welcome_message.text = String.format(message, userInfo?.firstName)
                     configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
                     setUpView()
+                    userStore.paymentProvider?.id?.let { id ->
+                        (activity as MainActivity).updatePagerBookingFragment(id)
+                    }
                 }
                 is Resource.Failure -> {
                     if (it.error == KarhooError.UserAlreadyLoggedIn) {

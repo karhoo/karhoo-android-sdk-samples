@@ -3,7 +3,6 @@ package com.karhoo.samples.networksdk
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -17,7 +16,6 @@ import com.karhoo.samples.networksdk.booking.BookingRequestStateViewModel
 import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment
 import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment.Companion.REQ_CODE_BRAINTREE
 import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment.Companion.REQ_CODE_BRAINTREE_GUEST
-import com.karhoo.samples.networksdk.config.KarhooSandboxConfig
 import com.karhoo.samples.networksdk.configuration.ConfigurationFragment
 import com.karhoo.samples.networksdk.configuration.ConfigurationStateViewModel
 import com.karhoo.samples.networksdk.configuration.ConfigurationViewContract
@@ -26,15 +24,14 @@ import com.karhoo.samples.networksdk.planning.TripPlanningFragment
 import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import com.karhoo.samples.networksdk.quotes.TripQuotesFragment
 import com.karhoo.samples.networksdk.tracking.TripTrackingFragment
-import com.karhoo.sdk.api.model.AuthenticationMethod
-import kotlinx.android.synthetic.main.activity_main.pager
-import kotlinx.android.synthetic.main.activity_main.tab_layout
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private val NUM_PAGES = 5
     private lateinit var viewPager: ViewPager2
-    lateinit var pages: List<BaseFragment>
+    private lateinit var pagerAdapter: ScreenSlidePagerAdapter
+    lateinit var pages: MutableList<BaseFragment>
     val headers = listOf(
         R.string.sign_in_header,
         R.string.plan_trip_header,
@@ -61,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        pages = listOf(
+        pages = mutableListOf(
             ConfigurationFragment.newInstance(configurationStateViewModel),
             TripPlanningFragment.newInstance(this, bookingPlanningStateViewModel),
             TripQuotesFragment.newInstance(
@@ -69,8 +66,7 @@ class MainActivity : AppCompatActivity() {
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel
             ),
-            AdyenTripBookingFragment.newInstance(
-//            BraintreeTripBookingFragment.newInstance(
+            BraintreeTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel,
@@ -79,7 +75,7 @@ class MainActivity : AppCompatActivity() {
             TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
         )
 
-        val pagerAdapter = ScreenSlidePagerAdapter(this).apply {
+        pagerAdapter = ScreenSlidePagerAdapter(this).apply {
             data = pages
         }
 
@@ -118,6 +114,26 @@ class MainActivity : AppCompatActivity() {
                 pager.currentItem = 4
             }
         })
+    }
+
+    fun updatePagerBookingFragment(id: String) {
+        pages[3] = if (id == "Adyen") {
+            AdyenTripBookingFragment.newInstance(
+                this,
+                bookingPlanningStateViewModel,
+                bookingQuoteStateViewModel,
+                bookingRequestStateViewModel
+            )
+        } else {
+            BraintreeTripBookingFragment.newInstance(
+                this,
+                bookingPlanningStateViewModel,
+                bookingQuoteStateViewModel,
+                bookingRequestStateViewModel
+            )
+        }
+        pagerAdapter.data = pages
+        pagerAdapter.notifyDataSetChanged()
     }
 
     override fun onBackPressed() {
