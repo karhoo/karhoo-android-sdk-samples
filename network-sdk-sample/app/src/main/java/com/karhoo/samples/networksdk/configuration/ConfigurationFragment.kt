@@ -49,7 +49,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         }
 
         non_karhoo_user_signin_button.setOnClickListener {
-            configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+            getPaymentProvider()
         }
 
         sign_out_button.setOnClickListener {

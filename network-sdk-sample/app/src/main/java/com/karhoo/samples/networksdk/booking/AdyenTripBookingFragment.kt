@@ -17,7 +17,6 @@ import com.adyen.checkout.card.CardConfiguration
 import com.adyen.checkout.core.api.Environment
 import com.adyen.checkout.dropin.DropIn
 import com.adyen.checkout.dropin.DropInConfiguration
-import com.braintreepayments.api.models.PaymentMethodNonce
 import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.SampleApplication
 import com.karhoo.samples.networksdk.base.BaseFragment
@@ -34,7 +33,10 @@ import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.KarhooSDKConfiguration
 import com.karhoo.sdk.api.datastore.user.SavedPaymentInfo
 import com.karhoo.sdk.api.datastore.user.UserManager
-import com.karhoo.sdk.api.model.*
+import com.karhoo.sdk.api.model.AuthenticationMethod
+import com.karhoo.sdk.api.model.CardType
+import com.karhoo.sdk.api.model.Quote
+import com.karhoo.sdk.api.model.TripInfo
 import com.karhoo.sdk.api.model.adyen.AdyenAmount
 import com.karhoo.sdk.api.network.request.AdyenPaymentMethodsRequest
 import com.karhoo.sdk.api.network.request.PassengerDetails
@@ -47,7 +49,7 @@ import java.util.*
 
 class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedListener {
 
-    private var locale: String = "GB"
+    private var locale: String = DEFAULT_LOCALE
     private lateinit var braintreeSDKToken: String
     private lateinit var bookingQuoteStateViewModel: BookingQuoteStateViewModel
     private lateinit var bookingPlanningStateViewModel: BookingPlanningStateViewModel
@@ -124,7 +126,6 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     }
 
     private fun changeCard() {
-        //TODO Get price
         sdkInit()
     }
 
@@ -147,12 +148,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         paymentsNonce: String
     ) {
         showLoading()
-//        bindCardDetails(
-//            SavedPaymentInfo(
-//                lastFour = paymentsNonce.lastFour,
-//                cardType = paymentsNonce.cardType
-//            )
-//        )
+        bindCardDetails(userStore.savedPaymentInfo)
         passBackThreeDSecuredNonce(
             paymentsNonce,
             getPassengerDetails(),
@@ -163,7 +159,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
     private fun isGuest() = config.authenticationMethod() is AuthenticationMethod.Guest
 
     private fun bindCardDetails(savedPaymentInfo: SavedPaymentInfo?) {
-        payment_details?.text = savedPaymentInfo?.lastFour
+        payment_details?.text = resources.getString(R.string.card_ending, savedPaymentInfo?.lastFour)
     }
 
     private fun passBackThreeDSecuredNonce(
@@ -340,19 +336,6 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         }
     }
 
-    private fun quotePriceToAmount(price: QuotePrice?): String {
-        val currency = Currency.getInstance(price?.currencyCode?.trim())
-        return CurrencyUtils.intToPriceNoSymbol(currency, price?.highPrice.orZero())
-    }
-
-    private fun convertToPaymentsNonce(paymentMethodNonce: PaymentMethodNonce): PaymentsNonce? {
-        return PaymentsNonce(
-            paymentMethodNonce.nonce,
-            CardType.fromString(paymentMethodNonce.typeLabel),
-            paymentMethodNonce.description
-        )
-    }
-
     private fun updateCardDetails(paymentData: String?) {
         paymentData?.let {
             val additionalData = JSONObject(paymentData)
@@ -362,6 +345,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
                 SavedPaymentInfo(newCardNumber, it)
             } ?: SavedPaymentInfo(newCardNumber, CardType.NOT_SET)
             userStore.savedPaymentInfo = savedPaymentInfo
+            bindCardDetails(userStore.savedPaymentInfo)
         }
     }
 
@@ -375,6 +359,7 @@ class AdyenTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChange
         const val AUTHORISED = "Authorised"
         const val CARD_SUMMARY = "cardSummary"
         const val DEFAULT_CURRENCY = "GBP"
+        const val DEFAULT_LOCALE = "GB"
         const val PAYMENT_METHOD = "paymentMethod"
         const val RESULT_CODE = "resultCode"
         const val REQ_CODE_ADYEN = DropIn.DROP_IN_REQUEST_CODE
