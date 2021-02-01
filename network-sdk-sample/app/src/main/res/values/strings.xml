@@ -40,5 +40,6 @@
     <string name="last_name">Last name</string>
     <string name="email">email</string>
     <string name="phone">Phone</string>
+    <string name="card_ending">Card ending ..%s</string>
 
 </resources>

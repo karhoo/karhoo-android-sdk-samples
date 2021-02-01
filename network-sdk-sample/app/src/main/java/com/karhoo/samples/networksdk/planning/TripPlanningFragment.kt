@@ -18,23 +18,17 @@ import com.karhoo.sdk.api.model.Position
 import com.karhoo.sdk.api.network.request.LocationInfoRequest
 import com.karhoo.sdk.api.network.request.PlaceSearch
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_trip_planning.destination_text
-import kotlinx.android.synthetic.main.fragment_trip_planning.dropoff_button
-import kotlinx.android.synthetic.main.fragment_trip_planning.loadingProgressBar
-import kotlinx.android.synthetic.main.fragment_trip_planning.origin_text
-import kotlinx.android.synthetic.main.fragment_trip_planning.pickup_button
-import kotlinx.android.synthetic.main.fragment_trip_planning.selected_dropoff
-import kotlinx.android.synthetic.main.fragment_trip_planning.selected_pickup
-import java.util.UUID
+import kotlinx.android.synthetic.main.fragment_trip_planning.*
+import java.util.*
 
 class TripPlanningFragment : BaseFragment() {
 
     private var sessionToken: String = ""
-    var pickUpLocationInfo: LocationInfo? = null
-    var dropOffLocationInfo: LocationInfo? = null
+    private var pickUpLocationInfo: LocationInfo? = null
+    private var dropOffLocationInfo: LocationInfo? = null
     private lateinit var bookingPlanningStateViewModel: BookingPlanningStateViewModel
 
-    fun getSessionToken(): String {
+    private fun getSessionToken(): String {
         if (sessionToken.isEmpty()) {
             sessionToken = UUID.randomUUID().toString()
         }
@@ -60,7 +54,6 @@ class TripPlanningFragment : BaseFragment() {
             val placeSearch = setSearchQuery(destination_text.text.toString())
             requestAddresses(placeSearch, BookingPlanningContract.AddressType.DESTINATION)
         }
-
     }
 
     private fun showLoading() {

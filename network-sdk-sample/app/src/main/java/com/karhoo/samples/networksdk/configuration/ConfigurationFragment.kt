@@ -10,32 +10,21 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import com.karhoo.samples.networksdk.BuildConfig
+import com.karhoo.samples.networksdk.MainActivity
 import com.karhoo.samples.networksdk.R
 import com.karhoo.samples.networksdk.SampleApplication
 import com.karhoo.samples.networksdk.base.BaseFragment
-import com.karhoo.samples.networksdk.config.ConfigContract
 import com.karhoo.samples.networksdk.config.KarhooSandboxConfig
 import com.karhoo.sdk.api.KarhooApi
 import com.karhoo.sdk.api.KarhooApi.userStore
 import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.model.AuthenticationMethod
-import com.karhoo.sdk.api.model.UserInfo
 import com.karhoo.sdk.api.network.request.UserLogin
 import com.karhoo.sdk.api.network.response.Resource
-import kotlinx.android.synthetic.main.fragment_configuration.auth_type_spinner
-import kotlinx.android.synthetic.main.fragment_configuration.karhoo_user_card
-import kotlinx.android.synthetic.main.fragment_configuration.loadingProgressBar
-import kotlinx.android.synthetic.main.fragment_configuration.non_karhoo_user_card
-import kotlinx.android.synthetic.main.fragment_configuration.non_karhoo_user_signin_button
-import kotlinx.android.synthetic.main.fragment_configuration.password
-import kotlinx.android.synthetic.main.fragment_configuration.sign_in_button
-import kotlinx.android.synthetic.main.fragment_configuration.signout_button
-import kotlinx.android.synthetic.main.fragment_configuration.username
-import kotlinx.android.synthetic.main.fragment_configuration.welcome_message
+import kotlinx.android.synthetic.main.fragment_configuration.*
 
 class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
     private lateinit var configurationStateViewModel: ConfigurationStateViewModel
-    var userInfo: UserInfo? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,24 +35,24 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     override fun onResume() {
         super.onResume()
-        setButtonVisibility()
         hideLoading()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         auth_type_spinner.setSelection(0)
         setConfig(AuthenticationMethod.KarhooUser())
 
         sign_in_button.setOnClickListener {
-            onSignInButtonClick()
+            login()
         }
 
         non_karhoo_user_signin_button.setOnClickListener {
-            configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+            getPaymentProvider()
         }
 
-        signout_button.setOnClickListener {
+        sign_out_button.setOnClickListener {
             auth_type_spinner.setSelection(0)
             setConfig(AuthenticationMethod.KarhooUser())
             logout()
@@ -75,16 +64,6 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         with(auth_type_spinner) {
             adapter = loginTypeAdapter
             onItemSelectedListener = this@ConfigurationFragment
-        }
-    }
-
-    private fun onSignInButtonClick() {
-        userInfo?.run {
-            val message = resources.getString(R.string.welcome_message)
-            welcome_message.text = String.format(message, "")
-            configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
-        } ?: run {
-            login()
         }
     }
 
@@ -135,19 +114,34 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     private fun logout() {
         KarhooApi.userService.logout()
-        userInfo = null
-        setButtonVisibility()
+        updateView()
     }
 
-    private fun setButtonVisibility() {
-        if(userStore.isCurrentUserValid) {
-            sign_in_button.visibility = GONE
-            signout_button.visibility = VISIBLE
-            username.setText(userInfo?.email)
+    private fun updateView() {
+        if (userStore.isCurrentUserValid) {
+            setLoggedInView()
         } else {
-            sign_in_button.visibility = VISIBLE
-            signout_button.visibility = GONE
+            setLoggedOutView()
         }
+    }
+
+    private fun setLoggedInView() {
+        val user = userStore.currentUser
+        username.setText(user.email)
+        val message = resources.getString(R.string.welcome_message)
+        welcome_message.text = String.format(message, user.firstName)
+        sign_in_button.visibility = GONE
+        non_karhoo_user_card.visibility = GONE
+        authentication_type_card.visibility = GONE
+        sign_out_button.visibility = VISIBLE
+    }
+
+    private fun setLoggedOutView() {
+        welcome_message.text = resources.getString(R.string.not_signed_in)
+        authentication_type_card.visibility = VISIBLE
+        sign_in_button.visibility = VISIBLE
+        non_karhoo_user_card.visibility = GONE
+        sign_out_button.visibility = GONE
     }
 
     private fun setConfig(authMethod: AuthenticationMethod) {
@@ -165,13 +159,13 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     }
 
     private fun showKarhooUser() {
-        karhoo_user_card.visibility = View.VISIBLE
-        non_karhoo_user_card.visibility = View.GONE
+        karhoo_user_card.visibility = VISIBLE
+        non_karhoo_user_card.visibility = GONE
     }
 
     private fun showNonKarhooUser() {
-        karhoo_user_card.visibility = View.GONE
-        non_karhoo_user_card.visibility = View.VISIBLE
+        karhoo_user_card.visibility = GONE
+        non_karhoo_user_card.visibility = VISIBLE
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -187,18 +181,34 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
             hideLoading()
             when (it) {
                 is Resource.Success -> {
-                    userInfo = it.data
-                    val message = resources.getString(R.string.welcome_message)
-                    welcome_message.text = String.format(message, userInfo?.firstName)
-                    configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
-                    setButtonVisibility()
+                    updateView()
+                    getPaymentProvider()
                 }
                 is Resource.Failure -> {
                     if (it.error == KarhooError.UserAlreadyLoggedIn) {
-                        userInfo = UserInfo()
-                        val message = resources.getString(R.string.welcome_message)
-                        welcome_message.text = String.format(message, "")
+                        updateView()
+                        getPaymentProvider()
+                    } else {
+                        toastErrorMessage(it.error)
+                        ConfigurationViewContract.ConfigurationEvent.ConfigurationError(it.error)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getPaymentProvider() {
+        KarhooApi.paymentsService.getPaymentProvider().execute {
+            hideLoading()
+            when (it) {
+                is Resource.Success -> {
+                    configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+                    (activity as MainActivity).setPagerBookingFragment()
+                }
+                is Resource.Failure -> {
+                    if (it.error == KarhooError.UserAlreadyLoggedIn) {
                         configurationStateViewModel.process(ConfigurationViewContract.ConfigurationEvent.ConfigurationSuccess)
+                        (activity as MainActivity).setPagerBookingFragment()
                     } else {
                         toastErrorMessage(it.error)
                         ConfigurationViewContract.ConfigurationEvent.ConfigurationError(it.error)

@@ -31,6 +31,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".booking.AdyenResultActivity">
+
+        </activity>
+
+        <service
+            android:name=".booking.AdyenDropInService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>
