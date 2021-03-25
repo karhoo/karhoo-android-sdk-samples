@@ -17,8 +17,8 @@ buildscript {
 allprojects {
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
         jcenter()
-        maven { url 'https://flit-tech.bintray.com/Android' }
         maven {
             url "https://cardinalcommerce.bintray.com/android"
             credentials {
