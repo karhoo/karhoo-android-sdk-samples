@@ -1,0 +1,216 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorAccent">@color/secondary</item>
+        <item name="colorControlNormal">@color/primary_green</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <!--  Style to override the pickup address icon in the TripAddressView component -->
+    <!--  By changing the srcCompat drawable, the icon can be changed -->
+    <style name="KhPickUpDot">
+        <item name="srcCompat">@drawable/ic_trip_origin_white_24dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/spacing_xsmall</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_xsmall</item>
+        <item name="android:paddingBottom">@dimen/spacing_none</item>
+    </style>
+
+    <!--  Style to override the completed drop off address icon in the TripAddressView component -->
+    <!--  This icon is shown when an address is selected as a destination -->
+    <!--  By changing the srcCompat drawable, the icon can be changed -->
+    <style name="KhDropOffDot">
+        <item name="srcCompat">@drawable/ic_tour_black_24dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/spacing_xsmall</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_xsmall</item>
+        <item name="android:paddingTop">@dimen/spacing_none</item>
+    </style>
+
+    <!--  Style to override the drop off address icon in the TripAddressView component -->
+    <!--  The icon will be visible in when an address has not yet been selected -->
+    <!--  By changing the srcCompat drawable, the icon can be changed -->
+    <style name="KhDropOffDotEmpty">
+        <item name="srcCompat">@drawable/ic_add_location_alt_white_24dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/spacing_xsmall</item>
+        <item name="android:layout_marginEnd">@dimen/spacing_xsmall</item>
+        <item name="android:paddingTop">@dimen/spacing_none</item>
+    </style>
+
+    <!--  Style to override the date picker icon in the TripAddressView component -->
+    <!--  The icon will be visible when a pickup address has been selected -->
+    <!--  By changing the srcCompat drawable, the icon can be changed -->
+    <style name="KhAddressPickerPrebookIcon">
+        <item name="srcCompat">@drawable/ic_date_range_black_24dp</item>
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+    </style>
+
+    <!--  Style to override the date picker icon in the TripAddressView component -->
+    <!--  The icon will be visible when a pickup address has been selected -->
+    <!--  By changing the srcCompat drawable, the icon can be changed -->
+    <style name="KhAddressPickerFlip">
+        <item name="srcCompat">@drawable/ic_swap_horiz_white_24dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--  The style that can be applied to the KhVehicleClassTabs component for chaning how the tabs look -->
+    <style name="KhVehicleClassTabs" parent="Widget.Design.TabLayout">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="selectedTabTextColor">@color/text_primary</item>
+        <item name="unselectedTabTextColor">@color/text_alternative</item>
+        <item name="unavailableTabTextColor">@color/text_unavailable</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
+        <item name="tabBackground">@drawable/uisdk_category_selector_tab</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabPaddingEnd">4dp</item>
+        <item name="tabPaddingStart">4dp</item>
+    </style>
+
+    <!--  Style to customise the KhQuotesSortTabs component -->
+    <!--  The tabSelectedTextColor and tabIndicatorColor will change the line and font color of the tab -->
+    <!--  Note - this must be directly applied on the KhQuotesSortTabs component in order for the changes to be reflected -->
+    <style name="KhQuotesSortTabs" parent="Widget.Design.TabLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">26dp</item>
+        <item name="tabSelectedTextColor">@color/colorAccent</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+    </style>
+
+    <!--  Style to customise the KhQuotesSortView component -->
+    <!--  The leftBackground and rightBackground items are drawable with active and inactive states  -->
+    <!--  The leftBackgroung and rightBackground specify the drawable to be added as a background  -->
+    <style name="KhQuotesSortView">
+        <item name="leftBackground">@drawable/uisdk_sort_left_background</item>
+        <item name="rightBackground">@drawable/uisdk_sort_right_background</item>
+        <item name="selectedTextColor">@color/off_white</item>
+        <item name="unselectedTextColor">@color/off_black</item>
+    </style>
+
+    <!--  Style to customise the KhPaymentView component -->
+    <!--  The addPaymentBackground item is used to specify the drawable used as a background whenever a card is not present -->
+    <!--  The addCardIcon item is the default icon used whenever a card is not present -->
+    <!--  The changePaymentBackground item is used to specify the drawable used as a background when the payment is set -->
+    <style name="KhPaymentView">
+        <item name="addPaymentBackground">@drawable/uisdk_background_off_black_rounded
+        </item>
+        <item name="changePaymentBackground">@drawable/uisdk_background_off_black_rounded</item>
+        <item name="addCardIcon">@drawable/uisdk_ic_card_blank</item>
+        <item name="lineText">@style/Text.White</item>
+        <item name="actionText">@style/Text.White.Medium</item>
+    </style>
+
+
+    <style name="CustomisedBookingsPrice">
+        <item name="quotesHeaderText">@style/Text.White.Large</item>
+        <item name="quotesDetailsText">@style/Text.White.Small</item>
+    </style>
+
+    <style name="CustomisedBookingPriceBold">
+        <item name="quotesHeaderText">@style/Text.White.XSmall</item>
+        <item name="quotesDetailsText">@style/Text.White.XXLarge.Bold</item>
+    </style>
+
+    <style name="KhBookingETAPriceView">
+        <item name="android:background">@drawable/uisdk_gradient_button_enabled</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="CustomisedQuotesSortView">
+        <item name="leftBackground">@android:color/holo_blue_dark</item>
+        <item name="rightBackground">@color/off_white</item>
+        <item name="selectedTextColor">@color/off_white</item>
+        <item name="unselectedTextColor">@color/colorBlack</item>
+    </style>
+
+    <style name="CustomisedQuotesSortView2">
+        <item name="selectedTextColor">@color/blue</item>
+        <item name="unselectedTextColor">@color/dark_green_grad</item>
+    </style>
+
+    <style name="CustomisedCategoryView1">
+        <item name="selectedTabTextColor">@color/blue</item>
+        <item name="unselectedTabTextColor">@color/colorWhite</item>
+        <item name="unavailableTabTextColor">@color/grey</item>
+    </style>
+
+    <style name="CustomisedCategoryView2">
+        <item name="selectedTabTextColor">@color/primary_green</item>
+        <item name="unselectedTabTextColor">@color/greyish_white</item>
+        <item name="unavailableTabTextColor">@color/bt_error_red</item>
+    </style>
+
+    <style name="CustomisedCategoryView3">
+        <item name="selectedTabTextColor">@color/primary_red</item>
+        <item name="unselectedTabTextColor">@color/bright_blue</item>
+        <item name="unavailableTabTextColor">@color/dark_grey</item>
+    </style>
+
+    <style name="CustomBookingQuotesView">
+        <item name="headerText">@style/CustomBookingQuotesViewHeaderTextStyle</item>
+        <item name="detailsText">@style/CustomBookingQuotesViewDetailsTextStyle</item>
+    </style>
+
+    <style name="CustomBookingQuotesView2">
+        <item name="headerText">@style/Text.Primary.Small</item>
+        <item name="detailsText">@style/Text.Primary.Large</item>
+    </style>
+
+    <style name="CustomBookingQuotesViewHeaderTextStyle">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/bright_blue</item>
+    </style>
+
+    <style name="CustomBookingQuotesViewDetailsTextStyle">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="CustomPaymentView">
+        <item name="addPaymentBackground">@drawable/uisdk_background_light_grey_dashed_rounded
+        </item>
+        <item name="changePaymentBackground">@drawable/uisdk_background_blue_rounded</item>
+        <item name="addCardIcon">@drawable/uisdk_ic_plus</item>
+        <item name="lineText">@style/Text.Black</item>
+        <item name="actionText">@style/Text.Action.Primary</item>
+    </style>
+
+    <style name="CustomPaymentView2">
+        <item name="changePaymentBackground">@drawable/uisdk_background_blue_rounded</item>
+        <item name="addCardIcon">@drawable/uisdk_ic_plus</item>
+        <item name="lineText">@style/Text.White.Medium</item>
+        <item name="actionText">@style/Text.Red</item>
+    </style>
+
+    <style name="CustomPaymentView3">
+        <item name="addPaymentBackground">@drawable/uisdk_background_light_grey_rounded
+        </item>
+        <item name="addCardIcon">@drawable/bt_ic_paypal</item>
+        <item name="lineText">@style/Text.Black.Medium</item>
+        <item name="actionText">@style/Text.White.Medium</item>
+    </style>
+
+</resources>

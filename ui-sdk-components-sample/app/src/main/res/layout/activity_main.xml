@@ -10,7 +10,7 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#82ccdd"
+        android:background="@color/colorAccent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- activity_screen_slide.xml -->

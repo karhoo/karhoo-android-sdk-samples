@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorAccent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bright_blue"
     android:padding="@dimen/padding_default"
     tools:context="com.karhoo.samples.uisdk.components.MainActivity">
 
@@ -20,10 +20,11 @@
         android:id="@+id/trip_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/light_blue"
-        android:layout_marginTop="24dp"
         android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginTop="24dp"
         android:layout_marginRight="@dimen/margin_small"
+        android:background="@color/light_blue"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/address_bar_widget">
@@ -34,8 +35,8 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/pick_up_label" />
 

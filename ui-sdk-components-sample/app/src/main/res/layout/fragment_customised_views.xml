@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/bookingPriceViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Text.Black.Medium.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:orientation="vertical"
+                android:text="Custom Booking Price View" />
+
+            <com.karhoo.uisdk.screen.booking.booking.BookingPriceView
+                android:id="@+id/bookingRequestPriceWidget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default" />
+
+            <com.karhoo.uisdk.screen.booking.booking.BookingPriceView
+                android:id="@+id/bookingRequestPriceWidgetBoldFonts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Text.Black.Medium.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:orientation="vertical"
+                android:text="Custom Quotes Sort View" />
+
+            <com.karhoo.uisdk.screen.booking.quotes.QuotesSortView
+                android:id="@+id/quotesSortView"
+                style="@style/CustomisedQuotesSortView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default" />
+
+            <com.karhoo.uisdk.screen.booking.quotes.QuotesSortView
+                android:id="@+id/quotesSortView2"
+                style="@style/CustomisedQuotesSortView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Text.Black.Medium.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:orientation="vertical"
+                android:text="Custom Category Views" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/margin_default">
+
+                <com.karhoo.uisdk.screen.booking.quotes.category.CategoryView
+                    android:id="@+id/customCategoryView1"
+                    style="@style/CustomisedCategoryView1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.karhoo.uisdk.screen.booking.quotes.category.CategoryView
+                    android:id="@+id/customCategoryView2"
+                    style="@style/CustomisedCategoryView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.karhoo.uisdk.screen.booking.quotes.category.CategoryView
+                    android:id="@+id/customCategoryView3"
+                    style="@style/CustomisedCategoryView3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Text.Black.Medium.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:orientation="vertical"
+                android:text="Custom Booking Quotes View" />
+
+            <com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesView
+                android:id="@+id/customBookingQuotesView"
+                style="@style/CustomBookingQuotesView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default" />
+
+            <com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesView
+                android:id="@+id/customBookingQuotesView2"
+                style="@style/CustomBookingQuotesView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_default"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/Text.Black.Medium.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:orientation="vertical"
+                android:text="Custom Booking Payment View " />
+
+            <com.karhoo.uisdk.screen.booking.booking.payment.BookingPaymentView
+                android:id="@+id/customBookingPaymentView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default" />
+
+            <com.karhoo.uisdk.screen.booking.booking.payment.BookingPaymentView
+                android:id="@+id/customBookingPaymentView2"
+                style="@style/CustomPaymentView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginEnd="@dimen/margin_default" />
+
+            <com.karhoo.uisdk.screen.booking.booking.payment.BookingPaymentView
+                android:id="@+id/customBookingPaymentView3"
+                style="@style/CustomPaymentView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_default" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
