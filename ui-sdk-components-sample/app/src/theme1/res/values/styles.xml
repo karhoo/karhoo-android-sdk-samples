@@ -1,6 +1,5 @@
 <resources>
     <!-- Base application theme. -->
-
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -12,21 +11,6 @@
         <item name="colorAccent">@color/secondary</item>
         <item name="colorControlNormal">@color/primary_green</item>
         <item name="android:textColor">@color/dark_grey</item>
-    </style>
-
-    <style name="CustomisedBookingsPrice">
-        <item name="quotesHeaderText">@style/Text.White.Large</item>
-        <item name="quotesDetailsText">@style/Text.White.Small</item>
-    </style>
-
-    <style name="CustomisedBookingPriceBold">
-        <item name="quotesHeaderText">@style/Text.White.XSmall</item>
-        <item name="quotesDetailsText">@style/Text.White.XXLarge.Bold</item>
-    </style>
-
-    <style name="KhBookingETAPriceView">
-        <item name="android:background">@drawable/uisdk_gradient_button_enabled</item>
-        <item name="textAllCaps">false</item>
     </style>
 
     <style name="CustomisedQuotesSortView">

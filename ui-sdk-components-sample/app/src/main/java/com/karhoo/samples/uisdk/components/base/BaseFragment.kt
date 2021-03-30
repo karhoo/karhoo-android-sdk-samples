@@ -6,14 +6,22 @@ import com.karhoo.sdk.api.KarhooError
 
 open class BaseFragment : Fragment() {
     fun toastErrorMessage(error: KarhooError) {
-        Toast.makeText(activity,
-                       error.userFriendlyMessage,
-                       Toast.LENGTH_LONG).show()
+        if(activity != null) {
+            Toast.makeText(
+                activity,
+                error.userFriendlyMessage,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     fun toastErrorMessage(resId: Int) {
-        Toast.makeText(activity,
-                       resId,
-                       Toast.LENGTH_LONG).show()
+        if(activity != null) {
+            Toast.makeText(
+                activity,
+                resId,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }

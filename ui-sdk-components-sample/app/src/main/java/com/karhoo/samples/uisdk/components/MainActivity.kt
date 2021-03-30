@@ -15,6 +15,7 @@ import com.karhoo.samples.uisdk.components.booking.TripBookingFragment
 import com.karhoo.samples.uisdk.components.configuration.ConfigurationFragment
 import com.karhoo.samples.uisdk.components.configuration.ConfigurationStateViewModel
 import com.karhoo.samples.uisdk.components.configuration.ConfigurationViewContract
+import com.karhoo.samples.uisdk.components.customviews.CustomisedViewsFragment
 import com.karhoo.samples.uisdk.components.planning.TripPlanningFragment
 import com.karhoo.samples.uisdk.components.quotes.TripQuotesFragment
 import com.karhoo.samples.uisdk.components.tracking.TripTrackingFragment
@@ -25,7 +26,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val NUM_PAGES = 5
     private lateinit var viewPager: ViewPager2
     private lateinit var pages: List<BaseFragment>
     private val headers = listOf(
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         R.string.book_trip_header,
         R.string.track_trip_header
     )
+    private val NUM_PAGES = headers.size
 
     private val bookingRequestStateViewModel: BookingRequestStateViewModel by lazy {
         ViewModelProvider(this).get(BookingRequestStateViewModel::class.java)
@@ -54,12 +55,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        for(fragment in supportFragmentManager.fragments) {
+        for (fragment in supportFragmentManager.fragments) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -80,9 +83,7 @@ class MainActivity : AppCompatActivity() {
             TripTrackingFragment.newInstance(this, bookingRequestStateViewModel)
         )
 
-        val pagerAdapter = ScreenSlidePagerAdapter(this).apply {
-            data = pages
-        }
+        val pagerAdapter = ScreenSlidePagerAdapter(this)
 
         pager.adapter = pagerAdapter
 
@@ -122,43 +123,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (viewPager.currentItem == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed()
+        if(this::viewPager.isInitialized) {
+            if (viewPager.currentItem == 0) {
+                // If the user is currently looking at the first step, allow the system to handle the
+                // Back button. This calls finish() on this activity and pops the back stack.
+                super.onBackPressed()
+            } else {
+                // Otherwise, select the previous step.
+                viewPager.currentItem = viewPager.currentItem - 1
+            }
         } else {
-            // Otherwise, select the previous step.
-            viewPager.currentItem = viewPager.currentItem - 1
+            super.onBackPressed()
         }
     }
 
-    private inner class ScreenSlidePagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
-        var data = listOf(
-            ConfigurationFragment.newInstance(configurationStateViewModel),
-            TripPlanningFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel
-            ),
-            TripQuotesFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel
-            ),
-            TripBookingFragment.newInstance(
-                fragmentActivity,
-                bookingStatusStateViewModel,
-                bookingSupplierViewModel,
-                bookingRequestStateViewModel
-            ),
-            TripTrackingFragment.newInstance(
-                fragmentActivity,
-                bookingRequestStateViewModel
-            )
-        )
-
+    private inner class ScreenSlidePagerAdapter(fragmentActivity: FragmentActivity) :
+        FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int = NUM_PAGES
 
-        override fun createFragment(position: Int): Fragment = data[position]
+        override fun createFragment(position: Int): Fragment = pages[position]
 
     }
 }

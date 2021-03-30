@@ -23,6 +23,8 @@
     <string name="stop">Stop</string>
     <string name="book">Book</string>
 
+    <string name="custom_views">Custom Views</string>
+
     <string name="payment_issue">Payment Issue</string>
     <string name="payment_issue_message">There has been an issue with your card</string>
     <string name="add_card">ADD CARD</string>

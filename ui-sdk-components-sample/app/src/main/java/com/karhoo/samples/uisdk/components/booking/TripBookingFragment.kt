@@ -9,11 +9,17 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.karhoo.samples.uisdk.components.R
 import com.karhoo.samples.uisdk.components.base.BaseFragment
+import com.karhoo.samples.uisdk.components.customviews.CustomisedViewsFragment.Companion.CUSTOMISED_VIEWS_QUOTE
+import com.karhoo.sdk.api.model.LocationInfo
+import com.karhoo.sdk.api.model.Position
 import com.karhoo.sdk.api.model.Quote
+import com.karhoo.sdk.api.model.TripLocationInfo
 import com.karhoo.uisdk.screen.booking.booking.bookingrequest.BookingRequestViewContract
 import com.karhoo.uisdk.screen.booking.booking.payment.adyen.AdyenPaymentView
+import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewContract
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.booking.quotes.QuoteListStatus
+import com.karhoo.uisdk.screen.booking.domain.address.BookingStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
 import com.karhoo.uisdk.screen.web.WebActivity
@@ -85,6 +91,15 @@ class TripBookingFragment : BaseFragment() {
     companion object {
         const val REQ_CODE_BRAINTREE = 301
         const val REQ_CODE_BRAINTREE_GUEST = 302
+
+        private val ORIGIN = LocationInfo(
+            placeId = "originId",
+            position = Position(1.0, 2.0)
+        )
+        private val DESTINATION = LocationInfo(
+            placeId = "destinationId",
+            position = Position(0.5, 1.5)
+        )
 
         @JvmStatic
         fun newInstance(
