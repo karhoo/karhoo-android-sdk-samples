@@ -35,12 +35,15 @@ android {
         }
     }
 
+    // Theme1 uses the default icons and style schemes
     sourceSets.theme1 {
         res.srcDirs = ['res', 'src/theme1/res']
     }
+    // Theme2 uses custom icons and style schemes with a dark primary color and accent
     sourceSets.theme2 {
         res.srcDirs = ['res', 'src/main/res']
     }
+    // Theme3 uses custom icons and style schemes with a light primary color and accent
     sourceSets.theme3 {
         res.srcDirs = ['res', 'src/theme3/res']
     }
