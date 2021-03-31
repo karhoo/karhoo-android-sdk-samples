@@ -34,11 +34,11 @@ class CustomisedViewsFragment : BaseFragment() {
         bookingPriceViewBold.bindPrebook(CUSTOMISED_VIEWS_QUOTE, "15:04 25 Dec 2021", "ASAP", Currency.getInstance(GBP))
 
         val bookingQuotesView: BookingQuotesView = view.findViewById(R.id.customBookingQuotesView)
-        bookingQuotesView.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!)
+        bookingQuotesView.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null)
         bookingQuotesView.setCapacity(2,2)
 
         val bookingQuotesView2: BookingQuotesView = view.findViewById(R.id.customBookingQuotesView2)
-        bookingQuotesView2.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!)
+        bookingQuotesView2.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null)
         bookingQuotesView2.setCapacity(2,2)
 
         val bookingPaymentView: BookingPaymentView = view.findViewById(R.id.customBookingPaymentView)
@@ -62,7 +62,7 @@ class CustomisedViewsFragment : BaseFragment() {
             price = QuotePrice(currencyCode = "DEFAULT_CURRENCY",
                 highPrice = 577,
                 lowPrice = 577),
-            fleet = FleetInfo("52123bd9-cc98-4b8d-a98a-122446d69e79",
+            fleet = Fleet("52123bd9-cc98-4b8d-a98a-122446d69e79",
                 name = "iCabbi [Sandbox]",
                 logoUrl = "https://cdn.karhoo.com/d/images/logos/52123bd9-cc98-4b8d-a98a-122446d69e79.png",
                 description = "Some fleet description",
