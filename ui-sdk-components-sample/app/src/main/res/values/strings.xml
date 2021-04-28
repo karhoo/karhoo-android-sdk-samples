@@ -30,7 +30,7 @@
     <string name="add_card">ADD CARD</string>
     <string name="cancel">CANCEL</string>
     <string name="track">Track</string>
-    <string name="title_activity_threedsecure">3D Secure</string>
+    <string name="kh_uisdk_title_activity_threedsecure">3D Secure</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="vehicle">Vehicle</string>
