@@ -49,12 +49,12 @@ android {
 }
 
 dependencies {
-    api 'com.karhoo:uisdk:1.2.0'
+    api 'com.github.karhoo:karhoo-android-ui-sdk:1.4.0-rc1'
     api 'com.braintreepayments.api:drop-in:4.4.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.+'

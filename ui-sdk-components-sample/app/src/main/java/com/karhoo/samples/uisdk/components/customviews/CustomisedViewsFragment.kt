@@ -12,7 +12,6 @@ import com.karhoo.sdk.api.network.request.QuoteQTA
 import com.karhoo.uisdk.screen.booking.booking.BookingPriceView
 import com.karhoo.uisdk.screen.booking.booking.payment.BookingPaymentView
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesView
-import com.karhoo.uisdk.screen.booking.quotes.QuotesSortView
 import com.karhoo.uisdk.util.GBP
 import java.util.*
 
@@ -34,11 +33,11 @@ class CustomisedViewsFragment : BaseFragment() {
         bookingPriceViewBold.bindPrebook(CUSTOMISED_VIEWS_QUOTE, "15:04 25 Dec 2021", "ASAP", Currency.getInstance(GBP))
 
         val bookingQuotesView: BookingQuotesView = view.findViewById(R.id.customBookingQuotesView)
-        bookingQuotesView.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null)
+        bookingQuotesView.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null, false)
         bookingQuotesView.setCapacity(2,2)
 
         val bookingQuotesView2: BookingQuotesView = view.findViewById(R.id.customBookingQuotesView2)
-        bookingQuotesView2.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null)
+        bookingQuotesView2.bindViews(CUSTOMISED_VIEWS_QUOTE.fleet.logoUrl, CUSTOMISED_VIEWS_QUOTE.fleet.name!!, CUSTOMISED_VIEWS_QUOTE.vehicle.vehicleClass!!, null, false)
         bookingQuotesView2.setCapacity(2,2)
 
         val bookingPaymentView: BookingPaymentView = view.findViewById(R.id.customBookingPaymentView)
@@ -53,9 +52,6 @@ class CustomisedViewsFragment : BaseFragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = CustomisedViewsFragment()
-
         val CUSTOMISED_VIEWS_QUOTE = Quote(id = "NTIxMjNiZDktY2M5OC00YjhkLWE5OGEtMTIyNDQ2ZDY5ZTc5O3NhbG9vbg==",
             quoteType = QuoteType.ESTIMATED,
             quoteSource = QuoteSource.FLEET,
