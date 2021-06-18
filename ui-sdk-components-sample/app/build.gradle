@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    api 'com.github.karhoo:karhoo-android-ui-sdk:1.4.0-rc1'
+    api 'com.github.karhoo:karhoo-android-ui-sdk:1.4.0'
     api 'com.braintreepayments.api:drop-in:4.6.0'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
