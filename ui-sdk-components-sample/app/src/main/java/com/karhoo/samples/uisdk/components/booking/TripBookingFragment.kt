@@ -9,17 +9,13 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.karhoo.samples.uisdk.components.R
 import com.karhoo.samples.uisdk.components.base.BaseFragment
-import com.karhoo.samples.uisdk.components.customviews.CustomisedViewsFragment.Companion.CUSTOMISED_VIEWS_QUOTE
 import com.karhoo.sdk.api.model.LocationInfo
 import com.karhoo.sdk.api.model.Position
 import com.karhoo.sdk.api.model.Quote
-import com.karhoo.sdk.api.model.TripLocationInfo
 import com.karhoo.uisdk.screen.booking.booking.bookingrequest.BookingRequestViewContract
 import com.karhoo.uisdk.screen.booking.booking.payment.adyen.AdyenPaymentView
-import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewContract
 import com.karhoo.uisdk.screen.booking.booking.quotes.BookingQuotesViewModel
 import com.karhoo.uisdk.screen.booking.booking.quotes.QuoteListStatus
-import com.karhoo.uisdk.screen.booking.domain.address.BookingStatus
 import com.karhoo.uisdk.screen.booking.domain.address.BookingStatusStateViewModel
 import com.karhoo.uisdk.screen.booking.domain.bookingrequest.BookingRequestStateViewModel
 import com.karhoo.uisdk.screen.web.WebActivity
@@ -82,7 +78,7 @@ class TripBookingFragment : BaseFragment() {
                 val selectedQuote = quote.selectedQuote
                 this.quote = selectedQuote
                 this.quote?.let {
-                    booking_request_widget?.showBookingRequest(it, null)
+                    booking_request_widget?.showBookingRequest(quote = it, outboundTripId = null, bookingMetadata = null)
                 }
             }
         }
