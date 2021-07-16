@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name="com.karhoo.uisdk.screen.address.AddressActivity"
-            android:label="@string/title_activity_address"
+            android:label="@string/kh_uisdk_title_activity_address"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize"
@@ -45,15 +45,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.karhoo.uisdk.screen.trip.TripActivity"
-            android:label="@string/title_activity_trip"
+            android:label="@string/kh_uisdk_title_activity_trip"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.karhoo.uisdk.screen.rides.RidesActivity"
-            android:label="@string/title_activity_rides"
+            android:label="@string/kh_uisdk_title_activity_rides"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.karhoo.uisdk.screen.rides.detail.RideDetailActivity"
-            android:label="@string/title_activity_rides"
+            android:label="@string/kh_uisdk_title_activity_rides"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.karhoo.uisdk.screen.trip.bookingstatus.driverphoto.DriverPhotoActivity"
@@ -62,7 +62,7 @@
             android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name="com.karhoo.uisdk.screen.rides.feedback.FeedbackActivity"
-            android:label="@string/feedback"
+            android:label="@string/kh_uisdk_feedback"
             android:screenOrientation="portrait" />
     </application>
 
