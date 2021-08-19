@@ -49,8 +49,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.karhoo:karhoo-android-ui-sdk:1.4.2'
-    api 'com.braintreepayments.api:drop-in:4.4.0'
+    implementation 'com.github.karhoo:karhoo-android-ui-sdk:1.4.3'
+    api 'com.braintreepayments.api:drop-in:5.2.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.5.0'
