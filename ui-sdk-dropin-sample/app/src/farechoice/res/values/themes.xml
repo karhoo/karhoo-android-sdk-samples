@@ -15,22 +15,4 @@
         <item name="android:statusBarColor" tools:targetApi="l">@color/primary</item>
         <!-- Customize your theme here. -->
     </style>
-
-
-    <style name="KhBookingMapViewStyle">
-        <item name="mapPickupPin">@drawable/ic_pickup_pin</item>
-        <item name="mapDropOffPin">@drawable/uisdk_ic_dropoff_pin</item>
-        <item name="curvedLineColor">@color/primary</item>
-    </style>
-
-    <style name="KhAddressMapPickupIcon">
-        <item name="srcCompat">@drawable/uisdk_ic_dropoff_pin</item>
-        <item name="android:backgroundTint">@color/colorWhite</item>
-    </style>
-
-    <style name="KhDropOffDot">
-        <item name="srcCompat">@drawable/uisdk_ic_destination</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
 </resources>

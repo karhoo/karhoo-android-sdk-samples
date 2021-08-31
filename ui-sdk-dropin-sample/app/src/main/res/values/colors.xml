@@ -7,4 +7,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primary">#ffd700</color>
+    <color name="secondary">#27742d</color>
+    <color name="accent">#db1020</color>
+    <color name="colorAccent">@color/accent</color>
+
+    <color name="pickup_icon">@color/secondary</color>
+    <color name="dropoff_icon">@color/primary</color>
+    <color name="dropoff_icon_flag_color">#F7F7F7</color>
+    <color name="drop_off_dot">@color/primary</color>
+
 </resources>

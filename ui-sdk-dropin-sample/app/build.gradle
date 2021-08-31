@@ -32,6 +32,38 @@ android {
         buildConfigField("String", "STAGING_AUTH_HOST", (secureProps.getProperty("STAGING_AUTH_HOST") ?: ""))
         buildConfigField("String", "STAGING_GUEST_HOST", (secureProps.getProperty("STAGING_GUEST_HOST") ?: ""))
     }
+    flavorDimensions "default"
+    productFlavors {
+        farechoice {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "default"
+            applicationIdSuffix = ".farechoice"
+            versionNameSuffix = "-farechoice"
+        }
+        amazon {
+            dimension = "default"
+            applicationIdSuffix = ".amazon"
+            versionNameSuffix = "-amazon"
+        }
+        mcdolands {
+            dimension = "default"
+            applicationIdSuffix = ".mcdolands"
+            versionNameSuffix = "-mcdolands"
+        }
+        ikea {
+            dimension = "default"
+            applicationIdSuffix = ".ikea"
+            versionNameSuffix = "-ikea"
+        }
+        instagram {
+            dimension = "default"
+            applicationIdSuffix = ".instagram"
+            versionNameSuffix = "-instagram"
+        }
+    }
 
     buildTypes {
         release {
