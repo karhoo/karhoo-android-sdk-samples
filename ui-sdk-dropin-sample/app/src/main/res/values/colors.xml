@@ -18,4 +18,9 @@
     <color name="dropoff_icon_flag_color">#F7F7F7</color>
     <color name="drop_off_dot">@color/primary</color>
 
+    <color name="background_sort_tabs">@color/secondary</color>
+    <color name="sort_left_selected">@color/accent</color>
+    <color name="sort_right_selected">@color/accent</color>
+
+    <color name="toolbar_background">@color/primary</color>
 </resources>
