@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UI SDK Amazon</string>
+    <string name="welcome_message">Amazon UI Sample</string>
+</resources>

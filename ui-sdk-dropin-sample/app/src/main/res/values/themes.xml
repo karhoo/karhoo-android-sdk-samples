@@ -2,14 +2,60 @@
     <!-- Base application theme. -->
     <style name="Theme.SampleApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/secondary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorControlNormal">@color/med_grey</item>
+        <item name="colorControlActivated">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/primary</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.Toolbar">
+        <item name="colorControlNormal">@color/off_white</item>
+        <item name="android:textColorSecondary">@color/off_white</item>
+        <item name="actionMenuTextColor">@color/off_black</item>
+        <item name="android:textColorPrimary">@color/off_white</item>
+        <item name="android:background">@color/toolbar_background</item>
+    </style>
+
+    <style name="KhBookingMapViewStyle">
+        <item name="mapPickupPin">@drawable/ic_pickup_pin</item>
+        <item name="mapDropOffPin">@drawable/uisdk_ic_dropoff_pin</item>
+        <item name="curvedLineColor">@color/map_curve_line</item>
+    </style>
+
+    <style name="KhAddressMapPickupIcon">
+        <item name="srcCompat">@drawable/uisdk_ic_dropoff_pin</item>
+        <item name="android:backgroundTint">@color/colorWhite</item>
+    </style>
+
+    <style name="KhDropOffDot">
+        <item name="srcCompat">@drawable/uisdk_ic_destination</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="KhVehicleClassTabs" parent="Widget.Design.TabLayout">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="selectedTabTextColor">@color/text_primary</item>
+        <item name="unselectedTabTextColor">@color/text_alternative</item>
+        <item name="unavailableTabTextColor">@color/text_unavailable</item>
+        <item name="tabIndicatorColor">@color/accent</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
+        <item name="tabBackground">@drawable/uisdk_category_selector_tab</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabPaddingEnd">-3dp</item>
+        <item name="tabPaddingStart">-3dp</item>
+        <item name="android:layout_marginTop">@dimen/spacing_none</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_none</item>
     </style>
 </resources>

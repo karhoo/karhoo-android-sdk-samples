@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#00203F</color>
+    <color name="secondary">#00BFA5</color>
+    <color name="accent">#3492D5</color>
+    <color name="map_curve_line">@color/primary</color>
+</resources>

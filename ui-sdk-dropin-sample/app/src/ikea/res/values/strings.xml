@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UI SDK Ikea</string>
+    <string name="welcome_message">Ikea UI Sample</string>
+</resources>
