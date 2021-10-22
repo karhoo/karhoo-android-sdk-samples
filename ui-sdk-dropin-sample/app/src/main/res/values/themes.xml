@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SampleApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Theme.SampleApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/secondary</item>
@@ -57,5 +57,17 @@
         <item name="tabPaddingStart">-3dp</item>
         <item name="android:layout_marginTop">@dimen/spacing_none</item>
         <item name="android:layout_marginBottom">@dimen/spacing_none</item>
+    </style>
+
+    <style name="KhQuotesSortTabs" parent="Widget.Design.TabLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">26dp</item>
+        <item name="tabSelectedTextColor">@color/background_sort_tabs</item>
+        <item name="tabIndicatorColor">@color/background_sort_tabs</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
     </style>
 </resources>
