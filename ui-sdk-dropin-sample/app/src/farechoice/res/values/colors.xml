@@ -3,5 +3,9 @@
     <color name="primary">#00203F</color>
     <color name="secondary">#00BFA5</color>
     <color name="accent">#3492D5</color>
+    <color name="colorAccent">@color/accent</color>
     <color name="map_curve_line">@color/primary</color>
+    <color name="background_sort_tabs">@color/accent</color>
+    <color name="sort_left_selected">@color/accent</color>
+    <color name="sort_right_selected">@color/accent</color>
 </resources>

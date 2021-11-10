@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">UI SDK DropIn Sample</string>
     <string name="book_a_trip_guest">Book a Trip [Guest]</string>
+    <string name="book_a_trip_guest_with_passenger">Book a Trip [Guest + Passenger Details]</string>
+    <string name="book_a_trip_guest_with_passenger_journey">Book a Trip [Passenger Details + Journey]</string>
     <string name="book_a_trip_token_exchange">Book a Trip [Token]</string>
+    <string name="book_a_trip_token_exchange_with_passenger">Book a Trip [Token + Passenger Details]</string>
     <string name="welcome_message">Karhoo UI SDK Sample</string>
 </resources>

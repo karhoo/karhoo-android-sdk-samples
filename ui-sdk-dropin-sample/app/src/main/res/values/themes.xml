@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SampleApp" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Theme.SampleApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/secondary</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="colorControlNormal">@color/med_grey</item>
+        <item name="colorControlNormal">@color/kh_uisdk_med_grey</item>
         <item name="colorControlActivated">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -17,10 +17,10 @@
     </style>
 
     <style name="AppTheme.Toolbar">
-        <item name="colorControlNormal">@color/off_white</item>
-        <item name="android:textColorSecondary">@color/off_white</item>
-        <item name="actionMenuTextColor">@color/off_black</item>
-        <item name="android:textColorPrimary">@color/off_white</item>
+        <item name="colorControlNormal">@color/kh_uisdk_off_white</item>
+        <item name="android:textColorSecondary">@color/kh_uisdk_off_white</item>
+        <item name="actionMenuTextColor">@color/kh_uisdk_off_black</item>
+        <item name="android:textColorPrimary">@color/kh_uisdk_off_white</item>
         <item name="android:background">@color/toolbar_background</item>
     </style>
 
@@ -44,9 +44,9 @@
     <style name="KhVehicleClassTabs" parent="Widget.Design.TabLayout">
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="selectedTabTextColor">@color/text_primary</item>
-        <item name="unselectedTabTextColor">@color/text_alternative</item>
-        <item name="unavailableTabTextColor">@color/text_unavailable</item>
+        <item name="selectedTabTextColor">@color/kh_uisdk_text_primary</item>
+        <item name="unselectedTabTextColor">@color/kh_uisdk_text_alternative</item>
+        <item name="unavailableTabTextColor">@color/kh_uisdk_text_unavailable</item>
         <item name="tabIndicatorColor">@color/accent</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
@@ -55,7 +55,19 @@
         <item name="tabMode">fixed</item>
         <item name="tabPaddingEnd">-3dp</item>
         <item name="tabPaddingStart">-3dp</item>
-        <item name="android:layout_marginTop">@dimen/spacing_none</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_none</item>
+        <item name="android:layout_marginTop">@dimen/kh_uisdk_spacing_none</item>
+        <item name="android:layout_marginBottom">@dimen/kh_uisdk_spacing_none</item>
+    </style>
+
+    <style name="KhQuotesSortTabs" parent="Widget.Design.TabLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">26dp</item>
+        <item name="tabSelectedTextColor">@color/background_sort_tabs</item>
+        <item name="tabIndicatorColor">@color/background_sort_tabs</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabTextAppearance">@style/VehicleClassTabTextAppeareance</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
     </style>
 </resources>
