@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:background="@color/tracking_background"
         android:padding="@dimen/card_spacing"
-        tools:context=".booking.BraintreeTripBookingFragment">
+        tools:context=".booking.TripBookingFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/address_card"

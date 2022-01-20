@@ -1,6 +1,5 @@
 package com.karhoo.samples.networksdk
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,11 +10,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.karhoo.samples.networksdk.base.BaseFragment
-import com.karhoo.samples.networksdk.booking.AdyenTripBookingFragment
 import com.karhoo.samples.networksdk.booking.BookingRequestStateViewModel
-import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment
-import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment.Companion.REQ_CODE_BRAINTREE
-import com.karhoo.samples.networksdk.booking.BraintreeTripBookingFragment.Companion.REQ_CODE_BRAINTREE_GUEST
+import com.karhoo.samples.networksdk.booking.TripBookingFragment
 import com.karhoo.samples.networksdk.configuration.ConfigurationFragment
 import com.karhoo.samples.networksdk.configuration.ConfigurationStateViewModel
 import com.karhoo.samples.networksdk.configuration.ConfigurationViewContract
@@ -24,7 +20,6 @@ import com.karhoo.samples.networksdk.planning.TripPlanningFragment
 import com.karhoo.samples.networksdk.quotes.BookingQuoteStateViewModel
 import com.karhoo.samples.networksdk.quotes.TripQuotesFragment
 import com.karhoo.samples.networksdk.tracking.TripTrackingFragment
-import com.karhoo.sdk.api.KarhooApi
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel
             ),
-            BraintreeTripBookingFragment.newInstance(
+            TripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel,
@@ -123,21 +118,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getBookingFragment(): BaseFragment {
-        return if (KarhooApi.userStore.paymentProvider?.id == "Adyen") {
-            AdyenTripBookingFragment.newInstance(
-                this,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel,
-                bookingRequestStateViewModel
-            )
-        } else {
-            BraintreeTripBookingFragment.newInstance(
-                this,
-                bookingPlanningStateViewModel,
-                bookingQuoteStateViewModel,
-                bookingRequestStateViewModel
-            )
-        }
+        return TripBookingFragment.newInstance(
+            this,
+            bookingPlanningStateViewModel,
+            bookingQuoteStateViewModel,
+            bookingRequestStateViewModel
+        )
     }
 
     override fun onBackPressed() {
@@ -151,23 +137,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQ_CODE_BRAINTREE || requestCode == REQ_CODE_BRAINTREE_GUEST) {
-            (pages[3] as BraintreeTripBookingFragment).onBraintreeActivityResult(
-                requestCode,
-                resultCode,
-                data
-            )
-        } else if (requestCode == AdyenTripBookingFragment.REQ_CODE_ADYEN) {
-            (pages[3] as AdyenTripBookingFragment).onAdyenActivityResult(
-                requestCode,
-                resultCode,
-                data
-            )
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         var data = mutableListOf(
             ConfigurationFragment.newInstance(configurationStateViewModel),
@@ -177,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel
             ),
-            BraintreeTripBookingFragment.newInstance(
+            TripBookingFragment.newInstance(
                 fa,
                 bookingPlanningStateViewModel,
                 bookingQuoteStateViewModel,

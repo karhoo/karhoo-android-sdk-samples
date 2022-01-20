@@ -21,6 +21,7 @@ import com.karhoo.sdk.api.KarhooError
 import com.karhoo.sdk.api.model.AuthenticationMethod
 import com.karhoo.sdk.api.network.request.UserLogin
 import com.karhoo.sdk.api.network.response.Resource
+import com.karhoo.uisdk.KarhooUISDK
 import kotlinx.android.synthetic.main.fragment_configuration.*
 
 class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
@@ -145,6 +146,9 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
     }
 
     private fun setConfig(authMethod: AuthenticationMethod) {
+        context?.applicationContext?.let { KarhooSandboxConfig(it, authMethod) }
+            ?.let { KarhooUISDK.setConfiguration(it) }
+
         (requireContext().applicationContext as SampleApplication)
             .setConfiguration(KarhooSandboxConfig(this.requireContext(), authMethod))
 
