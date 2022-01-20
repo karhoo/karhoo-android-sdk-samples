@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getBookingFragment(): BaseFragment {
-        return if (KarhooApi.userStore.paymentProvider?.id == "Adyen") {
+        return if (KarhooApi.userStore.paymentProvider?.provider?.id == "Adyen") {
             AdyenTripBookingFragment.newInstance(
                 this,
                 bookingPlanningStateViewModel,

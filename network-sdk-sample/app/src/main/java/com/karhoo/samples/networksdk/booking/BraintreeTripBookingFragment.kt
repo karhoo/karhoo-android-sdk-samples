@@ -46,6 +46,8 @@ import com.karhoo.sdk.api.network.request.Payer
 import com.karhoo.sdk.api.network.request.SDKInitRequest
 import com.karhoo.sdk.api.network.request.TripBooking
 import com.karhoo.sdk.api.network.response.Resource
+import com.karhoo.uisdk.screen.booking.checkout.CheckoutActivity
+import com.karhoo.uisdk.screen.booking.domain.address.BookingInfo
 import kotlinx.android.synthetic.main.fragment_trip_booking.book_button
 import kotlinx.android.synthetic.main.fragment_trip_booking.change_button
 import kotlinx.android.synthetic.main.fragment_trip_booking.fleet_name
@@ -59,6 +61,7 @@ import kotlinx.android.synthetic.main.fragment_trip_booking.price
 import kotlinx.android.synthetic.main.fragment_trip_booking.quote_id
 import kotlinx.android.synthetic.main.fragment_trip_booking.selected_dropoff
 import kotlinx.android.synthetic.main.fragment_trip_booking.selected_pickup
+import org.joda.time.DateTime
 import java.util.Currency
 
 class BraintreeTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentChangedListener {
@@ -144,8 +147,24 @@ class BraintreeTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentCh
     }
 
     private fun bookTrip() {
-        sdkInitFor(::getNonce)
+//        sdkInitFor(::getNonce)
+
+        val builder = CheckoutActivity.Builder()
+            .quote(quote!!)
+            .bookingInfo(
+                BookingInfo(bookingPlanningStateViewModel.currentState.pickup,
+                    bookingPlanningStateViewModel.currentState.destination,
+                    DateTime()
+                )
+            )
+
+        startActivityForResult(
+            context?.let { builder.build(it) },
+            REQ_CODE_BOOKING_REQUEST_ACTIVITY
+        )
+
     }
+    private val REQ_CODE_BOOKING_REQUEST_ACTIVITY = 304
 
     private fun sdkInitFor(func: (braintreeSDKToken: String) -> Unit) {
         toastErrorMessage("Initialise Payment SDK (client-token)")
@@ -426,6 +445,25 @@ class BraintreeTripBookingFragment : BaseFragment(), UserManager.OnUserPaymentCh
     override fun onSavedPaymentInfoChanged(userPaymentInfo: SavedPaymentInfo?) {
         toastErrorMessage("Payment Info Changed")
         bindCardDetails(userPaymentInfo)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQ_CODE_BOOKING_REQUEST_ACTIVITY) {
+            if (data?.hasExtra(CheckoutActivity.BOOKING_CHECKOUT_PREBOOK_TRIP_INFO_KEY) == true) {
+                processTrip(data)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun processTrip(data: Intent) {
+        val tripInfo = data.getParcelableExtra<TripInfo>(CheckoutActivity.BOOKING_CHECKOUT_PREBOOK_TRIP_INFO_KEY)
+        if (tripInfo != null) {
+            bookingRequestStateViewModel.process(
+                BookingRequestViewContract.BookingRequestEvent
+                    .BookingSuccess(tripInfo, isGuest())
+            )
+        }
     }
 
     companion object {
