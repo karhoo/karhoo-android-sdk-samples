@@ -23,23 +23,17 @@
     <string name="stop">Stop</string>
     <string name="book">Book</string>
 
-    <string name="payment_issue">Payment Issue</string>
-    <string name="payment_issue_message">There has been an issue with your card</string>
-    <string name="add_card">ADD CARD</string>
     <string name="cancel">CANCEL</string>
     <string name="track">Track</string>
-    <string name="title_activity_threedsecure">3D Secure</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="vehicle">Vehicle</string>
     <string name="fleet">Fleet</string>
     <string name="address">Address</string>
     <string name="passenger">Passenger Details</string>
-    <string name="payment">Payment Details</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="email">email</string>
     <string name="phone">Phone</string>
-    <string name="card_ending">Card ending ..%s</string>
 
 </resources>

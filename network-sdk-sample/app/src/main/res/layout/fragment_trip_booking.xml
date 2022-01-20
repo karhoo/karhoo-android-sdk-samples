@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:background="@color/booking_background"
         android:padding="@dimen/card_spacing"
-        tools:context=".booking.BraintreeTripBookingFragment">
+        tools:context=".booking.TripBookingFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/trip_card"
@@ -192,56 +192,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/payment_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/card_spacing"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passenger_details">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/payment_card_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/booking_card"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/payment_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/payment"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/payment_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/payment_title"
-                    tools:text="Payment" />
-
-                <Button
-                    android:id="@+id/change_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/booking_button"
-                    android:text="Change"
-                    android:textColor="@color/colorWhite"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/payment_title" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.cardview.widget.CardView>
-
         <Button
             android:id="@+id/book_button"
             android:layout_width="wrap_content"
@@ -252,7 +202,7 @@
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payment_card" />
+            app:layout_constraintTop_toBottomOf="@+id/passenger_details" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/loadingProgressBar"
@@ -262,7 +212,7 @@
             android:layout_marginTop="@dimen/card_spacing"
             android:visibility="invisible"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/payment_card" />
+            app:layout_constraintTop_toBottomOf="@+id/passenger_details" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

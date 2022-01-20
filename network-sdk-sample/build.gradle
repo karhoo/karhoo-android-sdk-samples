@@ -17,7 +17,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
             url "https://cardinalcommerceprod.jfrog.io/artifactory/android"
@@ -26,6 +26,7 @@ allprojects {
                 password 'AKCp8jQcoDy2hxSWhDAUQKXLDPDx6NYRkqrgFLRc3qDrayg6rrCbJpsKKyMwaykVL8FWusJpp'
             }
         }
+        jcenter()
     }
 }
 
