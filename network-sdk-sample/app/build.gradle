@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    api 'com.github.karhoo:karhoo-android-ui-sdk:1.5.1'
+    implementation 'com.github.karhoo:karhoo-android-ui-sdk:1.5.2-rc1'
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.recyclerview:recyclerview:1.2.1'

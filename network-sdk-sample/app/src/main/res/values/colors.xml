@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="kh_uisdk_primary">#232f3e</color>
+    <color name="kh_uisdk_secondary">@color/dark_blue</color>
+    <color name="kh_uisdk_accent">#00464f</color>
+    <color name="secondary">@color/kh_uisdk_secondary</color>
+    <color name="primary">@color/kh_uisdk_primary</color>
+    <color name="accent">@color/kh_uisdk_accent</color>
+
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="secondary">@color/dark_blue</color>
     <color name="dark_blue">#181447</color>
     <color name="primary_green">#00CC66</color>
     <color name="dark_grey">#666666</color>
