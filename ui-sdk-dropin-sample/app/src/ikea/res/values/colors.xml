@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FFCC00</color>
-    <color name="secondary">#003399</color>
-    <color name="accent">#000000</color>
+    <color name="kh_uisdk_primary">#FFCC00</color>
+    <color name="kh_uisdk_secondary">#003399</color>
+    <color name="kh_uisdk_accent">#000000</color>
     <color name="map_curve_line">#2196F3</color>
 </resources>

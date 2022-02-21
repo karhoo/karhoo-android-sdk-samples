@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#00203F</color>
-    <color name="secondary">#00BFA5</color>
-    <color name="accent">#3492D5</color>
-    <color name="colorAccent">@color/accent</color>
-    <color name="map_curve_line">@color/primary</color>
-    <color name="background_sort_tabs">@color/accent</color>
-    <color name="sort_left_selected">@color/accent</color>
-    <color name="sort_right_selected">@color/accent</color>
+    <color name="kh_uisdk_primary">#00203F</color>
+    <color name="kh_uisdk_secondary">#00BFA5</color>
+    <color name="kh_uisdk_accent">#3492D5</color>
+    <color name="colorAccent">@color/kh_uisdk_accent</color>
+    <color name="map_curve_line">@color/kh_uisdk_primary</color>
+    <color name="background_sort_tabs">@color/kh_uisdk_accent</color>
+    <color name="sort_left_selected">@color/kh_uisdk_accent</color>
+    <color name="sort_right_selected">@color/kh_uisdk_accent</color>
 </resources>

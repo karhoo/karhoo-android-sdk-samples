@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#FF9800</color>
-    <color name="secondary">#27742d</color>
-    <color name="accent">#FF5722</color>
+    <color name="kh_uisdk_primary">#FF9800</color>
+    <color name="kh_uisdk_secondary">#27742d</color>
+    <color name="kh_uisdk_accent">#FF5722</color>
     <color name="colorAccent">#FF5722</color>
     <color name="map_curve_line">#FFEB3B</color>
 </resources>

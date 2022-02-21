@@ -8,20 +8,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="primary">#ffd700</color>
-    <color name="secondary">#27742d</color>
-    <color name="accent">#db1020</color>
-    <color name="colorAccent">@color/accent</color>
+    <color name="kh_uisdk_secondary">#ffd700</color>
+    <color name="kh_uisdk_primary">#27742d</color>
+    <color name="kh_uisdk_accent">#db1020</color>
+    <color name="colorAccent">@color/kh_uisdk_accent</color>
 
-    <color name="pickup_icon">@color/secondary</color>
-    <color name="dropoff_icon">@color/primary</color>
+    <color name="pickup_icon">@color/kh_uisdk_primary</color>
+    <color name="dropoff_icon">@color/kh_uisdk_secondary</color>
     <color name="dropoff_icon_flag_color">#F7F7F7</color>
-    <color name="drop_off_dot">@color/primary</color>
 
-    <color name="background_sort_tabs">@color/secondary</color>
-    <color name="sort_left_selected">@color/accent</color>
-    <color name="sort_right_selected">@color/accent</color>
+    <color name="background_sort_tabs">@color/kh_uisdk_secondary</color>
+    <color name="sort_left_selected">@color/kh_uisdk_accent</color>
+    <color name="sort_right_selected">@color/kh_uisdk_accent</color>
 
-    <color name="toolbar_background">@color/primary</color>
-    <color name="kh_uisdk_secondary">@color/secondary</color>
+    <color name="toolbar_background">@color/kh_uisdk_primary</color>
+    <color name="secondary">@color/kh_uisdk_secondary</color>
+    <color name="primary">@color/kh_uisdk_primary</color>
+    <color name="accent">@color/kh_uisdk_accent</color>
 </resources>
