@@ -6,4 +6,7 @@
     <string name="book_a_trip_token_exchange">Book a Trip [Token]</string>
     <string name="book_a_trip_token_exchange_with_passenger">Book a Trip [Token + Passenger Details]</string>
     <string name="welcome_message">Karhoo UI SDK Sample</string>
+
+    <string name="kh_uisdk_karhoo_general_terms_url">https://www.google.com/</string>
+    <string name="kh_uisdk_karhoo_privacy_policy_url">https://www.karhoo.com/</string>
 </resources>
