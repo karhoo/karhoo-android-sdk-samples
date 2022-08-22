@@ -22,10 +22,16 @@ import com.karhoo.sdk.api.model.AuthenticationMethod
 import com.karhoo.sdk.api.network.request.UserLogin
 import com.karhoo.sdk.api.network.response.Resource
 import com.karhoo.uisdk.KarhooUISDK
+import com.karhoo.uisdk.screen.booking.checkout.payment.AdyenPaymentManager
+import com.karhoo.uisdk.screen.booking.checkout.payment.BraintreePaymentManager
+import com.karhoo.uisdk.screen.booking.checkout.payment.adyen.AdyenPaymentView
+import com.karhoo.uisdk.screen.booking.checkout.payment.braintree.BraintreePaymentView
 import kotlinx.android.synthetic.main.fragment_configuration.*
 
 class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener {
     private lateinit var configurationStateViewModel: ConfigurationStateViewModel
+    private var braintreePaymentManager: BraintreePaymentManager = BraintreePaymentManager()
+    private var adyenPaymentManager: AdyenPaymentManager = AdyenPaymentManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +47,9 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adyenPaymentManager.paymentProviderView = AdyenPaymentView()
+        braintreePaymentManager.paymentProviderView = BraintreePaymentView()
 
         auth_type_spinner.setSelection(0)
         setConfig(AuthenticationMethod.KarhooUser())
@@ -78,11 +87,13 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         if (!userStore.isCurrentUserValid && loginType != AuthType.USERNAME_PASSWORD.value) {
             logout()
         }
+        var isAdyen = false
         val authMethod: AuthenticationMethod = when (loginType) {
             AuthType.USERNAME_PASSWORD.value -> {
                 AuthenticationMethod.KarhooUser()
             }
             AuthType.ADYEN_GUEST.value -> {
+                isAdyen = true
                 AuthenticationMethod.Guest(
                     identifier = BuildConfig.ADYEN_GUEST_CHECKOUT_IDENTIFIER,
                     referer = BuildConfig.GUEST_CHECKOUT_REFERER,
@@ -97,6 +108,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
                 )
             }
             AuthType.ADYEN_TOKEN.value -> {
+                isAdyen = true
                 AuthenticationMethod.TokenExchange(
                     clientId = BuildConfig.ADYEN_CLIENT_ID,
                     scope = BuildConfig.ADYEN_CLIENT_SCOPE
@@ -108,7 +120,7 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
             )
             else -> return
         }
-        setConfig(authMethod)
+        setConfig(authMethod, isAdyen = isAdyen)
         updateUiForConfig(authMethod)
         activity?.title = "Network SDK [$loginType]"
     }
@@ -145,13 +157,16 @@ class ConfigurationFragment : BaseFragment(), AdapterView.OnItemSelectedListener
         sign_out_button.visibility = GONE
     }
 
-    private fun setConfig(authMethod: AuthenticationMethod) {
-        context?.applicationContext?.let { KarhooSandboxConfig(it, authMethod) }
+    private fun setConfig(authMethod: AuthenticationMethod, isAdyen: Boolean = false) {
+        context?.applicationContext?.let { KarhooSandboxConfig(it, authMethod).apply {
+            paymentManager = if(!isAdyen) braintreePaymentManager else adyenPaymentManager
+        } }
             ?.let { KarhooUISDK.setConfiguration(it) }
 
         (requireContext().applicationContext as SampleApplication)
-            .setConfiguration(KarhooSandboxConfig(this.requireContext(), authMethod))
-
+            .setConfiguration(KarhooSandboxConfig(this.requireContext(), authMethod).apply {
+                paymentManager = if(!isAdyen) braintreePaymentManager else adyenPaymentManager
+            })
     }
 
     private fun updateUiForConfig(authMethod: AuthenticationMethod) {
