@@ -14,11 +14,17 @@ import com.karhoo.sdk.api.network.request.PassengerDetails
 import com.karhoo.sdk.api.network.response.Resource
 import com.karhoo.uisdk.KarhooUISDK
 import com.karhoo.uisdk.screen.booking.BookingActivity
+import com.karhoo.uisdk.screen.booking.checkout.payment.AdyenPaymentManager
+import com.karhoo.uisdk.screen.booking.checkout.payment.BraintreePaymentManager
+import com.karhoo.uisdk.screen.booking.checkout.payment.adyen.AdyenPaymentView
+import com.karhoo.uisdk.screen.booking.checkout.payment.braintree.BraintreePaymentView
 import com.karhoo.uisdk.screen.booking.domain.address.JourneyInfo
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var loadingProgressBar: View
+    private var braintreePaymentManager: BraintreePaymentManager = BraintreePaymentManager()
+    private var adyenPaymentManager: AdyenPaymentManager = AdyenPaymentManager()
 
     val passengerDetails = PassengerDetails(firstName = "Passenger",
         lastName = "Details", email = "passenger+email@karhoo.com",
@@ -35,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         KarhooApi.userService.logout()
 
         loadingProgressBar = findViewById<View>(R.id.loadingSpinner)
+        braintreePaymentManager.paymentProviderView = BraintreePaymentView()
+        adyenPaymentManager.paymentProviderView = AdyenPaymentView()
 
         findViewById<Button>(R.id.bookTripButtonGuest).setOnClickListener {
             showLoading()
@@ -82,7 +90,9 @@ class MainActivity : AppCompatActivity() {
             setConfiguration(
                 TokenExchangeConfig(
                     applicationContext
-                )
+                ).apply {
+                    paymentManager = adyenPaymentManager
+                }
             )
         }
     }
@@ -92,7 +102,9 @@ class MainActivity : AppCompatActivity() {
             setConfiguration(
                 GuestConfig(
                     applicationContext
-                )
+                ).apply {
+                    paymentManager = adyenPaymentManager
+                }
             )
         }
     }

@@ -25,6 +25,7 @@ import com.karhoo.sdk.api.model.TripInfo
 import com.karhoo.sdk.api.network.request.PassengerDetails
 import com.karhoo.uisdk.screen.booking.checkout.CheckoutActivity
 import com.karhoo.uisdk.screen.booking.domain.address.BookingInfo
+import com.karhoo.uisdk.screen.booking.domain.address.JourneyDetails
 import kotlinx.android.synthetic.main.fragment_trip_booking.*
 import org.joda.time.DateTime
 import java.util.*
@@ -97,8 +98,8 @@ class TripBookingFragment : BaseFragment() {
     private fun bookTrip() {
         val builder = CheckoutActivity.Builder()
             .quote(quote!!)
-            .bookingInfo(
-                BookingInfo(
+            .journeyDetails(
+                JourneyDetails(
                     bookingPlanningStateViewModel.currentState.pickup,
                     bookingPlanningStateViewModel.currentState.destination,
                     DateTime()
