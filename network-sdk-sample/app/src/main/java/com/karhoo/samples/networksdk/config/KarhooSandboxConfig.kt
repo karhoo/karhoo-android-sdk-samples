@@ -35,6 +35,11 @@ class KarhooSandboxConfig(
         return AppCompatResources.getDrawable(context, R.drawable.karhoo_wordmark)
     }
 
+    var sdkAuthenticationRequired: ((callback: () -> Unit) -> Unit)? = null
+    override suspend fun requireSDKAuthentication(callback: () -> Unit) {
+        sdkAuthenticationRequired?.invoke(callback)
+    }
+
     override fun analyticsProvider(): AnalyticProvider? {
         return null
     }

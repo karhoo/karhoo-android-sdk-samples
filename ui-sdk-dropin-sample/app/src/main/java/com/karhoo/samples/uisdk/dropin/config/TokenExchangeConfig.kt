@@ -40,4 +40,9 @@ class TokenExchangeConfig(private val context: Context) : KarhooUISDKConfigurati
     override fun logo(): Drawable? {
         return ContextCompat.getDrawable(context, R.mipmap.ic_launcher)
     }
+
+    var sdkAuthenticationRequired: ((callback: () -> Unit) -> Unit)? = null
+    override suspend fun requireSDKAuthentication(callback: () -> Unit) {
+        sdkAuthenticationRequired?.invoke(callback)
+    }
 }
