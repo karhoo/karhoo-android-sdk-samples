@@ -41,4 +41,9 @@ class GuestConfig(private val context: Context) : KarhooUISDKConfiguration {
     override fun isExplicitTermsAndConditionsConsentRequired(): Boolean {
         return true
     }
+
+    var sdkAuthenticationRequired: ((callback: () -> Unit) -> Unit)? = null
+    override suspend fun requireSDKAuthentication(callback: () -> Unit) {
+        sdkAuthenticationRequired?.invoke(callback)
+    }
 }
